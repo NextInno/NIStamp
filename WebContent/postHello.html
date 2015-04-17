@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+var xhr;
+function createXhr(){
+    if(window.ActiveXObject){   // IE 이전버전
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }else{
+        xhr = new XMLHttpRequest();
+    }
+}
+ 
+function postHello(){
+    // get 방식
+    var lang = document.getElementsByName("lang");
+    var name = document.getElementsByName("name")[0].value;
+    name = encodeURIComponent(name);    // name 인코딩 처리 (한글처리)
+    var SelectedLang = null;
+    for(i = 0;i<lang.length;i++){
+        if(lang[i].checked){    // radio 처리
+            SelectedLang = lang[i].value;
+        }
+    }
+    var queryString = "command=postHello&name="+name+"&lang="+SelectedLang;
+    // 1. XMLHttpRequest 객체 생성
+    createXhr();
+    // 2. 이벤트 핸들러 등록
+    xhr.onreadystatechange = callback;  // callback() 를 핸들러로 등록
+    // 3. open()를 통해 요청관련 설정을 설정
+    xhr.open("GET", "/javascript_ajax_class/AjaxServlet?"+queryString, true);
+    // 4. send()를 통해 요청
+    xhr.send(null);
+}
+function postHello2(){
+    // post 방식
+    var lang = document.getElementsByName("lang");
+    var name = document.getElementsByName("name")[0].value;
+    //name = encodeURIComponent(name);  // name 인코딩 처리 (한글처리) - post 방식은 필요 없다.
+    var SelectedLang = null;
+    for(i = 0;i<lang.length;i++){
+        if(lang[i].checked){    // radio 처리
+            SelectedLang = lang[i].value;
+        }
+    }
+    var queryString = "command=postHello&name="+name+"&lang="+SelectedLang;
+    // 1. XMLHttpRequest 객체 생성
+    createXhr();
+    // 2. 이벤트 핸들러 등록
+    xhr.onreadystatechange = callback;  // callback() 를 핸들러로 등록
+    // 3. open()를 통해 요청관련 설정을 설정
+    xhr.open("POST", "/javascript_ajax_class/AjaxServlet", true);
+    // 4. Header에 contentType 지정 - post
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    // 5. send()를 통해 요청
+    xhr.send(queryString);  // 요청 쿼리를 보내준다.
+}
+ 
+function callback(){
+    if(xhr.readyState==4){      // 응답을 다 받은 경우
+        if(xhr.status == 200){  // 응답코드가 200인 경우 - 정상인 경우
+            var resTxt = xhr.responseText;  // 서버가 보낸 응답 text
+            alert(resTxt);
+            document.getElementById("resultLayer").innerHTML = resTxt;          
+        }else{
+            alert("요청 처리가 정상적으로 되지 않았습니다.\n"+xhr.status);
+        }
+    }
+}
+</script>
+</head>
+<body>
+이름 : <input type = "text" name = "name">
+한글 : <input type = "radio" name = "lang" value ="kor">
+영문 : <input type = "radio" name = "lang" value ="eng">
+<br>
+<input type = "button" onclick = "postHello()" value = "인사말 조회 get 방식">
+<input type = "button" onclick = "postHello2()" value = "인사말 조회 post 방식">
+<div id = "resultLayer"></div>
+</body>
