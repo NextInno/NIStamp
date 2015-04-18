@@ -1,8 +1,11 @@
+<%@ page language="java" contentType="javascript/jsonp; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="net.sf.json.util.JSONStringer" %>
+<%@ page import="net.sf.json.*" %>
 
 <%
 String driverName = "org.mariadb.jdbc.Driver";
@@ -10,33 +13,36 @@ String DB_url = "jdbc:mariadb://27.102.197.30:3306/Stamp";
 String DB_id = "admin";
 String DB_password="admin!";
 
-JSONStringer js = new JSONStringer();
-
-try {
-	Class.forName(driverName);
+JSONObject responcedata = new JSONObject();
+try {			
+    Class.forName(driverName);
 	Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
-	Statement stat = con.createStatement();
-	
-	ResultSet rs = stat.executeQuery("SELECT No, Name, Birth, Gender, Phone, Tel FROM Member WHERE Store_No = 1");// + Store_No + ";");
-	
-	js.array();
-	while(rs.next()) {
-		js.object()
-		.key("No").value(rs.getString("No"))
-		.key("Name").value(rs.getString("Name"))
-		.key("Birth").value(rs.getString("Birth"))
-		.key("Gender").value(rs.getInt("Gender"))
-		.key("Phone").value(rs.getString("Phone"))
-		.key("Tel").value(rs.getString("Tel"))
-		.endObject();
-	}
-	js.endArray();	
-	stat.close();
-	con.close();
-} catch(Exception e){
-	out.print("DB접속 실패");
-	e.printStackTrace();
-}
-out.print(js);
+	PreparedStatement stmt = con.prepareStatement("SELECT No, Name, Birth, Gender, Phone, Tel FROM Member WHERE IsDelete = 0 AND Store_No = 1"); // + Store_No + ";");
+	ResultSet rs = stmt.executeQuery();
+    JSONArray cellarray = new JSONArray();
 
+    rs.last();
+    responcedata.put("total", rs.getRow());
+    responcedata.put("page", 1);
+    responcedata.put("records", rs.getRow());
+
+    rs.beforeFirst();
+    JSONObject cellobj = new JSONObject();
+
+    while(rs.next()) {
+        cellobj.put("No", rs.getString("No"));
+        cellobj.put("Name", rs.getString("Name"));
+		cellobj.put("Birth", rs.getString("Birth"));
+		cellobj.put("Gender", rs.getString("Gender"));
+		cellobj.put("Phone", rs.getString("Phone"));
+		cellobj.put("Tel", rs.getString("Tel"));
+        cellarray.add(cellobj);
+    }
+    responcedata.put("rows", cellarray);
+	stmt.close();
+	con.close();
+} catch (Exception ex) {
+	System.out.println("Error - " + ex.getMessage());
+}
+out.print(responcedata.toString());
 %>
