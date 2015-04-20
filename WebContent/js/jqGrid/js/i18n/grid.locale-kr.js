@@ -31,120 +31,160 @@ $.jgrid.regional["kr"] = {
 		emptyrecords: "표시할 행이 없습니다",
 		loadtext: "조회중...",
 		pgtext : "페이지 {0} / {1}",
-		savetext: "Saving...",
-		pgfirst : "First Page",
-		pglast : "Last Page",
-		pgnext : "Next Page",
-		pgprev : "Previous Page",
+		pgfirst : "첫 페이지",
+		pglast : "마지막 페이지",
+		pgnext : "다음 페이지",
+		pgprev : "이전 페이지",
 		pgrecs : "Records per Page",
 		showhide: "Toggle Expand Collapse Grid"
 	},
 	search : {
-		caption: "검색...",
-		Find: "찾기",
-		Reset: "초기화",
-		odata: [{ oper:'eq', text:"같다"},{ oper:'ne', text:"같지 않다"},{ oper:'lt', text:"작다"},{ oper:'le', text:"작거나 같다"},{ oper:'gt', text:"크다"},{ oper:'ge', text:"크거나 같다"},{ oper:'bw', text:"로 시작한다"},{ oper:'bn', text:"로 시작하지 않는다"},{ oper:'in', text:"내에 있다"},{ oper:'ni', text:"내에 있지 않다"},{ oper:'ew', text:"로 끝난다"},{ oper:'en', text:"로 끝나지 않는다"},{ oper:'cn', text:"내에 존재한다"},{ oper:'nc', text:"내에 존재하지 않는다"},{ oper:'nu', text:'is null'},{ oper:'nn', text:'is not null'}],
-		groupOps: [	{ op: "AND", text: "전부" },	{ op: "OR",  text: "임의" }	],
+		caption: "Search...",
+		Find: "Find",
+		Reset: "Reset",
+		odata: [{ oper:'eq', text:'equal'},{ oper:'ne', text:'not equal'},{ oper:'lt', text:'less'},{ oper:'le', text:'less or equal'},{ oper:'gt', text:'greater'},{ oper:'ge', text:'greater or equal'},{ oper:'bw', text:'begins with'},{ oper:'bn', text:'does not begin with'},{ oper:'in', text:'is in'},{ oper:'ni', text:'is not in'},{ oper:'ew', text:'ends with'},{ oper:'en', text:'does not end with'},{ oper:'cn', text:'contains'},{ oper:'nc', text:'does not contain'},{ oper:'nu', text:'is null'},{ oper:'nn', text:'is not null'}],
+		groupOps: [{ op: "AND", text: "all" },{ op: "OR",  text: "any" }],
 		operandTitle : "Click to select search operation.",
 		resetTitle : "Reset Search Value"
 	},
 	edit : {
-		addCaption: "행 추가",
-		editCaption: "행 수정",
-		bSubmit: "전송",
-		bCancel: "취소",
-		bClose: "닫기",
-		saveData: "자료가 변경되었습니다! 저장하시겠습니까?",
-		bYes : "예",
-		bNo : "아니오",
-		bExit : "취소",
+		addCaption: "Add Record",
+		editCaption: "Edit Record",
+		bSubmit: "Submit",
+		bCancel: "Cancel",
+		bClose: "Close",
+		saveData: "Data has been changed! Save changes?",
+		bYes : "Yes",
+		bNo : "No",
+		bExit : "Cancel",
 		msg: {
-			required:"필수항목입니다",
-			number:"유효한 번호를 입력해 주세요",
-			minValue:"입력값은 크거나 같아야 합니다",
-			maxValue:"입력값은 작거나 같아야 합니다",
-			email: "유효하지 않은 이메일주소입니다",
-			integer: "유효한 숫자를 입력하세요",
-			date: "유효한 날짜를 입력하세요",
-			url: "은 유효하지 않은 URL입니다. 문장앞에 다음단어가 필요합니다('http://' or 'https://')",
-			nodefined : " 은 정의도지 않았습니다!",
-			novalue : " 반환값이 필요합니다!",
-			customarray : "사용자정의 함수는 배열을 반환해야 합니다!",
+			required:"Field is required",
+			number:"Please, enter valid number",
+			minValue:"value must be greater than or equal to ",
+			maxValue:"value must be less than or equal to",
+			email: "is not a valid e-mail",
+			integer: "Please, enter valid integer value",
+			date: "Please, enter valid date value",
+			url: "is not a valid URL. Prefix required ('http://' or 'https://')",
+			nodefined : " is not defined!",
+			novalue : " return value is required!",
+			customarray : "Custom function should return array!",
 			customfcheck : "Custom function should be present in case of custom checking!"
 			
 		}
 	},
 	view : {
-		caption: "행 조회",
-		bClose: "닫기"
+		caption: "View Record",
+		bClose: "Close"
 	},
 	del : {
-		caption: "삭제",
-		msg: "선택된 행을 삭제하시겠습니까?",
-		bSubmit: "삭제",
-		bCancel: "취소"
+		caption: "Delete",
+		msg: "Delete selected record(s)?",
+		bSubmit: "Delete",
+		bCancel: "Cancel"
 	},
 	nav : {
 		edittext: "",
-		edittitle: "선택된 행 편집",
+		edittitle: "Edit selected row",
 		addtext:"",
-		addtitle: "행 삽입",
+		addtitle: "Add new row",
 		deltext: "",
-		deltitle: "선택된 행 삭제",
+		deltitle: "Delete selected row",
 		searchtext: "",
-		searchtitle: "행 찾기",
+		searchtitle: "Find records",
 		refreshtext: "",
-		refreshtitle: "그리드 갱신",
-		alertcap: "경고",
-		alerttext: "행을 선택하세요",
+		refreshtitle: "새로고침",
+		alertcap: "Warning",
+		alerttext: "Please, select row",
 		viewtext: "",
-		viewtitle: "선택된 행 조회",
+		viewtitle: "View selected row",
 		savetext: "",
 		savetitle: "Save row",
 		canceltext: "",
 		canceltitle : "Cancel row editing"
 	},
 	col : {
-		caption: "열을 선택하세요",
-		bSubmit: "확인",
-		bCancel: "취소"
+		caption: "Select columns",
+		bSubmit: "Ok",
+		bCancel: "Cancel"
 	},
 	errors : {
-		errcap : "오류",
-		nourl : "설정된 url이 없습니다",
-		norecords: "처리할 행이 없습니다",
-		model : "colNames의 길이가 colModel과 일치하지 않습니다!"
+		errcap : "Error",
+		nourl : "No url is set",
+		norecords: "No records to process",
+		model : "Length of colNames <> colModel!"
 	},
 	formatter : {
 		integer : {thousandsSeparator: ",", defaultValue: '0'},
 		number : {decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, defaultValue: '0.00'},
 		currency : {decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "", suffix:"", defaultValue: '0.00'},
+		price : {thousandsSeparator: ",", defaultValue: '0'},
 		date : {
 			dayNames:   [
-				"Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat",
-				"일", "월", "화", "수", "목", "금", "토"
+				"일", "월", "화", "수", "목", "금", "토",
+				"일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"
 			],
 			monthNames: [
 				"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-				"1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
+				"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
 			],
 			AmPm : ["am","pm","AM","PM"],
-			S: function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th'},
+			S: function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th';},
 			srcformat: 'Y-m-d',
-			newformat: 'm-d-Y',
+			newformat: 'n/j/Y',
 			parseRe : /[#%\\\/:_;.,\t\s-]/,
 			masks : {
+				// see http://php.net/manual/en/function.date.php for PHP format used in jqGrid
+				// and see http://docs.jquery.com/UI/Datepicker/formatDate
+				// and https://github.com/jquery/globalize#dates for alternative formats used frequently
+				// one can find on https://github.com/jquery/globalize/tree/master/lib/cultures many
+				// information about date, time, numbers and currency formats used in different countries
+				// one should just convert the information in PHP format
 				ISO8601Long:"Y-m-d H:i:s",
 				ISO8601Short:"Y-m-d",
-				ShortDate: "Y/j/n",
-				LongDate: "l, F d, Y",
-				FullDateTime: "l, F d, Y g:i:s A",
-				MonthDay: "F d",
-				ShortTime: "g:i A",
-				LongTime: "g:i:s A",
+				// short date:
+				//    n - Numeric representation of a month, without leading zeros
+				//    j - Day of the month without leading zeros
+				//    Y - A full numeric representation of a year, 4 digits
+				// example: 3/1/2012 which means 1 March 2012
+				ShortDate: "n/j/Y", // in jQuery UI Datepicker: "M/d/yyyy"
+				// long date:
+				//    l - A full textual representation of the day of the week
+				//    F - A full textual representation of a month
+				//    d - Day of the month, 2 digits with leading zeros
+				//    Y - A full numeric representation of a year, 4 digits
+				LongDate: "l, F d, Y", // in jQuery UI Datepicker: "dddd, MMMM dd, yyyy"
+				// long date with long time:
+				//    l - A full textual representation of the day of the week
+				//    F - A full textual representation of a month
+				//    d - Day of the month, 2 digits with leading zeros
+				//    Y - A full numeric representation of a year, 4 digits
+				//    g - 12-hour format of an hour without leading zeros
+				//    i - Minutes with leading zeros
+				//    s - Seconds, with leading zeros
+				//    A - Uppercase Ante meridiem and Post meridiem (AM or PM)
+				FullDateTime: "l, F d, Y g:i:s A", // in jQuery UI Datepicker: "dddd, MMMM dd, yyyy h:mm:ss tt"
+				// month day:
+				//    F - A full textual representation of a month
+				//    d - Day of the month, 2 digits with leading zeros
+				MonthDay: "F d", // in jQuery UI Datepicker: "MMMM dd"
+				// short time (without seconds)
+				//    g - 12-hour format of an hour without leading zeros
+				//    i - Minutes with leading zeros
+				//    A - Uppercase Ante meridiem and Post meridiem (AM or PM)
+				ShortTime: "g:i A", // in jQuery UI Datepicker: "h:mm tt"
+				// long time (with seconds)
+				//    g - 12-hour format of an hour without leading zeros
+				//    i - Minutes with leading zeros
+				//    s - Seconds, with leading zeros
+				//    A - Uppercase Ante meridiem and Post meridiem (AM or PM)
+				LongTime: "g:i:s A", // in jQuery UI Datepicker: "h:mm:ss tt"
 				SortableDateTime: "Y-m-d\\TH:i:s",
 				UniversalSortableDateTime: "Y-m-d H:i:sO",
-				YearMonth: "F, Y"
+				// month with year
+				//    Y - A full numeric representation of a year, 4 digits
+				//    F - A full textual representation of a month
+				YearMonth: "F, Y" // in jQuery UI Datepicker: "MMMM, yyyy"
 			},
 			reformatAfterEdit : false,
 			userLocalTime : false
