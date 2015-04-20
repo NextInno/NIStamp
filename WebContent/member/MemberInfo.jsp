@@ -10,7 +10,7 @@
 	$(function(){
 
 		$('#insert_member').click(function(){
-			window.location.href='memberinsert.jsp';
+			window.location.href='MemberInsert.jsp';
 		})
 	})
 </script>

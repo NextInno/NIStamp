@@ -5,19 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>고객 등록</title>
-    <link href="../datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
     
     <!-- <script src="../js/jquery-1.11.2.min.js" type="text/javascript"></script>
-     <script src="../datePicker/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-    <script src="../datePicker/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="../datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
-    <script src="../datePicker/jquery.ui.datepicker.js" type="text/javascript"></script>  -->
+    <script src="../js/datePicker/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+    <script src="../js/datePicker/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
+    <script src="../js/datePicker/jquery.ui.datepicker.js" type="text/javascript"></script>  -->
     
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
-	 <script src="//code.jquery.com/jquery-1.10.2.js"></script> 
-	  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	  <script src="../datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
-	    <link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script> 
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="/resources/demos/style.css">
 	<script>
 		$(function(){
 			$('#insert').click(function(){
@@ -30,8 +30,14 @@
 				$.ajax({
 			           type: 'POST',
 			           dataType: 'jsonp',
-			           data: { 'Name': Name , 'PhoneNum': PhoneNum  ,'Gender' : Gender, 'BirthDay' : BirthDay , 'TelNum' : TelNum},
-			           url: '../jsp/memberinsert.jsp',
+			           data: { 
+			        	   'Name': Name
+			        	    , 'PhoneNum': PhoneNum
+			        	    ,'Gender' : Gender
+			        	    , 'BirthDay' : BirthDay
+							, 'TelNum' : TelNum
+					   },
+			           url: '../jsp/MemberInsert.jsp',
 			           // jsonp 값을 전달할 때 사용되는 파라미터 변수명
 			           // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
 			           jsonp: 'insert',
@@ -44,7 +50,7 @@
 			      });
 			});
 			$('#cancel').click(function(){
-				window.location.href = 'memberinfo.jsp';
+				window.location.href = 'MemberInfo.jsp';
 			});
 			 $('.datepicker').datepicker({
 		            dateFormat: 'yy-mm-dd',

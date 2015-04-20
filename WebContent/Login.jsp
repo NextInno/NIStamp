@@ -1,17 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Login Page</title>
 <link href="css/header.css" rel="stylesheet" type="text/css"/>
 <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
 <script>
 $(document).ready(function() {
-	<% 
-		String Session_No = null; 	
-	%> 
+	<% 	String Session_No = null; %> 
 	
 	$('#test').click(function(){
 		var id = $('#id').val();
@@ -21,16 +19,16 @@ $(document).ready(function() {
 	           type: 'POST',
 	           dataType: 'jsonp',
 	           data: { 'Id': id , 'Pw':pw },
-	           url: 'jsp/test.jsp',
-	           // jsonp °ªÀ» Àü´ŞÇÒ ¶§ »ç¿ëµÇ´Â ÆÄ¶ó¹ÌÅÍ º¯¼ö¸í
-	           // ÀÌ ¼Ó¼ºÀ» »ı·«ÇÏ¸é callback ÆÄ¶ó¹ÌÅÍ º¯¼ö¸íÀ¸·Î Àü´ŞµÈ´Ù.
+	           url: 'jsp/Login.jsp',
+	           // jsonp ê°’ì„ ì „ë‹¬í•  ë•Œ ì‚¬ìš©ë˜ëŠ” íŒŒë¼ë¯¸í„° ë³€ìˆ˜ëª…
+	           // ì´ ì†ì„±ì„ ìƒëµí•˜ë©´ callback íŒŒë¼ë¯¸í„° ë³€ìˆ˜ëª…ìœ¼ë¡œ ì „ë‹¬ëœë‹¤.
 	           jsonp: 'login',
 	           success:function(json) {
-					alert(id + "´Ô ¹İ°©½À´Ï´Ù.");
-	   				window.location.href = "index.jsp";
+					alert(id + "ë‹˜ ë°˜ê°‘ìŠµë‹ˆë‹¤.");
+	   				window.location.href = "Index.jsp";
 	           },
 	           error:function(){
-	        	   alert('¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä');
+	        	   alert('ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”');
 	           }
 	      });	
 	})
@@ -39,7 +37,7 @@ $(document).ready(function() {
 </head>
 <body>
 	<div id = "header"><a href="#" class="logo">Logo</a></div>
-	<div id="ip" class="ip"><p>µğºñÁÖ¼Ò: kpig7.synology.me:3306</p></div>
+	<div id="ip" class="ip"><p>ë””ë¹„ì£¼ì†Œ: kpig7.synology.me:3306</p></div>
 	<div id = "container">
 		<div class="loginArea">
 			<p><span> ID : </span><input type="text" id="id" value="" placeholder = "Admin" ></p>

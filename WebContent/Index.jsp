@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8)" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE>
 <html>
@@ -17,7 +17,7 @@
 $(document).ready(function() {
 	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
 	if(Session_No == 'null'){
-		document.location.href = "login.jsp";
+		document.location.href = "Login.jsp";
 	}
 	else{
 		$('#MemberGrid').jqGrid({
