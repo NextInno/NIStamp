@@ -114,11 +114,10 @@ public class NiModuleConfig {
 	}
 	
 	/**
-	 * Log file �뺤떇 諛�寃쎈줈 �ㅼ젙���꾪븳 Appender �ㅼ젙
-	 * @param fileName Log file 寃쎈줈 (�뚯씪 �대쫫���ы븿��full path)
-	 * @param maxFileSize Log file��理쒕� �ъ씠利�(MB �⑥쐞)
-	 * @param maxBackupIndex Log file��理쒕� Backup Index
-	 * @return log4j Appender
+	 * @param fileName
+	 * @param maxFileSize
+	 * @param maxBackupIndex
+	 * @return
 	 */
 	private static Appender getAppender(String fileName, int maxFileSize, int maxBackupIndex) 
 	{
@@ -139,9 +138,11 @@ public class NiModuleConfig {
 	}
 	
 	
+    /**
+     * setLogger
+     */
     public static void setLogger()
     {
-        // 濡쒓렇 �덈꺼 �ㅼ젙
         String logLevel = NiModuleConfig.getInstance().getLogLevel();
         
         if(logLevel.equals("DEBUG")) {
