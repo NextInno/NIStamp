@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="javascript/jsonp; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="javascript/json; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.DriverManager" %>
@@ -12,12 +12,13 @@ String driverName = "org.mariadb.jdbc.Driver";
 String DB_url = "jdbc:mariadb://27.102.197.30:3306/Stamp";
 String DB_id = "admin";
 String DB_password="admin!";
+String sStore_No = (String)session.getAttribute("Store_No");
 
 JSONObject responcedata = new JSONObject();
 try {			
     Class.forName(driverName);
 	Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
-	PreparedStatement stmt = con.prepareStatement("SELECT No, Name, Birth, Gender, Phone, Tel FROM Member WHERE IsDelete = 0 AND Store_No = 1"); // + Store_No + ";");
+	PreparedStatement stmt = con.prepareStatement("SELECT No, Name, Birth, Gender, Phone, Tel FROM Member WHERE IsDelete = 0 AND Store_No = " + sStore_No + ";");
 	ResultSet rs = stmt.executeQuery();
     JSONArray cellarray = new JSONArray();
 
