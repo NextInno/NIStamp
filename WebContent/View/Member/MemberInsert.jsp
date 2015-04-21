@@ -4,12 +4,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>고객 등록</title>
-<link href="../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
-<link href="../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<link href="../../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="../../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
 <link href="/resources/demos/style.css" rel="stylesheet" />
-<script src="../js/datePicker/jquery-1.10.2.js"></script> 
-<script src="../js/ui/1.11.4/jquery-ui.js"></script>
-<script src="../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
+<script src="../../js/datePicker/jquery-1.10.2.js"></script> 
+<script src="../../js/ui/1.11.4/jquery-ui.js"></script>
+<script src="../../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
 
 <script>
 $(document).ready(function() {

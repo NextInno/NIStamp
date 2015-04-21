@@ -6,9 +6,12 @@
 <title> Welcome To &amp; Stamp </title>
 <link href="../../js/jqGrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
 <link href="../../js/jqGrid/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<link href="../../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
 <script src="../../js/jqGrid/js/jquery-1.11.0.min.js" type="text/javascript"></script>
 <script src="../../js/jqGrid/js/jquery.jqGrid.src.js" type="text/javascript"></script>
 <script src="../../js/jqGrid/js/i18n/grid.locale-kr.js" type="text/javascript"></script>
+
+
 <script>
 $(document).ready(function() {
 	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
@@ -65,18 +68,19 @@ $(document).ready(function() {
 		);	
 		//$('#MemberGrid').trigger('reloadGrid');
 		$('#searchbtn').click(function() {
-			alert($('#fromdate').val());
-			alert($('#todate').val());
 			$('#MemberGrid').setGridParam({
 	            url: '../../Controller/Member/MemberList.jsp'
-	            , datatype: 'json'
-	            , mtype: 'post'
+	            , datatype: 'JSON'
+	            , mtype: 'POST'
 	            , page: 1
 	            , postData: {
 	                FromDate: $('#fromdate').val(),
-	                ToDate: $('#todate').val()
+	                ToDate: $('#todate').val(),
+	                Name: $('#name').val(),
+	                Phone: $('#phone').val(),
+	                Birth: $('#birth').val()
 	            }
-	        }).trigger("reloadGrid");
+	        }).trigger('reloadGrid');
 		});
 	}
 });
@@ -85,8 +89,14 @@ $(document).ready(function() {
 <body>
 <div>
 	<input id="searchbtn" type="button" value="검색" /><br><br>
-	<label>일자</label>
-	<input id="fromdate" class="datepicker" value="" /> ~ <input id="todate" class="datepicker" value="" /><br><br> 
+	<label>가입일자</label>
+	<input id="fromdate" class="datepicker" value="" /> ~ <input id="todate" class="datepicker" value="" /><br><br>
+	<label>이름</label>
+	<input id="name" value="" /><br><br> 
+	<label>전화번호</label>
+	<input id="phone" value="" /><br><br>
+	<label>생일</label>
+	<input id="birth" value="" /><br><br> 
 </div>
 <table id="MemberGrid"></table>
 <div id="MemberGridPager"></div>

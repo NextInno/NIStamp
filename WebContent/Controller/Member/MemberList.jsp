@@ -19,8 +19,11 @@ String DB_id = NiModuleConfig.getInstance().getDB_ID();
 String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 
 String sQuery = "";
-String sFromDate = request.getParameter("fromdate");
-String sToDate = request.getParameter("todate");
+String sFromDate = request.getParameter("FromDate");
+String sToDate = request.getParameter("ToDate");
+String sName = request.getParameter("Name");
+String sPhone = request.getParameter("Phone");
+String sBirth = request.getParameter("Birth");
 
 logger.info( "MemberList!");
 
@@ -32,11 +35,20 @@ try {
 	
 	sQuery = "SELECT No, Name, Birth, CASE Gender WHEN 0 THEN '남자' ELSE '여자' END AS 'Gender', Phone, Tel FROM Member WHERE IsDelete = 0 AND Store_No = " + sStore_No;
 	
-	if(sFromDate != null) {
-		sQuery += " AND CreateDate >= '" + sFromDate.substring(0, 4) + "-" + sFromDate.substring(4, 2) + "-" + sFromDate.substring(6, 2) + " 00:00:00";
+	if(sFromDate != null && sFromDate != "") {
+		sQuery += " AND CreateDate >= '" + sFromDate + " 00:00:00'";
 	}
-	if(sToDate != null) {
-		sQuery += " AND CreateDate <= '" + sFromDate.substring(0, 4) + "-" + sFromDate.substring(4, 2) + "-" + sFromDate.substring(6, 2) + " 23:59:59";
+	if(sToDate != null && sToDate != "") {
+		sQuery += " AND CreateDate <= '" + sToDate + " 23:59:59'";
+	}
+	if(sName != null && sName != "") {
+		sQuery += " AND Name LIKE '%" + sName + "%'";
+	}
+	if(sPhone != null && sPhone != "") {
+		sQuery += " AND (Phone LIKE '%" + sPhone + "%' OR Tel LIKE '%" + sPhone + "%')";
+	}
+	if(sBirth != null && sBirth != "") {
+		sQuery += " AND Birth LIKE '%" + sBirth + "%'";
 	}
 	sQuery += ";";
 	PreparedStatement stmt = con.prepareStatement(sQuery);
