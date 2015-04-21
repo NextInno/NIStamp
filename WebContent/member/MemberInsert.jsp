@@ -30,6 +30,7 @@
 				$.ajax({
 			           type: 'POST',
 			           dataType: 'jsonp',
+			           jsonp: 'insert',
 			           data: { 
 			        	   'Name': Name
 			        	    , 'PhoneNum': PhoneNum
@@ -40,7 +41,6 @@
 			           url: '../jsp/MemberInsert.jsp',
 			           // jsonp 값을 전달할 때 사용되는 파라미터 변수명
 			           // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
-			           jsonp: 'insert',
 			           success:function(json) {		        	 
 			        	  alert('<%=(String)session.getAttribute("Store_No")%>');
 			           },

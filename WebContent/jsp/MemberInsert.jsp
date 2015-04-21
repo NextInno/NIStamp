@@ -2,6 +2,7 @@
 <%@page import="java.sql.Statement" %>
 <%@page import="java.sql.DriverManager" %>
 <%@page import="java.sql.Connection" %>
+<%@page import="ni.module.config.*" %>
 <%@ page language="java" contentType="javascript/jsonp; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
@@ -13,7 +14,6 @@
     Integer iGender = Integer.parseInt(request.getParameter("Gender"));
 	String sStore_No = (String)session.getAttribute("Store_No");
 	String sinsert = request.getParameter("insert");
-	
 	
 	String driverName = "org.mariadb.jdbc.Driver";
 	String DB_url = "jdbc:mariadb://27.102.197.30:3306/Stamp";
