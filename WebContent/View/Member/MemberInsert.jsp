@@ -1,101 +1,84 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>°í°´ µî·Ï</title>
-    <link href="../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
-    
-    <!-- <script src="../js/jquery-1.11.2.min.js" type="text/javascript"></script>
-    <script src="../js/datePicker/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-    <script src="../js/datePicker/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
-    <script src="../js/datePicker/jquery.ui.datepicker.js" type="text/javascript"></script>  -->
-    
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
-	<script src="//code.jquery.com/jquery-1.10.2.js"></script> 
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<script src="../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="/resources/demos/style.css">
-	<script>
-		$(function(){
-			$('#insert').click(function(){
-				var Name = $('#memberName').val();
-				var PhoneNum = $('#memberPhoneNumber').val();
-				var BirthDay = $('#memberBirthDay').val();
-				var Gender = $('input[name="gender"]:checked').val();
-				var TelNum = $('#memberTelNumber').val();
-				alert(Gender);
-				$.ajax({
-			           type: 'POST',
-			           dataType: 'jsonp',
-			           jsonp: 'insert',
-			           data: { 
-			        	   'Name': Name
-			        	    , 'PhoneNum': PhoneNum
-			        	    ,'Gender' : Gender
-			        	    , 'BirthDay' : BirthDay
-							, 'TelNum' : TelNum
-					   },
-			           url: '../jsp/MemberInsert.jsp',
-			           // jsonp °ªÀ» Àü´ŞÇÒ ¶§ »ç¿ëµÇ´Â ÆÄ¶ó¹ÌÅÍ º¯¼ö¸í
-			           // ÀÌ ¼Ó¼ºÀ» »ı·«ÇÏ¸é callback ÆÄ¶ó¹ÌÅÍ º¯¼ö¸íÀ¸·Î Àü´ŞµÈ´Ù.
-			           success:function(json) {		        	 
-			        	  alert('<%=(String)session.getAttribute("Store_No")%>');
-			           },
-			           error:function(){
-			        	   alert('ÀÔ·Â°ªÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.');
-			           }
-			      });
-			});
-			$('#cancel').click(function(){
-				window.location.href = 'MemberInfo.jsp';
-			});
-			 $('.datepicker').datepicker({
-		            dateFormat: 'yy-mm-dd',
-		            monthNamesShort: ['1¿ù', '2¿ù', '3¿ù', '4¿ù', '5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù', '10¿ù', '11¿ù', '12¿ù'],
-		            dayNamesMin: ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'],
-		            weekHeader: 'Wk',
-		            changeMonth: true, //¿ù º¯°æ°¡´É
-		            changeYear: true, //³â º¯°æ°¡´É
-		            showMonthAfterYear: true, //³â µÚ¿¡ ¿ù Ç¥½Ã
-		            buttonImageOnly: true, //ÀÌ¹ÌÁöÇ¥½Ã  
-		            buttonText: '³¯Â¥¸¦ ¼±ÅÃÇÏ¼¼¿ä',
-		            autoSize: true, //¿ÀÅä¸®»çÀÌÁî(bodyµî »óÀ§ÅÂ±×ÀÇ ¼³Á¤¿¡ µû¸¥´Ù)
-		            buttonImage: '../datePicker/calendar.gif', //ÀÌ¹ÌÁöÁÖ¼Ò
-		            showOn: "both" //¿¤¸®¸ÕÆ®¿Í ÀÌ¹ÌÁö µ¿½Ã »ç¿ë
-		        }); 
-			 /* $( ".datepicker" ).datepicker({ 
-					 dateFormat: 'yy-mm-dd',
-					 monthNamesShort: ['1¿ù', '2¿ù', '3¿ù', '4¿ù', '5¿ù', '6¿ù', '7¿ù', '8¿ù', '9¿ù', '10¿ù', '11¿ù', '12¿ù'],
-					 dayNamesMin: ['ÀÏ', '¿ù', 'È­', '¼ö', '¸ñ', '±İ', 'Åä'],
-					 weekHeader: 'Wk',
-			            
-			            
-			            showMonthAfterYear: true, //³â µÚ¿¡ ¿ù Ç¥½Ã
-					 changeMonth: true,
-					 changeYear: true
-				 }); */
-			alert('hello');
-		})
-	</script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ê³ ê° ë“±ë¡</title>
+<link href="../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<link href="/resources/demos/style.css" rel="stylesheet" />
+<script src="../js/datePicker/jquery-1.10.2.js"></script> 
+<script src="../js/ui/1.11.4/jquery-ui.js"></script>
+<script src="../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
+
+<script>
+$(document).ready(function() {
+	$('#insert').click(function(){
+		var Name = $('#memberName').val();
+		var PhoneNum = $('#memberPhoneNumber').val();
+		var BirthDay = $('#memberBirthDay').val();
+		var Gender = $('input[name="gender"]:checked').val();
+		var TelNum = $('#memberTelNumber').val();
+		alert(Gender);
+		
+		$.ajax({
+            type: 'POST',
+            dataType: 'jsonp',
+            jsonp: 'insert',
+            data: { 
+        	    'Name': Name
+        	    , 'PhoneNum': PhoneNum
+        	    ,'Gender' : Gender
+        	    , 'BirthDay' : BirthDay
+				, 'TelNum' : TelNum
+		    },
+            url: '../jsp/MemberInsert.jsp',
+            // jsonp ê°’ì„ ì „ë‹¬í•  ë•Œ ì‚¬ìš©ë˜ëŠ” íŒŒë¼ë¯¸í„° ë³€ìˆ˜ëª…
+            // ì´ ì†ì„±ì„ ìƒëµí•˜ë©´ callback íŒŒë¼ë¯¸í„° ë³€ìˆ˜ëª…ìœ¼ë¡œ ì „ë‹¬ëœë‹¤.
+            success:function(json) {		        	 
+        	    alert('<%=(String)session.getAttribute("Store_No")%>');
+            },
+            error:function(){
+        	    alert('ì…ë ¥ê°’ì´ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤.');
+            }
+        });
+	});
+	$('#cancel').click(function(){
+		window.location.href = 'MemberInfo.jsp';
+	});
+	$('.datepicker').datepicker({
+	    dateFormat: 'yyyy-mm-dd',
+	    monthNamesShort: ['1ì›”', '2ì›”', '3ì›”', '4ì›”', '5ì›”', '6ì›”', '7ì›”', '8ì›”', '9ì›”', '10ì›”', '11ì›”', '12ì›”'],
+	    dayNamesMin: ['ì¼', 'ì›”', 'í™”', 'ìˆ˜', 'ëª©', 'ê¸ˆ', 'í† '],
+	    weekHeader: 'Wk',
+	    changeMonth: true, //ì›” ë³€ê²½ê°€ëŠ¥
+	    changeYear: true, //ë…„ ë³€ê²½ê°€ëŠ¥
+	    showMonthAfterYear: true, //ë…„ ë’¤ì— ì›” í‘œì‹œ
+	    buttonImageOnly: true, //ì´ë¯¸ì§€í‘œì‹œ  
+	    buttonText: 'ë‚ ì§œë¥¼ ì„ íƒí•˜ì„¸ìš”',
+	    autoSize: true, //ì˜¤í† ë¦¬ì‚¬ì´ì¦ˆ(bodyë“± ìƒìœ„íƒœê·¸ì˜ ì„¤ì •ì— ë”°ë¥¸ë‹¤)
+	    buttonImage: '../../js/datePicker/calendar.gif', //ì´ë¯¸ì§€ì£¼ì†Œ
+	    showOn: "both" //ì—˜ë¦¬ë¨¼íŠ¸ì™€ ì´ë¯¸ì§€ ë™ì‹œ ì‚¬ìš©
+	}); 
+	alert('hello');
+});
+</script>
 </head>
 <body>
 <p>
-	ÀÌ¸§  : <input type='text' id ='memberName' class='memberName'> </p>
+	ì´ë¦„  : <input type='text' id ='memberName' class='memberName'> </p>
 <p>
-	¼ºº°  : ³² <input type='radio' id ='genderMale' class='genderMale' name = 'gender' value = '0' checked> ¿© <input type='radio' id ='genderFemale' class='genderFemale' name = 'gender' value = '1'></p>
+	ì„±ë³„  : ë‚¨ <input type='radio' id ='genderMale' class='genderMale' name = 'gender' value = '0' checked> ì—¬ <input type='radio' id ='genderFemale' class='genderFemale' name = 'gender' value = '1'></p>
 <p>
-	ÈŞ´ëÆù¹øÈ£ : <input type='text' id ='memberPhoneNumber' class='memberPhoneNumber'>
+	íœ´ëŒ€í°ë²ˆí˜¸ : <input type='text' id ='memberPhoneNumber' class='memberPhoneNumber'>
 </p>
 <p>
-	»ı³â¿ùÀÏ : <input type='text' id ='memberBirthDay' class='datepicker memberBirthDay'>
+	ìƒë…„ì›”ì¼ : <input type='text' id ='memberBirthDay' class='datepicker memberBirthDay'>
 	
 </p>
 <p>
-	ÀüÈ­¹øÈ£ : <input type = 'text' id = 'memberTelNumber' class='memberTelNumber'>
+	ì „í™”ë²ˆí˜¸ : <input type = 'text' id = 'memberTelNumber' class='memberTelNumber'>
 </p>
-<p><button id='insert' class='insert'>ÀÔ·Â</button><button id='cancel' class='cancel'>Ãë¼Ò</button></p>
+<p><button id='insert' class='insert'>ì…ë ¥</button><button id='cancel' class='cancel'>ì·¨ì†Œ</button></p>
 </body>
 </html>

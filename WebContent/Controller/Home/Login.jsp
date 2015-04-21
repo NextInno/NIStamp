@@ -1,22 +1,17 @@
-<%@page import="java.sql.ResultSet" %>
-<%@page import="java.sql.Statement" %>
-<%@page import="java.sql.DriverManager" %>
-<%@page import="java.sql.Connection" %>
-<%@page import="ni.module.config.*"%>
-<%@page import="org.apache.log4j.Logger"%>
+<%@ page language="java" contentType="javascript/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.Statement" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="ni.module.config.*"%>
+<%@ page import="org.apache.log4j.Logger"%>
 
-<%@ page language="java" contentType="javascript/json; charset=EUC-KR" pageEncoding="EUC-KR"%>
-
-<% System.out.println("NIStamp Start!");	%>
-<%! 
-	
-static Logger logger = Logger.getLogger("Login.jsp"); %>
-
-<%
-	// √π ∑Œµ˘
+<% System.out.println("NIStamp Start!"); %>
+<%! static Logger logger = Logger.getLogger("Login.jsp"); %>
+<%  // Ï≤´ Î°úÎî©
 	NiModuleConfig.setLogger();
 	
-	logger.info( "NIStamp Start!");
+	logger.info("NIStamp Start!");
 	
 	String sId = request.getParameter("Id");
 	String sPw = request.getParameter("Pw");
@@ -24,19 +19,16 @@ static Logger logger = Logger.getLogger("Login.jsp"); %>
 	String login = request.getParameter("login");
 	
 	String driverName = "org.mariadb.jdbc.Driver";
-	// String DB_url = "jdbc:mariadb://27.102.197.30:3306/Stamp";
-	// String DB_id = "admin";
-	// String DB_password="admin!";
-	
-	// configø°º≠ ∞™¿ª ∞°¡Æø¬¥Ÿ.
-	// conf ∆ƒ¿œ¿∫ ¿˝¥Î svnø° ø√∏Æ¡ˆ æ µµ∑œ!
-	// ±◊ ¿Ã¿Ø¥¬ øÏ∏Æ º≠πˆ ¿Â∫Ò IP ¡§∫∏µÈ¿Ã ≥Î√‚µ«±‚ ∂ßπÆø°.
+	// configÏóêÏÑú Í∞íÏùÑ Í∞ÄÏ†∏Ïò®Îã§.
+	// conf ÌååÏùºÏùÄ Ï†àÎåÄ svnÏóê Ïò¨Î¶¨ÏßÄ ÏïäÎèÑÎ°ù!
+	// Í∑∏ Ïù¥Ïú†Îäî Ïö∞Î¶¨ ÏÑúÎ≤Ñ Ïû•ÎπÑ IP Ï†ïÎ≥¥Îì§Ïù¥ ÎÖ∏Ï∂úÎêòÍ∏∞ ÎïåÎ¨∏Ïóê.
 	String DB_url = NiModuleConfig.getInstance().getDB_SERVER_IP();
 	String DB_id = NiModuleConfig.getInstance().getDB_ID();
 	String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 	
 	System.out.println("DB_url : " + DB_url + ", DB_id = " + DB_id + ", DB_password : " + DB_password );
 	logger.info( "DB_url : " + DB_url + ", DB_id = " + DB_id + ", DB_password : " + DB_password );
+	
 	try {
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
@@ -50,7 +42,7 @@ static Logger logger = Logger.getLogger("Login.jsp"); %>
 		session.setAttribute("ID", sId);
 		con.close();
 	} catch(Exception e) {
-		out.print("DBø¨∞· ø°∑Ø");
+		out.print("DBÏó∞Í≤∞ ÏóêÎü¨");
 		e.printStackTrace();
 	}
 	out.println(login + "(");
