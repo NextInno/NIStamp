@@ -82,6 +82,11 @@ $(document).ready(function() {
 	            }
 	        }).trigger('reloadGrid');
 		});
+		$('#Modify').click(function(){
+			var ModifyMemberData = $('#MemberGrid').getGridParam("Phone");
+			alert(ModifyMemberData);
+			
+		});
 	}
 });
 </script>
@@ -100,5 +105,8 @@ $(document).ready(function() {
 </div>
 <table id="MemberGrid"></table>
 <div id="MemberGridPager"></div>
+<div class='row'>
+	<input id = 'Modify' type = 'button' value = "고객 수정">
+</div>
 </body>
 </html>

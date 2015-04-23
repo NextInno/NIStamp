@@ -6,60 +6,76 @@
 <title>고객 등록</title>
 <link href="../../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="../../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-<link href="/resources/demos/style.css" rel="stylesheet" />
 <script src="../../js/datePicker/jquery-1.10.2.js"></script> 
-<script src="../../js/ui/1.11.4/jquery-ui.js"></script>
-<script src="../../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
+<script src="../../js/datePicker/jquery.ui.datepicker.js" type="text/javascript"></script>
 
 <script>
 $(document).ready(function() {
+	var no = '<%= request.getParameter("no")%>';
+	if(no != ''){
+		$.ajax({
+            type: 'POST',
+            dataType: 'jsonp',
+            jsonp: 'insert',
+            data: { 
+        	    'no': no
+		    },
+		    url: '../../Controller/Member/MemberInsert.jsp',
+            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
+            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
+            success:function(json) {		        	 
+        	    $('#memberName').val(json.data.Name);
+        	    $('#memberPhoneNumber').val(json.data.PhoneNum);
+        	    $('#memberBirthDay').val(json.data.BirthDay);
+        	    $('input[name="gender"][value = '+json.data.Gender+']').attr('checked',true);
+        	    $('#memberTelNumber').val(json.data.TelNum);
+        	    
+            },
+            error:function(){
+        	    alert('입력값이 잘못되었습니다.');
+            }
+        });
+	}
 	$('#insert').click(function(){
 		var Name = $('#memberName').val();
 		var PhoneNum = $('#memberPhoneNumber').val();
 		var BirthDay = $('#memberBirthDay').val();
 		var Gender = $('input[name="gender"]:checked').val();
 		var TelNum = $('#memberTelNumber').val();
-		alert(Gender);
 		
 		$.ajax({
             type: 'POST',
             dataType: 'jsonp',
             jsonp: 'insert',
+            url: '../../Controller/Member/MemberInsert.jsp',
             data: { 
-        	    'Name': Name
+        	      'Name': Name
         	    , 'PhoneNum': PhoneNum
-        	    ,'Gender' : Gender
+        	    , 'Gender' : Gender
         	    , 'BirthDay' : BirthDay
 				, 'TelNum' : TelNum
+				, 'no' : no
 		    },
-            url: '../jsp/MemberInsert.jsp',
             // jsonp 값을 전달할 때 사용되는 파라미터 변수명
             // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
             success:function(json) {		        	 
-        	    alert('<%=(String)session.getAttribute("Store_No")%>');
+        	    var message = confirm("메인화면으로 돌아가시겠습니까?");
+        	    if(message == true){
+        	    	window.location.href ="../Home/Index.jsp";
+        	    }else{
+        	    	window.location.reload(true);
+        	    }
             },
             error:function(){
-        	    alert('입력값이 잘못되었습니다.');
+            	
+        	    alert('입력값이 잘못되었습니다.1');
             }
         });
 	});
 	$('#cancel').click(function(){
-		window.location.href = 'MemberInfo.jsp';
+		window.location.assign('MemberInfo.jsp');
 	});
-	$('.datepicker').datepicker({
-	    dateFormat: 'yyyy-mm-dd',
-	    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-	    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-	    weekHeader: 'Wk',
-	    changeMonth: true, //월 변경가능
-	    changeYear: true, //년 변경가능
-	    showMonthAfterYear: true, //년 뒤에 월 표시
-	    buttonImageOnly: true, //이미지표시  
-	    buttonText: '날짜를 선택하세요',
-	    autoSize: true, //오토리사이즈(body등 상위태그의 설정에 따른다)
-	    buttonImage: '../../js/datePicker/calendar.gif', //이미지주소
-	    showOn: "both" //엘리먼트와 이미지 동시 사용
-	}); 
+	
 	alert('hello');
 });
 </script>
