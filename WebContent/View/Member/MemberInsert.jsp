@@ -12,7 +12,7 @@
 <script>
 $(document).ready(function() {
 	var no = '<%= request.getParameter("no")%>';
-	if(no != ''){
+	if(no != '' && no != 'null'){
 		$.ajax({
             type: 'POST',
             dataType: 'jsonp',
@@ -72,11 +72,10 @@ $(document).ready(function() {
             }
         });
 	});
+	$('.datepicker').datepicker();
 	$('#cancel').click(function(){
-		window.location.assign('MemberInfo.jsp');
+		window.location.assign('../Home/Index.jsp');
 	});
-	
-	alert('hello');
 });
 </script>
 </head>

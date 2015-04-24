@@ -1,0 +1,17 @@
+@CHARSET "EUC-KR";
+	#NavButton{
+		display:none;
+	}
+	#Nav{
+		display:block;
+	}
+
+@media (max-width: 750px) { 
+
+	#NavButton{
+		display:inline-block;
+	}
+	#Nav{
+		display:none;
+	}
+}
