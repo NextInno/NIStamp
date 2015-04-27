@@ -5,6 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title> Welcome To &amp; Stamp </title>
 
+
 <link href="../../js/jqGrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
 <link href="../../js/jqGrid/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
@@ -27,7 +28,26 @@ $(document).ready(function() {
 		document.location.href = "Login.jsp";
 	}
 	else{
-		$('#MemberGrid').jqGrid({
+		$('#NavBtn').click(function() {
+			$('#Nav').slideToggle();
+		});
+		$('.NumBtn').click(function() {
+			var SearchNum =  $('.SearchNum').val();
+			SearchNum += $(this).text();
+			$('.SearchNum').val(SearchNum);
+		});
+		$('.NumBtnC').click(function(){
+			$('.SearchNum').val('');
+			var SearchNum =  $('.SearchNum').val();
+			$('.SearchNum').val(SearchNum);
+		});
+		$('.NumBtnB').click(function(){
+			var SearchNum =  $('.SearchNum').val();
+			SearchNum = SearchNum.substring(0, SearchNum.length - 1);	
+			$('.SearchNum').val(SearchNum);
+		});
+		
+		$('#MemberList').jqGrid({
 			caption: '회원 목록'
 			, url: '../../Controller/Member/MemberList.jsp'
 			, mtype: 'POST'
@@ -45,15 +65,13 @@ $(document).ready(function() {
             , rownumbers: true
 			, rowNum: 25
 			, rowList: [25, 50, 100]
-			, pager: '#MemberGridPager'
 			, height: 400
 			, width: 'auto'
 			, viewrecords: true
 			, multiselect: true
 			, loadonce: true
 			, ondblClickRow: function (rowid, rowIndex, cellIndex, event) {
-	            var rowdata = $('#MemberGrid').getRowData(rowid);
-	            location.href = '../Member/MemberInsert.jsp?no=' + rowdata.No;
+	           
 	        }
 			, jsonReader: {
 				page: 'page', 
@@ -73,61 +91,29 @@ $(document).ready(function() {
 				, 'position': 'left'
 				, 'cloneToTop': false
 			}
-		);	
-		//$('#MemberGrid').trigger('reloadGrid');
-		$('#searchbtn').click(function() {
-			$('#MemberGrid').setGridParam({
+		);
+		$('.NumBtnS').click(function() {
+			var Phone = $('.SearchNum').val();
+			$('#MemberList').setGridParam({
 	            url: '../../Controller/Member/MemberList.jsp'
 	            , datatype: 'JSON'
 	            , mtype: 'POST'
 	            , page: 1
 	            , postData: {
-	                FromDate: $('#fromdate').val(),
-	                ToDate: $('#todate').val(),
-	                Name: $('#name').val(),
+	                FromDate: null,
+	                ToDate: null,
+	                Name: null,
 	                Phone: $('#phone').val(),
-	                Birth: $('#birth').val()
+	                Birth: null
 	            }
 	        }).trigger('reloadGrid');
 		});
-		$('#Modify').click(function(){
-			var ModifyMemberData = $('#MemberGrid').getGridParam("Phone");
-			alert(ModifyMemberData);
-			
-		});
-		$('#NavBtn').click(function(){
-			$('#Nav').slideToggle();
-		})
-		$('#searchStart').click(function(){
-			$('#searchArea').slideToggle();
-			$(this).css('visibility','hidden');
-			
-		})
-		$('#searchCancel').click(function(){
-			$('#searchArea').slideToggle();
-			$('#searchStart').css('visibility','visible');
-			
-		})
-		$('#searchReset').click(function(){
-			$('#fromdate').val('');
-            $('#todate').val('');
-            $('#name').val('');
-            $('#phone').val('');
-            $('#birth').val('');
-            $('#searchbtn').click();
-			
-		})
-		$('.datepicker').datepicker({
-		      changeMonth: true,
-		      changeYear: true,
-		      yearRange: "1930:2015"
-		    });
 	}
 });
 </script>
 </head>
 <body>
-<div id = 'header' class='clearfix'>
+<div id = 'header' class='clearfix col-md-12'>
 	<div id = 'NavButton' class = 'col-md-12'>
 		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
 	</div>
@@ -142,12 +128,59 @@ $(document).ready(function() {
 	<br/>
 </div>
 <div class='col-sm-12 col-xs-12'>
-	<table id="MemberGrid" ></table>
+	<div class='col-sm-push-9 pull-left col-sm-3 col-xs-12'>
+		<input type='text' class='col-sm col-xs-12 text-right input-lg SearchNum'/>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>1</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>2</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>3</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>4</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>5</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>6</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>7</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>8</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>9</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>0</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtnB'><-</button>
+		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtnC'>C</button>
+		<button class='btn btn-default col-sm-12 col-xs-12 text-center input-lg NumBtnS'>검색</button>
+	</div>
+	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right clearfix'>
+		<div class='MemberInfo clearfix' style='border:1px solid #ccc'>
+			<div class='col-sm-4 col-xs-12'>
+				이름 :
+				<span class='Name'>신세용</span>
+			</div>
+			 <div class='col-sm-8 col-xs-12'>
+				생년월일 : 
+				<span class='BirthYear'>1987</span> 년
+				<span class='BirthYear'>4</span> 월
+				<span class='BirthYear'>5</span> 일
+			</div>
+			<div class='col-sm-4 col-xs-4'>
+				성별 :
+				<span class='Gender'>남자</span>
+			</div>
+			<div class='col-sm-8 col-xs-12'>
+				휴대폰번호 :
+				<span class='Phone'>010-5109-3286</span>
+			</div>
+			<div class='col-sm-8 col-xs-12'>
+				전화번호 :
+				<span class='Tel'>02-6453-3286</span>
+			</div>
+			
+		</div>
+	</div>
+	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
+		2
+	</div>
+	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
+		3
+	</div>
+</div><br><br><br><br><br><br><br><br><br><br><br><br>
+<div class='PopUpPage'>
+	<table id="MemberList"></table>
 	<div id="MemberGridPager"></div>
-</div>
-
-<div class='row col-sm-12 col-xs-12'>
-	<input id = 'Modify' type = 'button' value = "고객 수정">
 </div>
 </body>
 </html>

@@ -46,8 +46,8 @@
 				sQuery = "INSERT INTO Member (MemberNo, Store_No, Name, Birth, Phone, Tel, Gender, CreateDate, CreateBy) ";
 				sQuery += "VALUES (" + iMember_No + ", "+ Integer.parseInt(sStore_No) +", '"+ sName +"', '" + sBirthDay +"', '" + sPhoneNum +"', '" + sTelNum +"', " + iGender +", CURRENT_TIMESTAMP, "+ Integer.parseInt(sStore_No) +")";
 			}else{
-				iMember_No = Integer.parseInt(sno);
-				sQuery = "UPDATE Member SET Name = '"+sName+"' , Birth = '"+ sBirthDay +"' , Phone = '" + sPhoneNum +"' , Tel = '"+ sTelNum +"', Gender = " + iGender + "  WHERE MemberNo = " + sno + ";";
+	
+				sQuery = "UPDATE Member SET Name = '"+sName+"' , Birth = '"+ sBirthDay +"' , Phone = '" + sPhoneNum +"' , Tel = '"+ sTelNum +"', Gender = " + iGender + " , UpdateDate = CURRENT_TIMESTAMP , UpdateBy = " + sStore_No + "   WHERE MemberNo = " + sno + ";";
 			}
 			
 			

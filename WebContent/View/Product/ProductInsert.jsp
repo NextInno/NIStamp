@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>상품 등록</title>
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="../../js/datePicker/jquery-ui.js" type="text/javascript"></script>
 <link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
 <link href="../../css/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="../../css/MenuBtn.css" rel="stylesheet" type ="text/css"/>
@@ -68,7 +68,7 @@ $(document).ready(function(){
 		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
 	</div>
 	<div id = 'Nav' class= 'col-md-12 clearfix'>
-		<a href= '../Member/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
+		<a href= '../Home/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>교환상품등록</a>
 		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
