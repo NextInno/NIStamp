@@ -109,10 +109,19 @@ $(document).ready(function() {
 			$('#searchStart').css('visibility','visible');
 			
 		})
+		$('#searchReset').click(function(){
+			$('#fromdate').val('');
+            $('#todate').val('');
+            $('#name').val('');
+            $('#phone').val('');
+            $('#birth').val('');
+            $('#searchbtn').click();
+			
+		})
 		$('.datepicker').datepicker({
 		      changeMonth: true,
 		      changeYear: true,
-		      yearRange: "1915:2015"
+		      yearRange: "1930:2015"
 		    });
 	}
 });
@@ -124,9 +133,9 @@ $(document).ready(function() {
 		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
 	</div>
 	<div id = 'Nav' class= 'col-md-12 clearfix'>
+		<a href= '../Member/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
-		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
-		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
+		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>교환상품등록</a>
 		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
@@ -170,6 +179,7 @@ $(document).ready(function() {
 			<div class = ''>
 				<button type="button" id = 'searchbtn' class="btn btn-default ">검색</button>
 				<button type="button" id = 'searchCancel' class="btn btn-default ">취소</button>
+				<button type="button" id = 'searchReset' class="btn btn-default ">초기화</button>
 			</div>
 			
 		</div>

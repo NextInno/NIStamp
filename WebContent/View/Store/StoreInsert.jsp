@@ -6,10 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>매장입력</title>
 <link rel="stylesheet" href="../js/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
+<link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+<link href="../../css/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <script src="../../js/datePicker/jquery-1.10.2.js"></script> 
 <script src="../../js/ui/1.11.4/jquery-ui.js"></script>
 <script src="../../js/datePicker/jquery.ui.datepicker.ko.js" type="text/javascript"></script>
 <link rel="stylesheet" href="/resources/demos/style.css">
+<link href="../../css/MenuBtn.css" rel="stylesheet" type ="text/css"/>
 <script>
 $(document).ready(function() {
 	$('#insert').click(function(){
@@ -53,6 +56,20 @@ $(document).ready(function() {
 });
 </script>
 </head>
+<div id = 'header' class='clearfix'>
+	<div id = 'NavButton' class = 'col-md-12'>
+		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
+	</div>
+	<div id = 'Nav' class= 'col-md-12 clearfix'>
+		<a href= '../Member/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
+		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
+		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>교환상품등록</a>
+		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
+		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
+		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
+	</div>
+	<br/>
+</div>
 <body>
 	<div class = 'row'>
 		<span class='LabelName'>점주 성함 : </span>
