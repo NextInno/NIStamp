@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>»óÇ° µî·Ï</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ìƒí’ˆ ë“±ë¡</title>
+<script src="../../js/datePicker/jquery-1.10.2.js"></script> 
 <script src="../../js/datePicker/jquery-ui.js" type="text/javascript"></script>
 <link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
 <link href="../../css/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -12,36 +13,62 @@
 
 <script>
 $(document).ready(function(){
+	var no = '<%=request.getParameter("no")%>';
+	//ìˆ˜ì •í•  ë•Œ 
+	if(no != '' && no != 'null'){
+		$.ajax({
+			type: 'POST',
+			dataType: 'jsonp',
+			jsonp: 'insert',
+			data:{
+				'no' : no
+			},
+			url: '../../Controller/Product/ProductInsert.jsp', 
+            // jsonp ê°’ì„ ì „ë‹¬í•  ë•Œ ì‚¬ìš©ë˜ëŠ” íŒŒë¼ë¯¸í„° ë³€ìˆ˜ëª…
+            // ì´ ì†ì„±ì„ ìƒëµí•˜ë©´ callback íŒŒë¼ë¯¸í„° ë³€ìˆ˜ëª…ìœ¼ë¡œ ì „ë‹¬ëœë‹¤.
+            success:function(jsonp){
+            	$("#CategoryBig").val(json.data.CategoryBig);
+        		$("#CategoryMiddle").val(json.data.CategoryMiddle);
+        		$("#Name").val(json.data.Name);
+        		$("#Price").val(json.data.Price);
+        		$("#Contents").val(json.data.Contents);
+            },
+            error:function(){
+            	alert('ì…ë ¥ ê°’ì„ í™•ì¸í•´ì£¼ì„¸ìš”!');
+            }
+		})
+	}
+	
 	$("#insert").click(function(){
-		var pCategory1 = $("#pCategory1 option").val();
-		var pCategory2 = $("#pCategory2").val();
-		var pName = $("#pName").val();
-		var pPrice = $("#pPrice").val();
-		var pContents = $("#pContents").val();
+		var CategoryBig = $("#CategoryBig").val();
+		var CategoryMiddle = $("#CategoryMiddle").val();
+		var Name = $("#Name").val();
+		var Price = $("#Price").val();
+		var Contents = $("#Contents").val();
 		
-		//alert(pCategory1);
-		//alert(pCategory2);
-		//alert(pName);
-		//alert(pPrice);
-		//alert(pContents);
+		alert(CategoryBig);
+		alert(CategoryMiddle);
+		alert(Name);
+		alert(Price);
+		alert(Contents);
 		
 		$.ajax({
 			type: 'POST',
 			dataType: 'jsonp',
 			jsonp: 'insert',
-			url: '../..Controller/Product/ProductInsert.jsp',
+			url: '../../Controller/Product/ProductInsert.jsp',
 			data:{
-				 'pCategory1' : pCategory1
-				,'pCategory2' : pCategory2
-				,'pName' : pName
-				,'pPrice' : pPrice
-				,'pContents' : pContents
+				  'CategoryBig' : CategoryBig
+				, 'CategoryMiddle' : CategoryMiddle
+				, 'Name' : Name
+				, 'Price' : Price
+				, 'Contents' : Contents
 				, 'no' : no
 			},
-            // jsonp °ªÀ» Àü´ŞÇÒ ¶§ »ç¿ëµÇ´Â ÆÄ¶ó¹ÌÅÍ º¯¼ö¸í
-            // ÀÌ ¼Ó¼ºÀ» »ı·«ÇÏ¸é callback ÆÄ¶ó¹ÌÅÍ º¯¼ö¸íÀ¸·Î Àü´ŞµÈ´Ù.
-            success: function(json){
-            	var message = confirm("»óÇ° ¸®½ºÆ®·Î µ¹¾Æ°¡½Ã°Ú½À´Ï±î?");
+            // jsonp ê°’ì„ ì „ë‹¬í•  ë•Œ ì‚¬ìš©ë˜ëŠ” íŒŒë¼ë¯¸í„° ë³€ìˆ˜ëª…
+            // ì´ ì†ì„±ì„ ìƒëµí•˜ë©´ callback íŒŒë¼ë¯¸í„° ë³€ìˆ˜ëª…ìœ¼ë¡œ ì „ë‹¬ëœë‹¤.
+            success:function(json){
+            	var message = confirm("ìƒí’ˆ ë¦¬ìŠ¤íŠ¸ë¡œ ëŒì•„ê°€ì‹œê² ìŠµë‹ˆê¹Œ?");
             	if(message == true){
             		//window.location.href="";
             		alert("success");
@@ -51,7 +78,7 @@ $(document).ready(function(){
             	}
             },
             error:function(){
-            	alert('ÀÔ·Â °ªÀ» È®ÀÎÇØÁÖ¼¼¿ä!');
+            	alert('ë“±ë¡ì‹œ ì…ë ¥ ê°’ì„ í™•ì¸í•´ì£¼ì„¸ìš”!');
             }
 		})
 	});
@@ -65,45 +92,45 @@ $(document).ready(function(){
 <body>
 <div id = 'header' class='clearfix'>
 	<div id = 'NavButton' class = 'col-md-12'>
-		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '¸Ş´º'/>
+		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = 'ë©”ë‰´'/>
 	</div>
 	<div id = 'Nav' class= 'col-md-12 clearfix'>
-		<a href= '../Home/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>Àû¸³ÇÏ±â</a>
-		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>È¸¿øµî·Ï</a>
-		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>±³È¯»óÇ°µî·Ï</a>
-		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>È¸¿øµî·Ï</a>
-		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>È¸¿øµî·Ï</a>
-		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>È¸¿øµî·Ï</a>
+		<a href= '../Home/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>ì ë¦½í•˜ê¸°</a>
+		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>íšŒì›ë“±ë¡</a>
+		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>êµí™˜ìƒí’ˆë“±ë¡</a>
+		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>íšŒì›ë“±ë¡</a>
+		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>íšŒì›ë“±ë¡</a>
+		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>íšŒì›ë“±ë¡</a>
 	</div>
 	<br/>
 </div>
 <table width="100%" border="1px" cellspacing="0" cellpadding="0">
 	<tr>
 		<td align="center">
-			<select id='pCategory1' class='pCategory1'>
+			<select id='CategoryBig' class='CategoryBig'>
 				<option>1</option>
 			</select> 
 		</td>
 		<td align="center">
-			<select id='pCategory2' class='pCategory2'>
+			<select id='CategoryMiddle' class='CategoryMiddle'>
 				<option>2</option>
 			</select> 
 		</td>
-		<td align="center">»óÇ°¸í </td>
-		<td align="center"><input type='text' id='pName' class='pName'></td>
-		<td align="center">»óÇ° °¡°İ</td>
-		<td align="center"><input type='text' id='pPrice' class='pPrice'></td>
+		<td align="center">ìƒí’ˆëª… </td>
+		<td align="center"><input type='text' id='Name' class='Name'></td>
+		<td align="center">ìƒí’ˆ ê°€ê²©</td>
+		<td align="center"><input type='text' id='Price' class='Price'></td>
 	</tr>
 	<tr>	
-		<td align="center">»óÇ° ¼³¸í</td>
+		<td align="center">ìƒí’ˆ ì„¤ëª…</td>
 		<td align="center" colspan="5">
-			<textarea id="pContents" class="pContents"></textarea>	
+			<textarea id="Contents" class="Contents"></textarea>	
 		</td>
 	</tr>
 	<tr>
 		<td align="center" colspan="6">
-			<button id='insert' class='insert'>ÀúÀå</button>
-			<button id='cancel' class='cancel'>Ãë¼Ò</button>
+			<button id='insert' class='insert'>ì €ì¥</button>
+			<button id='cancel' class='cancel'>ì·¨ì†Œ</button>
 		</td>
 	</tr>
 
