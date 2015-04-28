@@ -4,7 +4,7 @@
 <%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="net.sf.json.*" %>
-<%@page import="ni.module.config.*" %>
+<%@ page import="ni.module.config.*" %>
 <%@ page import="org.apache.log4j.Logger"%>
 
 <%
@@ -18,15 +18,15 @@
 <%! static Logger logger = Logger.getLogger("ProductInsert.jsp"); %>
 
 <%
-// { 'PName' : 상품이름, 'PCategory1' : 1차카테고리, 'PCategory2' : 2차카테고리, 'PPrice' : 상품가격, 'pContents' : 상품설명 } 
+// { 'Name' : 상품이름, 'CategoryBig' : 1차카테고리, 'CategoryMiddle' : 2차카테고리, 'Price' : 상품가격, 'Contents' : 상품설명 } 
 
 
 	String pNo = request.getParameter("no");
-	String pCategory1 = request.getParameter("pCategory1");
-	String pCategory2 = request.getParameter("pCategory2");
-	String pName = request.getParameter("pName");
-	String pPrice = request.getParameter("pPrice");
-	String pContents = request.getParameter("pContents");
+	String pCategoryBig = request.getParameter("CategoryBig");
+	String pCategoryMiddle = request.getParameter("CategoryMiddle");
+	String pName = request.getParameter("Name");
+	String pPrice = request.getParameter("Price");
+	String pContents = request.getParameter("Contents");
 	String pStore_No = (String)session.getAttribute("Store_No");
 	String pinsert = request.getParameter("insert");
 	
@@ -41,31 +41,31 @@
 		Statement stat = con.createStatement();
 		ResultSet rs = null;
 		String pQuery = null;
-		if(pCategory1 != null && pCategory2 != null && pName != null && pPrice != null ){
+		if(pCategoryBig != null && pCategoryMiddle != null && pName != null && pPrice != null ){
 			Integer iProduct_No=null;
 			if(pNo == null){
 				String productNoQuery = "SELECT MAX(ProductNo) AS 'ProductNo' FROM Product WHERE Store_No = " + pStore_No + " GROUP BY Store_No"; 
 				rs = stat.executeQuery(productNoQuery);
 				rs.last();
 				iProduct_No =  rs.getInt("ProductNo") + 1;
-				pQuery = "INSERT INTO Product (ProductNo, Store_No, pCategory1, pCategory2, pName, pPrice, pContents, CreateDate, CreateBy) ";
-				pQuery += "VALUE ('"+ iProduct_No + "', '"+ Integer.parseInt(pStore_No) +"', '"+ pCategory1 + "', '"+ pCategory2 + "', '"+ pName + "', '"+ pPrice + "', '"+ pContents + "', CURRENT_TIMESTAMP, "+ Integer.parseInt(pStore_No) +")";
+				pQuery = "INSERT INTO Product (ProductNo, Store_No, CategoryBig, CategoryMiddle, Name, Price, Contents, CreateDate, CreateBy) ";
+				pQuery += "VALUE ('"+ iProduct_No + "', '"+ Integer.parseInt(pStore_No) +"', '"+ pCategoryBig + "', '"+ pCategoryMiddle + "', '"+ pName + "', '"+ pPrice + "', '"+ pContents + "', CURRENT_TIMESTAMP, "+ Integer.parseInt(pStore_No) +")";
 			}else{
 				iProduct_No = Integer.parseInt(pNo);
-				pQuery = "UPDATE Product SET pCategory1 = '" + pCategory1 + "',  pCategory2 = '" + pCategory2 + "', pName = '" + pName + "', pPrice = '" + pPrice + "' , pContents = '" + pContents + "WHERE ProductNo = " + pNo +";";		
+				pQuery = "UPDATE Product SET CategoryBig = '" + pCategoryBig + "',  CategoryMiddle = '" + pCategoryMiddle + "', Name = '" + pName + "', Price = '" + pPrice + "' , Contents = '" + pContents + "WHERE ProductNo = " + pNo +";";		
 			}
 						
 		}else{
-			pQuery = "SELECT pCategory1, pCategory2, pName, pPrice, pContents FROM Product WHERE ProductNo = " + pNo;
+			pQuery = "SELECT CategoryBig, CategoryMiddle, Name, Price, Contents FROM Product WHERE ProductNo = " + pNo;
 		}
 		rs = stat.executeQuery(pQuery);
-		if(pCategory1 == null && pCategory2 == null && pName == null && pPrice == null ){
+		if(pCategoryBig == null && pCategoryMiddle == null && pName == null && pPrice == null ){
 			while(rs.next()){
-				pCategory1 = rs.getString("pCategory1");
-				pCategory2 = rs.getString("pCategory2");
-				pName = rs.getString("pName");
-				pPrice = rs.getString("pPrice");
-				pContents = rs.getString("pContents");
+				pCategoryBig = rs.getString("CategoryBig");
+				pCategoryMiddle = rs.getString("CategoryMiddle");
+				pName = rs.getString("Name");
+				pPrice = rs.getString("Price");
+				pContents = rs.getString("Contents");
 			}
 		}
 		con.close();
@@ -76,7 +76,7 @@
 	}
 	
 	out.println(pinsert + "(");
-	out.println("{\"data\":{\"pCategory1\":\""+ pCategory1 +"\",\"pCategory2\":\""+ pCategory2 +"\",\"pName\":\""+ pName +"\",\"pPrice\":\""+ pPrice +"\",\"pContents\":"+ pContents +"}}");
+	out.println("{\"data\":{\"CategoryBig\":\""+ pCategoryBig +"\",\"CategoryMiddle\":\""+ pCategoryMiddle +"\",\"Name\":\""+ pName +"\",\"Price\":\""+ pPrice +"\",\"Contents\":"+ pContents +"}}");
 	out.println(")");
 %>
 
