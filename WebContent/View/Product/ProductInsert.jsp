@@ -37,6 +37,8 @@ $(document).ready(function(){
             	alert('입력 값을 확인해주세요!');
             }
 		})
+	}else{
+		no = null;
 	}
 	
 	$("#insert").click(function(){

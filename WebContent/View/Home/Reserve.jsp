@@ -137,6 +137,10 @@ $(document).ready(function() {
 			$('.PopUpPage').css('display','none');
 			$('.SearchNum').val('');
 		});
+		$('.CancelMember').click(function(){
+			$('.PopUpPage').css('display','none');
+			$('.SearchNum').val('');
+		})
 		
 	}
 });
@@ -222,7 +226,7 @@ $(document).ready(function() {
 	<table id="MemberList"></table>
 	<div id="MemberGridPager"></div>
 	<button class='SelectMember btn btn-default col-sm-5 col-xs-5'>선택</button>
-	<button class='cancelMember btn btn-default col-sm-push-2 col-xs-push-2 col-sm-5 col-xs-5'>취소</button>
+	<button class='CancelMember btn btn-default col-sm-push-2 col-xs-push-2 col-sm-5 col-xs-5'>취소</button>
 </div>
 </body>
 </html>

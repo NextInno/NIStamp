@@ -6,6 +6,8 @@
 <title>고객 등록</title>
 <link href="../../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="../../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+<link href="../../css/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <script src="../../js/datePicker/jquery-1.10.2.js"></script> 
 <script src="../../js/datePicker/jquery.ui.datepicker.js" type="text/javascript"></script>
 
@@ -80,20 +82,43 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-<p>
-	이름  : <input type='text' id ='memberName' class='memberName'> </p>
-<p>
-	성별  : 남 <input type='radio' id ='genderMale' class='genderMale' name = 'gender' value = '0' checked> 여 <input type='radio' id ='genderFemale' class='genderFemale' name = 'gender' value = '1'></p>
-<p>
-	휴대폰번호 : <input type='text' id ='memberPhoneNumber' class='memberPhoneNumber'>
-</p>
-<p>
-	생년월일 : <input type='text' id ='memberBirthDay' class='datepicker memberBirthDay'>
-	
-</p>
-<p>
-	전화번호 : <input type = 'text' id = 'memberTelNumber' class='memberTelNumber'>
-</p>
-<p><button id='insert' class='insert'>입력</button><button id='cancel' class='cancel'>취소</button></p>
+<div id = 'container' class='col-sm-12 col-xs-12'>
+	<div class = 'col-sm-12 col-xs-12 clearfix'>
+		<label for='memberName' class = 'text-justify'>
+			이름 : 
+		</label>
+		<input type='text' id ='memberName' class='memberName'>
+	</div>
+	<div class = 'col-sm-12 col-xs-12'>
+		<label for='genderMale'>
+			성별  : 남
+		</label>
+		<input type='radio' id ='genderMale' class='genderMale' name = 'gender' value = '0' checked>
+		<label for='genderFemale' >
+			여
+		</label>
+		 <input type='radio' id ='genderFemale' class='genderFemale' name = 'gender' value = '1'>
+		
+	</div>
+	<div class = 'col-sm-12 col-xs-12'>
+		<label for=memberPhoneNumber>휴대폰번호 : </label>
+		<input type='text' id ='memberPhoneNumber' class='memberPhoneNumber'>
+	</div>
+	<div class = 'col-sm-12 col-xs-12'>
+		<label for='memberBirthDay'>생년월일 :</label>
+		<input type='text' id ='memberBirthDay' class='datepicker memberBirthDay'>
+
+	</div>
+	<div class = 'col-sm-4 col-xs-12'>
+		<label for='memberTelNumber'>전화번호 : </label>
+		<input type = 'text' id = 'memberTelNumber' class='memberTelNumber'>
+		
+	</div>
+	<div class = 'col-sm-12 col-xs-12'>
+		<p><button id='insert' class='insert btn btn-default col-sm-1 col-xs-5'>입력</button><button id='cancel' class='cancel btn btn-default col-sm-push-1 col-xs-push-2 col-sm-1 col-xs-5 '>취소</button></p>
+	</div>
+
+</div>
+
 </body>
 </html>

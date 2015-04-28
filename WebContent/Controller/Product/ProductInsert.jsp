@@ -22,6 +22,9 @@
 
 
 	String pNo = request.getParameter("no");
+	if(pNo == ""){
+		pNo = null;
+	}
 	String pCategoryBig = request.getParameter("CategoryBig");
 	String pCategoryMiddle = request.getParameter("CategoryMiddle");
 	String pName = request.getParameter("Name");
@@ -47,9 +50,12 @@
 				String productNoQuery = "SELECT MAX(ProductNo) AS 'ProductNo' FROM Product WHERE Store_No = " + pStore_No + " GROUP BY Store_No"; 
 				rs = stat.executeQuery(productNoQuery);
 				rs.last();
-				iProduct_No =  rs.getInt("ProductNo") + 1;
-				pQuery = "INSERT INTO Product (ProductNo, Store_No, CategoryBig, CategoryMiddle, Name, Price, Contents, CreateDate, CreateBy) ";
-				pQuery += "VALUE ('"+ iProduct_No + "', '"+ Integer.parseInt(pStore_No) +"', '"+ pCategoryBig + "', '"+ pCategoryMiddle + "', '"+ pName + "', '"+ pPrice + "', '"+ pContents + "', CURRENT_TIMESTAMP, "+ Integer.parseInt(pStore_No) +")";
+				if(rs.getRow()!=0){
+					iProduct_No =  rs.getInt("ProductNo") + 1;
+					pQuery = "INSERT INTO Product (ProductNo, Store_No, CategoryBig, CategoryMiddle, Name, Price, Contents, CreateDate, CreateBy) ";
+					pQuery += "VALUE ('"+ iProduct_No + "', '"+ Integer.parseInt(pStore_No) +"', '"+ pCategoryBig + "', '"+ pCategoryMiddle + "', '"+ pName + "', '"+ pPrice + "', '"+ pContents + "', CURRENT_TIMESTAMP, "+ Integer.parseInt(pStore_No) +")";	
+				}
+				
 			}else{
 				iProduct_No = Integer.parseInt(pNo);
 				pQuery = "UPDATE Product SET CategoryBig = '" + pCategoryBig + "',  CategoryMiddle = '" + pCategoryMiddle + "', Name = '" + pName + "', Price = '" + pPrice + "' , Contents = '" + pContents + "WHERE ProductNo = " + pNo +";";		
