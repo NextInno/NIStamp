@@ -54,8 +54,8 @@ $(document).ready(function() {
 			, datatype: 'JSON'
 			, colNames: [ 'No', '이름', '생일', '성별', '휴대폰', '전화' ]
 	        , colModel: [
-	                { name: 'No', index: 'No', width: 60, hidden: true },
-	                { name: 'Name', index: 'Name', width: 100 },
+	                { name: 'No', key:'No', index: 'No', width: 10, hidden: true },
+	                { name: 'Name', index: 'Name', width: 80 },
 	                { name: 'Birth', index: 'Birth', width: 130, align: 'center' },
 	                { name: 'Gender', index: 'Gender', width: 70, align: 'center' },
 	                { name: 'Phone', index: 'Phone', width: 160, align: 'center' },
@@ -68,11 +68,16 @@ $(document).ready(function() {
 			, height: 400
 			, width: 'auto'
 			, viewrecords: true
-			, multiselect: true
+			, multiselect: false
 			, loadonce: true
 			, ondblClickRow: function (rowid, rowIndex, cellIndex, event) {
-	           
+				 var ret = $("#MemberList").getRowData(rowid);
+				  alert(ret.Name);
 	        }
+			,onClickRow: function(rowid, rowIndex, cellIndex, event){
+				var ret = $("#MemberList").getRowData(rowid);
+				  alert(ret.Name);
+			}
 			, jsonReader: {
 				page: 'page', 
 				total: 'total', 
@@ -103,14 +108,47 @@ $(document).ready(function() {
 	                FromDate: null,
 	                ToDate: null,
 	                Name: null,
-	                Phone: $('#phone').val(),
+	                Phone: $('.SearchNum').val(),
 	                Birth: null
 	            }
 	        }).trigger('reloadGrid');
+			$('.PopUpPage').css('display','block');
 		});
+		
+		$('.SelectMember').click(function(){
+			var SelectData = new Array();
+			$('#MemberList tr').each(function(index){
+				if($(this).attr('aria-selected') == 'true'){
+					for( var i  = 2 ; i < 7 ; i++){
+						SelectData[i-2] = $(this).children().eq(i).text();
+					}
+				}
+			});
+			var BirthDate = SelectData[1].split('-');
+			$('.Name').text(SelectData[0]);	
+			$('.BirthYear').text(BirthDate[0]);
+			$('.BirthMonth').text(parseInt(BirthDate[1]));
+			$('.BirthDate').text(parseInt(BirthDate[2]));
+			$('.Gender').text(SelectData[2]);
+			$('.Phone').text(SelectData[3]);
+			$('.Tel').text(SelectData[4]);
+			 /*  var ret = $("#MemberList").getRowData(No);
+			  alert(ret.No); */
+			$('.PopUpPage').css('display','none');
+			$('.SearchNum').val('');
+		});
+		
 	}
 });
 </script>
+<style>
+	.PopUpPage{
+		display:none;
+		position: absolute;
+		top:100;
+		left:0;
+	}
+</style>
 </head>
 <body>
 <div id = 'header' class='clearfix col-md-12'>
@@ -127,7 +165,7 @@ $(document).ready(function() {
 	</div>
 	<br/>
 </div>
-<div class='col-sm-12 col-xs-12'>
+<div class='col-sm-12 col-xs-12 clearfix'>
 	<div class='col-sm-push-9 pull-left col-sm-3 col-xs-12'>
 		<input type='text' class='col-sm col-xs-12 text-right input-lg SearchNum'/>
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>1</button>
@@ -144,7 +182,7 @@ $(document).ready(function() {
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtnC'>C</button>
 		<button class='btn btn-default col-sm-12 col-xs-12 text-center input-lg NumBtnS'>검색</button>
 	</div>
-	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right clearfix'>
+	<div id='MemberInfo' class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right clearfix'>
 		<div class='MemberInfo clearfix' style='border:1px solid #ccc'>
 			<div class='col-sm-4 col-xs-12'>
 				이름 :
@@ -153,8 +191,8 @@ $(document).ready(function() {
 			 <div class='col-sm-8 col-xs-12'>
 				생년월일 : 
 				<span class='BirthYear'>1987</span> 년
-				<span class='BirthYear'>4</span> 월
-				<span class='BirthYear'>5</span> 일
+				<span class='BirthMonth'>4</span> 월
+				<span class='BirthDate'>5</span> 일
 			</div>
 			<div class='col-sm-4 col-xs-4'>
 				성별 :
@@ -171,16 +209,20 @@ $(document).ready(function() {
 			
 		</div>
 	</div>
-	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
-		2
+	<div id='PointInfo' class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
+		<div id='PointArea'  style='border:1px solid #ccc'>
+		
+		</div>
 	</div>
 	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
 		3
 	</div>
-</div><br><br><br><br><br><br><br><br><br><br><br><br>
-<div class='PopUpPage'>
+</div>
+<div class='PopUpPage col-sm-push-2 col-sm-8 col-xs-12 clearfix'>
 	<table id="MemberList"></table>
 	<div id="MemberGridPager"></div>
+	<button class='SelectMember btn btn-default col-sm-5 col-xs-5'>선택</button>
+	<button class='cancelMember btn btn-default col-sm-push-2 col-xs-push-2 col-sm-5 col-xs-5'>취소</button>
 </div>
 </body>
 </html>
