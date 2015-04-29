@@ -19,12 +19,9 @@
 	String sStore_No = (String)session.getAttribute("Store_No");
 	String sinsert = request.getParameter("insert");
 
-	if( sName != null && sPhoneNum != null && sBirthDay != null && sTelNum != null && sGender != null){
+	if(sName != null && sPhoneNum != null && sBirthDay != null && sTelNum != null && sGender != null) {
 		iGender = Integer.parseInt(sGender);
-		
 	}
-	
-	
 	String driverName = "org.mariadb.jdbc.Driver";
 	String DB_url = NiModuleConfig.getInstance().getDB_SERVER_IP();
 	String DB_id = NiModuleConfig.getInstance().getDB_ID();
@@ -35,28 +32,26 @@
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 		Statement stat = con.createStatement();
 		ResultSet rs = null;
-		String sQuery = null;
+		String sQuery = "";
+		
 		if(sName != null && sPhoneNum != null && sBirthDay != null && sTelNum != null && sGender != null){
-			Integer iMember_No=null;
-			if(sno ==null){
+			Integer iMember_No = 0;
+			
+			if(sno == null) {
 				String smemNoQuery = "SELECT MAX(MemberNo) AS 'MemberNo' FROM Member WHERE Store_No = " + sStore_No + " GROUP BY Store_No";
 				rs = stat.executeQuery(smemNoQuery);
 				rs.last();
 				iMember_No = rs.getInt("MemberNo") + 1;
 				sQuery = "INSERT INTO Member (MemberNo, Store_No, Name, Birth, Phone, Tel, Gender, CreateDate, CreateBy) ";
 				sQuery += "VALUES (" + iMember_No + ", "+ Integer.parseInt(sStore_No) +", '"+ sName +"', '" + sBirthDay +"', '" + sPhoneNum +"', '" + sTelNum +"', " + iGender +", CURRENT_TIMESTAMP, "+ Integer.parseInt(sStore_No) +")";
-			}else{
-	
+			} else {
 				sQuery = "UPDATE Member SET Name = '"+sName+"' , Birth = '"+ sBirthDay +"' , Phone = '" + sPhoneNum +"' , Tel = '"+ sTelNum +"', Gender = " + iGender + " , UpdateDate = CURRENT_TIMESTAMP , UpdateBy = " + sStore_No + "   WHERE MemberNo = " + sno + ";";
 			}
-			
-			
-			
-		}else{
+		} else {
 			sQuery = "SELECT Name, Birth, Phone, Tel, Gender FROM Member WHERE MemberNo = " + sno;
-			
 		}
 		rs = stat.executeQuery(sQuery);
+		
 		if(sName == null && sPhoneNum == null && sBirthDay == null && sTelNum == null && sGender == null){
 			while(rs.next()){
 				sName = rs.getString("Name");
@@ -71,11 +66,9 @@
 		out.print("DB접속 실패");
 		e.printStackTrace();
 	}
-	
-		out.println(sinsert + "(");
-		out.println("{\"data\":{\"Name\":\""+ sName +"\",\"PhoneNum\":\""+ sPhoneNum +"\",\"BirthDay\":\""+ sBirthDay +"\",\"TelNum\":\""+ sTelNum +"\",\"Gender\":"+ iGender +"}}");
-		out.println(")");
-	
+	out.println(sinsert + "(");
+	out.println("{\"data\":{\"Name\":\""+ sName +"\",\"PhoneNum\":\""+ sPhoneNum +"\",\"BirthDay\":\""+ sBirthDay +"\",\"TelNum\":\""+ sTelNum +"\",\"Gender\":"+ iGender +"}}");
+	out.println(")");
 %>
 
 

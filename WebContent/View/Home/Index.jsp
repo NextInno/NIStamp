@@ -87,9 +87,43 @@ $(document).ready(function() {
 	            }
 	        }).trigger('reloadGrid');
 		});
-		$('#Modify').click(function(){
+		$('#Modifybtn').click(function(){
 			var ModifyMemberData = $('#MemberGrid').getGridParam("Phone");
 			alert(ModifyMemberData);
+		});
+		$('#Deletebtn').click(function(){
+			var rowObject = $('#MemberGrid').getGridParam('selarrrow');
+	        var data = "";
+	        for (var i = 0; i < rowObject.length; i++) {
+	            var rowdata = $('#MemberGrid').getRowData(rowObject[i]);
+	            if ((i + 1) == rowObject.length) {
+	                data += rowdata.No;
+	            } else {
+	                data += rowdata.No + ',';
+	            }
+	        }
+
+	        if (rowObject.length == 0) {
+	            alert('선택된 자료가 없습니다.');
+	            return false;
+	        } else {
+	            if (!confirm(rowObject.length + '건을 삭제하시겠습니까?')) return;
+				
+	            $.ajax({
+	            	url: '../../Controller/Member/MemberDelete.jsp'
+	                , type: 'POST'
+	                , dataType: 'jsonp'
+	                , data: { 'No': data }
+	                , jsonp: 'delete'
+	                , success:function(json) {
+	    				alert('삭제 성공!');
+	                }
+	                , error:function(json){
+	            	    alert('Break');
+	                }
+	            });
+	        }
+	        $('#searchbtn').click();
 		});
 		$('#NavBtn').click(function(){
 			$('#Nav').slideToggle();
@@ -185,7 +219,8 @@ $(document).ready(function() {
 </div>
 
 <div class='row col-sm-12 col-xs-12'>
-	<input id = 'Modify' type = 'button' value = "고객 수정">
+	<input id="Modifybtn" type = 'button' value = "고객 수정">
+	<input id="Deletebtn" type = 'button' value = "고객 삭제">
 </div>
 </body>
 </html>
