@@ -9,17 +9,15 @@
 <link href="../../js/jqGrid/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
 <link href="../../css/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="../../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-<link href="../../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" />
-<link href="../../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" /> 
+<!-- <link href="../../js/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<link href="../../js/datePicker/jquery-ui.css" rel="stylesheet" type="text/css" /> -->
+<link href="../../css/MenuBtn.css" rel="stylesheet" type ="text/css"/>
+<link href="../../css/SearchArea.css" rel="stylesheet" type ="text/css"/>
 <script src="../../js/jqGrid/js/jquery-1.11.0.min.js" type="text/javascript"></script>
 <script src="../../js/jqGrid/js/jquery.jqGrid.src.js" type="text/javascript"></script>
 <script src="../../js/jqGrid/js/i18n/grid.locale-kr.js" type="text/javascript"></script>
 <script src="../../js/datePicker/jquery-ui.js" type="text/javascript"></script>
 <script src="../../js/datePicker/jquery.ui.datepicker-ko.js" type="text/javascript"></script>
-<link href="../../css/MenuBtn.css" rel="stylesheet" type ="text/css"/>
-<link href="../../css/SearchArea.css" rel="stylesheet" type ="text/css"/>
-
 
 <script>
 $(document).ready(function() {
@@ -94,7 +92,6 @@ $(document).ready(function() {
 		$('#Modify').click(function(){
 			var ModifyMemberData = $('#MemberGrid').getGridParam("Phone");
 			alert(ModifyMemberData);
-			
 		});
 		$('#NavBtn').click(function(){
 			$('#Nav').slideToggle();
@@ -102,12 +99,10 @@ $(document).ready(function() {
 		$('#searchStart').click(function(){
 			$('#searchArea').slideToggle();
 			$(this).css('visibility','hidden');
-			
 		})
 		$('#searchCancel').click(function(){
 			$('#searchArea').slideToggle();
 			$('#searchStart').css('visibility','visible');
-			
 		})
 		$('#searchReset').click(function(){
 			$('#fromdate').val('');
@@ -116,13 +111,12 @@ $(document).ready(function() {
             $('#phone').val('');
             $('#birth').val('');
             $('#searchbtn').click();
-			
 		})
 		$('.datepicker').datepicker({
-		      changeMonth: true,
-		      changeYear: true,
-		      yearRange: "1930:2015"
-		    });
+	        changeMonth: true,
+	        changeYear: true,
+	        yearRange: "1930:2015"
+	    });
 	}
 });
 </script>

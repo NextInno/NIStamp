@@ -2,7 +2,7 @@
 .ui-jqgrid {position: relative;-moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box;}
 .ui-jqgrid .ui-jqgrid-view {position: relative;left:0; top: 0; padding: 0; font-size:11px;}
 /* caption*/
-.ui-jqgrid .ui-jqgrid-titlebar {height:19px; padding: .3em .2em .2em .3em; position: relative; font-size: 12px; border-left: 0 none;border-right: 0 none; border-top: 0 none;}
+.ui-jqgrid .ui-jqgrid-titlebar {height:24px; padding: .3em .2em .2em .3em; position: relative; font-size: 12px; border-left: 0 none;border-right: 0 none; border-top: 0 none;}
 .ui-jqgrid .ui-jqgrid-caption {text-align: left;}
 .ui-jqgrid .ui-jqgrid-title { margin: .1em 0 .2em; }
 .ui-jqgrid .ui-jqgrid-titlebar-close { position: absolute;top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height:18px; cursor:pointer;}
@@ -60,7 +60,7 @@
 .ui-jqgrid .ui-pg-button span { display: block; margin: 2px; float:left;}
 .ui-jqgrid .ui-pg-button:hover { padding: 0; }
 .ui-jqgrid .ui-state-disabled:hover {padding:1px;}
-.ui-jqgrid .ui-pg-input,.ui-jqgrid .ui-jqgrid-toppager .ui-pg-input { height:14px;width: auto;font-size:.9em; margin:0;line-height: inherit;border: none; padding: 3px 2px}
+.ui-jqgrid .ui-pg-input,.ui-jqgrid .ui-jqgrid-toppager .ui-pg-input { height:22px;width: auto;font-size:.9em; margin:0;line-height: inherit;border: none; padding: 3px 2px}
 .ui-jqgrid .ui-pg-selbox, .ui-jqgrid .ui-jqgrid-toppager .ui-pg-selbox {font-size:.9em; line-height:inherit; display:block; height:19px; margin: 0; padding: 3px 0px; border:none;}
 .ui-jqgrid .ui-separator {height: 18px; border-left: 1px solid #ccc ; border-right: 1px solid #ccc ; margin: 1px; float: right;}
 .ui-jqgrid .ui-paging-info {font-weight: normal;height:auto; margin-top:3px;margin-right:4px;display: inline;}
