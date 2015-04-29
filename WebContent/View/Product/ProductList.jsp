@@ -36,7 +36,7 @@ $(document).ready(function(){
 			    { name: 'CategoryMiddle', index: 'CategoryMiddle', width: 100},
 			    { name: 'Name', index: 'Name', width: 100},
 			    { name: 'Price', index: 'Price', width: 100},
-			    { name: 'Contents', index: 'Contents', width: 200},         
+			    { name: 'Contents', index: 'Contents', width: 200}        
 			 ]
 			, gridView: true
 			, rownumbers: true
