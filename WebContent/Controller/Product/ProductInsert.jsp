@@ -47,7 +47,7 @@
 			if(pNo == null) {
 				String productNoQuery = "SELECT MAX(ProductNo) AS 'ProductNo' FROM Product WHERE Store_No = " + pStore_No + " GROUP BY Store_No"; 
 				rs = stat.executeQuery(productNoQuery);
-				//rs.last();
+				rs.last();
 				
 				if(rs.getRow() == 0) {
 					iProduct_No = 1;
