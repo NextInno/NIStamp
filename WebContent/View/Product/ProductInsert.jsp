@@ -7,13 +7,20 @@
 <title>상품 등록</title>
 <script src="../../js/datePicker/jquery-1.10.2.js"></script> 
 <script src="../../js/datePicker/jquery-ui.js" type="text/javascript"></script>
+<script src="../../js/jqGrid/js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="../../js/jqGrid/js/jquery.jqGrid.src.js" type="text/javascript"></script>
+<script src="../../js/jqGrid/js/i18n/grid.locale-kr.js" type="text/javascript"></script>
 <link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
 <link href="../../css/Bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="../../css/MenuBtn.css" rel="stylesheet" type ="text/css"/>
 
+
+
+
 <script>
 $(document).ready(function(){
 	var no = '<%=request.getParameter("no")%>';
+//	var insert = "insert";
 	//수정할 때 
 	if(no != '' && no != 'null'){
 		$.ajax({
@@ -21,7 +28,7 @@ $(document).ready(function(){
 			dataType: 'jsonp',
 			jsonp: 'insert',
 			data:{
-				'no' : no
+				 'no' : no
 			},
 			url: '../../Controller/Product/ProductInsert.jsp', 
             // jsonp 값을 전달할 때 사용되는 파라미터 변수명
@@ -37,6 +44,7 @@ $(document).ready(function(){
             	alert('입력 값을 확인해주세요!');
             }
 		})
+
 	}else{
 		no = null;
 	}
@@ -48,11 +56,11 @@ $(document).ready(function(){
 		var Price = $("#Price").val();
 		var Contents = $("#Contents").val();
 		
-		alert(CategoryBig);
-		alert(CategoryMiddle);
-		alert(Name);
-		alert(Price);
-		alert(Contents);
+	//	alert(CategoryBig);
+	//	alert(CategoryMiddle);
+	//	alert(Name);
+	//	alert(Price);
+	//	alert(Contents);
 		
 		$.ajax({
 			type: 'POST',
@@ -135,7 +143,6 @@ $(document).ready(function(){
 			<button id='cancel' class='cancel'>취소</button>
 		</td>
 	</tr>
-
 </table>
 </body>
 </html>
