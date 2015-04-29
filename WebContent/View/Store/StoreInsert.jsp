@@ -27,7 +27,7 @@ $(document).ready(function() {
 		var StoreCompanyNo = $('#StoreCompanyNo').val();
 			
 		$.ajax({
-	        url: '../jsp/StoreInsert.jsp',
+	        url: '../Controller/Store/StoreInsert.jsp',
 	        type: 'POST',
 	        dataType: 'jsonp',
 	        jsonp: 'insert',
@@ -51,7 +51,7 @@ $(document).ready(function() {
 	    }}); 
 	});
 	$('#cancel').click(function(){
-		window.location.href = 'MemberInfo.jsp';
+		window.location.href = '../Home/Index.jsp';
 	});
 });
 </script>

@@ -21,8 +21,9 @@
 $(document).ready(function() {
 	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
 	
+	
 	if(Session_No == 'null') {
-		document.location.href = "Login.jsp";
+		document.location.href = "../Home/Login.jsp";
 	} else {
 		$('#ProductGrid').jqGrid({
 			caption: '상품 목록'
