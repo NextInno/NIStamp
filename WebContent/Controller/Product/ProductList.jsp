@@ -14,7 +14,6 @@
 //	{Connection : 드라이버매니저 가지고 디비에 연결해주는거}
 %>
 <%! static Logger logger = Logger.getLogger("ProductList.jsp"); %>
-
 <%
 	NiModuleConfig.setLogger();
 
@@ -26,40 +25,17 @@
 	String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 	
 	String pQuery = "";
-	String pCategoryBig = request.getParameter("CategoryBig");
-	String pCategoryMiddle = request.getParameter("CategoryMiddle");
-	String pName = request.getParameter("Name");
-	String pPrice = request.getParameter("Price");
-	String pContents = request.getParameter("Contents");
 
 	logger.info("ProductList!");
 	
 	JSONObject responcedata = new JSONObject();
 	
-	
 	try {
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 	
-		pQuery = "SELECT 'No', 'ProductNo', 'CategoryBig', 'CategoryMiddle', 'Name', 'Price', 'Contents' FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No;
-	/*
-		if(pCategoryBig != null && pCategoryBig != "") {
-			pQuery += " AND CategoryBig LIKE '%" + pCategoryBig + "%'";
-		}
-		if(pCategoryMiddle != null && pCategoryMiddle != "") {
-			pQuery += " AND CategoryMiddle LIKE '%" + pCategoryMiddle + "%'";
-		}
-		if(pName != null && pName != "") {
-			pQuery += " AND Name LIKE '%" + pName + "%'";
-		}
-		if(pPrice != null && pPrice != "") {
-			pQuery += " AND Price LIKE '%" + pPrice + "%'";
-		}
-		if(pContents != null && pContents != "") {
-			pQuery += " AND Contents LIKE '%" + pContents + "%'";
-		}
+		pQuery = "SELECT No, ProductNo, CategoryBig, CategoryMiddle, Name, Price, Contents FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No;
 		
-	*/
 		pQuery += ";";
 		PreparedStatement stmt = con.prepareStatement(pQuery);
 		ResultSet rs = stmt.executeQuery();
@@ -69,28 +45,24 @@
 	    responcedata.put("total", rs.getRow());
 	    responcedata.put("page", 1);
 	    responcedata.put("records", rs.getRow());
-
+	    
 	    rs.beforeFirst();
 	    JSONObject cellobj = new JSONObject();
 	    
 	    while(rs.next()){
 	    	cellobj.put("No", rs.getString("No"));
-	        cellobj.put("CategoryBig", rs.getString("CategoryBig"));
+ 	        cellobj.put("CategoryBig", rs.getString("CategoryBig"));
 			cellobj.put("CategoryMiddle", rs.getString("CategoryMiddle"));
 			cellobj.put("Name", rs.getString("Name"));
 			cellobj.put("Price", rs.getString("Price"));
 			cellobj.put("Contents", rs.getString("Contents"));
 	    	cellarray.add(cellobj);
 	    }
-	    
 	    responcedata.put("rows", cellarray);
 		stmt.close();
 		con.close();
-	    
-	}catch (Exception ex) {
+	} catch (Exception ex) {
 		System.out.println("Error - " + ex.getMessage());
 	}
 	out.print(responcedata.toString());
-	
 %>
-
