@@ -24,6 +24,7 @@
 <script>
 $(document).ready(function() {
 	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
+	var SelectMemberNo = null;
 	if(Session_No == 'null') {
 		document.location.href = "Login.jsp";
 	}
@@ -32,19 +33,19 @@ $(document).ready(function() {
 			$('#Nav').slideToggle();
 		});
 		$('.NumBtn').click(function() {
-			var SearchNum =  $('.SearchNum').val();
+			var SearchNum =  $(this).siblings('input[type=text]').val();
 			SearchNum += $(this).text();
-			$('.SearchNum').val(SearchNum);
+			$(this).siblings('input[type=text]').val(SearchNum);
 		});
 		$('.NumBtnC').click(function(){
-			$('.SearchNum').val('');
-			var SearchNum =  $('.SearchNum').val();
-			$('.SearchNum').val(SearchNum);
+			$(this).siblings('input[type=text]').val('');
+			var SearchNum =  $(this).siblings('input[type=text]').val();
+			$(this).siblings('input[type=text]').val(SearchNum);
 		});
 		$('.NumBtnB').click(function(){
-			var SearchNum =  $('.SearchNum').val();
+			var SearchNum =  $(this).siblings('input[type=text]').val();
 			SearchNum = SearchNum.substring(0, SearchNum.length - 1);	
-			$('.SearchNum').val(SearchNum);
+			$(this).siblings('input[type=text]').val(SearchNum);
 		});
 		
 		$('#MemberList').jqGrid({
@@ -70,13 +71,20 @@ $(document).ready(function() {
 			, viewrecords: true
 			, multiselect: false
 			, loadonce: true
-			, ondblClickRow: function (rowid, rowIndex, cellIndex, event) {
-				 var ret = $("#MemberList").getRowData(rowid);
-				  alert(ret.Name);
-	        }
-			,onClickRow: function(rowid, rowIndex, cellIndex, event){
-				var ret = $("#MemberList").getRowData(rowid);
-				  alert(ret.Name);
+			,ondblClickRow: function(rowid, rowIndex, cellIndex, event){
+				var Data = $("#MemberList").getRowData(rowid);
+				SelectMemberNo = Data.No;
+				var BirthDate = Data.Birth.split('-');
+				$('.Name').text(Data.Name);
+				$('.BirthYear').text(BirthDate[0]);
+				$('.BirthMonth').text(parseInt(BirthDate[1]));
+				$('.BirthDate').text(parseInt(BirthDate[2]));
+				$('.Gender').text(Data.Gender);
+				$('.Phone').text(Data.Phone);
+				$('.Tel').text(Data.Tel);
+				$('.PopUpPage').css('display','none');
+				$('.SearchNum').val('');
+				MemberPointSearch(SelectMemberNo);
 			}
 			, jsonReader: {
 				page: 'page', 
@@ -97,8 +105,8 @@ $(document).ready(function() {
 				, 'cloneToTop': false
 			}
 		);
-		$('.NumBtnS').click(function() {
-			var Phone = $('.SearchNum').val();
+		$('#NumBtnS').click(function() {
+			var Phone = $('#SearchNum').val();
 			$('#MemberList').setGridParam({
 	            url: '../../Controller/Member/MemberList.jsp'
 	            , datatype: 'JSON'
@@ -108,35 +116,42 @@ $(document).ready(function() {
 	                FromDate: null,
 	                ToDate: null,
 	                Name: null,
-	                Phone: $('.SearchNum').val(),
+	                Phone: $('#SearchNum').val(),
 	                Birth: null
 	            }
 	        }).trigger('reloadGrid');
 			$('.PopUpPage').css('display','block');
 		});
 		
-		$('.SelectMember').click(function(){
+		$('#SelectMember').click(function(){
 			var SelectData = new Array();
 			$('#MemberList tr').each(function(index){
 				if($(this).attr('aria-selected') == 'true'){
-					for( var i  = 2 ; i < 7 ; i++){
-						SelectData[i-2] = $(this).children().eq(i).text();
+					for( var i  = 1 ; i < 7 ; i++){
+						SelectData[i-1] = $(this).children().eq(i).text();
 					}
 				}
 			});
-			var BirthDate = SelectData[1].split('-');
-			$('.Name').text(SelectData[0]);	
+			var BirthDate = SelectData[2].split('-');
+			SelectMemberNo = SelectData[0];
+			$('.Name').text(SelectData[1]);	
 			$('.BirthYear').text(BirthDate[0]);
 			$('.BirthMonth').text(parseInt(BirthDate[1]));
 			$('.BirthDate').text(parseInt(BirthDate[2]));
-			$('.Gender').text(SelectData[2]);
-			$('.Phone').text(SelectData[3]);
-			$('.Tel').text(SelectData[4]);
+			$('.Gender').text(SelectData[3]);
+			$('.Phone').text(SelectData[4]);
+			$('.Tel').text(SelectData[5]);
 			 /*  var ret = $("#MemberList").getRowData(No);
 			  alert(ret.No); */
 			$('.PopUpPage').css('display','none');
 			$('.SearchNum').val('');
+			MemberPointSearch(SelectMemberNo);
+			
 		});
+		$('#SavePoint').click(function(){
+			alert($('#SavePointAmount').val());
+		})			
+		
 		$('.CancelMember').click(function(){
 			$('.PopUpPage').css('display','none');
 			$('.SearchNum').val('');
@@ -144,6 +159,30 @@ $(document).ready(function() {
 		
 	}
 });
+function MemberPointSearch(No){
+	alert(No);
+	$.ajax({
+        url: '../../Controller/Home/Point.jsp',
+        type: 'POST',
+        dataType: 'JSON',
+        jsonp: 'insert',
+        data: { 
+	   		'No':No
+    },
+    success:function(json) {
+    	$('#SearchNum').removeAttr('id').attr('id','SavePointAmount');
+    	$('#NumBtnS').removeAttr('id').attr('id','SavePoint');
+    	$('#SavPointAmount').val('');
+    	$('#SavePoint').text('적립');
+    	alert(json.rows[0].Point);
+    	
+        alert('입력이 완료되었습니다.');
+    },
+    error:function(json){
+    	alert('입력값이 잘못되었습니다.');
+    	
+    }}); 
+}
 </script>
 <style>
 	.PopUpPage{
@@ -163,7 +202,7 @@ $(document).ready(function() {
 		<a href= '../Member/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>교환상품등록</a>
-		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
+		<a href= '../Product/ProductList.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>상품목록</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 	</div>
@@ -171,7 +210,7 @@ $(document).ready(function() {
 </div>
 <div class='col-sm-12 col-xs-12 clearfix'>
 	<div class='col-sm-push-9 pull-left col-sm-3 col-xs-12'>
-		<input type='text' class='col-sm col-xs-12 text-right input-lg SearchNum'/>
+		<input id ='SearchNum' type='text' class='col-sm col-xs-12 text-right input-lg'/>
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>1</button>
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>2</button>
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>3</button>
@@ -184,7 +223,7 @@ $(document).ready(function() {
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>0</button>
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtnB'><-</button>
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtnC'>C</button>
-		<button class='btn btn-default col-sm-12 col-xs-12 text-center input-lg NumBtnS'>검색</button>
+		<button id='NumBtnS' class='btn btn-default col-sm-12 col-xs-12 text-center input-lg'>검색</button>
 	</div>
 	<div id='MemberInfo' class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right clearfix'>
 		<div class='MemberInfo clearfix' style='border:1px solid #ccc'>
