@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="javascript/jsonp; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="javascript/json; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.ResultSet" %> 
-<%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
@@ -70,7 +69,7 @@
 	    responcedata.put("total", rs.getRow());
 	    responcedata.put("page", 1);
 	    responcedata.put("records", rs.getRow());
-	    
+
 	    rs.beforeFirst();
 	    JSONObject cellobj = new JSONObject();
 	    
