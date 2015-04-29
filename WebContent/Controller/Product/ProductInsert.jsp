@@ -12,14 +12,10 @@
 //  {Statement : 디비 쿼리 날릴수 있게끔 만들어주는거}
 // 	{DriverManager : 마리아 디비 연결 되도록 해주는거}
 //	{Connection : 드라이버매니저 가지고 디비에 연결해주는거}
-
 %>
-
 <%! static Logger logger = Logger.getLogger("ProductInsert.jsp"); %>
-
 <%
 // { 'Name' : 상품이름, 'CategoryBig' : 1차카테고리, 'CategoryMiddle' : 2차카테고리, 'Price' : 상품가격, 'Contents' : 상품설명 } 
-
 
 	String pNo = request.getParameter("no");
 	if(pNo == ""){
@@ -38,35 +34,39 @@
 	String DB_id = NiModuleConfig.getInstance().getDB_ID();
 	String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 	
-	try{
+	try {
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 		Statement stat = con.createStatement();
 		ResultSet rs = null;
-		String pQuery = null;
-		if(pCategoryBig != null && pCategoryMiddle != null && pName != null && pPrice != null ){
-			Integer iProduct_No=null;
-			if(pNo == null){
+		String pQuery = "";
+		
+		if(pCategoryBig != null && pCategoryMiddle != null && pName != null && pPrice != null ) {
+			Integer iProduct_No = 0;
+			
+			if(pNo == null) {
 				String productNoQuery = "SELECT MAX(ProductNo) AS 'ProductNo' FROM Product WHERE Store_No = " + pStore_No + " GROUP BY Store_No"; 
 				rs = stat.executeQuery(productNoQuery);
-				rs.last();
-				if(rs.getRow()!=0){
-					iProduct_No =  rs.getInt("ProductNo") + 1;
-					pQuery = "INSERT INTO Product (ProductNo, Store_No, CategoryBig, CategoryMiddle, Name, Price, Contents, CreateDate, CreateBy) ";
-					pQuery += "VALUE ('"+ iProduct_No + "', '"+ Integer.parseInt(pStore_No) +"', '"+ pCategoryBig + "', '"+ pCategoryMiddle + "', '"+ pName + "', '"+ pPrice + "', '"+ pContents + "', CURRENT_TIMESTAMP, "+ Integer.parseInt(pStore_No) +")";	
-				}
+				//rs.last();
 				
-			}else{
+				if(rs.getRow() == 0) {
+					iProduct_No = 1;
+				} else {
+					iProduct_No = rs.getInt("ProductNo") + 1;
+				}
+				pQuery = "INSERT INTO Product (ProductNo, Store_No, CategoryBig, CategoryMiddle, Name, Price, Contents, CreateDate, CreateBy) ";
+				pQuery += "VALUE ("+ iProduct_No + ", "+ pStore_No +", "+ pCategoryBig + ", "+ pCategoryMiddle + ", '"+ pName + "', "+ pPrice + ", '"+ pContents + "', CURRENT_TIMESTAMP, "+ pStore_No +");";
+			} else {
 				iProduct_No = Integer.parseInt(pNo);
 				pQuery = "UPDATE Product SET CategoryBig = '" + pCategoryBig + "',  CategoryMiddle = '" + pCategoryMiddle + "', Name = '" + pName + "', Price = '" + pPrice + "' , Contents = '" + pContents + "WHERE ProductNo = " + pNo +";";		
-			}
-						
-		}else{
+			}			
+		} else {
 			pQuery = "SELECT CategoryBig, CategoryMiddle, Name, Price, Contents FROM Product WHERE ProductNo = " + pNo;
 		}
 		rs = stat.executeQuery(pQuery);
-		if(pCategoryBig == null && pCategoryMiddle == null && pName == null && pPrice == null ){
-			while(rs.next()){
+		
+		if(pCategoryBig == null && pCategoryMiddle == null && pName == null && pPrice == null ) {
+			while(rs.next()) {
 				pCategoryBig = rs.getString("CategoryBig");
 				pCategoryMiddle = rs.getString("CategoryMiddle");
 				pName = rs.getString("Name");
@@ -75,12 +75,10 @@
 			}
 		}
 		con.close();
-		
-	}catch(Exception e){
+	} catch(Exception e) {
 		out.print("DB 접속 실패");
 		e.printStackTrace();
 	}
-	
 	out.println(pinsert + "(");
 	out.println("{\"data\":{\"CategoryBig\":\""+ pCategoryBig +"\",\"CategoryMiddle\":\""+ pCategoryMiddle +"\",\"Name\":\""+ pName +"\",\"Price\":\""+ pPrice +"\",\"Contents\":"+ pContents +"}}");
 	out.println(")");
