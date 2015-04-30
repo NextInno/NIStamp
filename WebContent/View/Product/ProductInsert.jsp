@@ -33,9 +33,7 @@ $(document).ready(function(){
 					 'no' : no
 				},
 				url: '../../Controller/Product/ProductInsert.jsp',
-	            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
-	            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
-	            success:function(jsonp){
+	            success: function(json){
 	            	$("#CategoryBig").val(json.data.CategoryBig);
 	        		$("#CategoryMiddle").val(json.data.CategoryMiddle);
 	        		$("#Name").val(json.data.Name);
@@ -45,9 +43,8 @@ $(document).ready(function(){
 	            error:function(){
 	            	alert('입력 값을 확인해주세요!');
 	            }
-			})
-	
-		}else{
+			});
+		} else {
 			no = null;
 		}
 		
@@ -58,16 +55,19 @@ $(document).ready(function(){
 			var Price = $("#Price").val();
 			var Contents = $("#Contents").val();
 			
-			if(CategoryBig == ""){
+			if(CategoryBig == "") {
 				alert("카테고리를 입력하세요.");
 				return;
-			}if(CategoryMiddle == ""){
+			}
+			if(CategoryMiddle == "") {
 				alert("카테고리를 입력하세요.");
 				return;
-			}if(Name == ""){
+			}
+			if(Name == "") {
 				alert("상품명을 입력하세요.");
 				return;
-			}if(Price == ""){
+			}
+			if(Price == "") {
 				alert("상품가격을 입력하세요.");
 				return;
 			}
@@ -83,7 +83,7 @@ $(document).ready(function(){
 				dataType: 'jsonp',
 				jsonp: 'insert',
 				url: '../../Controller/Product/ProductInsert.jsp',
-				data:{
+				data: {
 					  'CategoryBig' : CategoryBig
 					, 'CategoryMiddle' : CategoryMiddle
 					, 'Name' : Name
@@ -91,30 +91,27 @@ $(document).ready(function(){
 					, 'Contents' : Contents
 					, 'no' : no
 				},
-	            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
-	            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
-	            success:function(json){
+	            success: function(json) {
 	            	var message = confirm("상품 리스트로 돌아가시겠습니까?");
-	            	if(message == true){
+	            	
+	            	if(message == true) {
 	            		//window.location.href="";
 	            		alert("success");
 	            	}
-	            	else{
+	            	else {
 	            		alert("error");
 	            	}
 	            },
-	            error:function(){
+	            error:function() {
 	            	alert('등록시 입력 값을 확인해주세요!');
 	            }
 			})
 		});
-		$("#cancel").click(function(){
+		$("#cancel").click(function() {
 			window.location.href="../Product/ProductList.jsp";
-		})
-
+		});
 	}
 });
-	
 </script>
 
 </head>

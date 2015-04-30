@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="javascript/jsonp; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="javascript/json; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="net.sf.json.*" %>
 <%@ page import="ni.module.config.*"%>
 <%@ page import="org.apache.log4j.Logger"%>
 
@@ -37,6 +36,6 @@
 		e.printStackTrace();
 	}
 	out.println(sinsert + "(");
-	out.println("{\"data\":{\"result\":\"success\"}");
+	out.println("{\"data\":{\"result\":\"success\"}}");
 	out.println(")");
 %>	

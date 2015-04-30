@@ -25,7 +25,7 @@ $(document).ready(function() {
         	    alert('아이디와 비밀번호를 확인해주세요');
             }
         });	
-	})
+	});
 });
 </script>
 </head>
