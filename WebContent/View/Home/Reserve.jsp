@@ -75,13 +75,7 @@ $(document).ready(function() {
 				var Data = $("#MemberList").getRowData(rowid);
 				SelectMemberNo = Data.No;
 				var BirthDate = Data.Birth.split('-');
-				$('.Name').text(Data.Name);
-				$('.BirthYear').text(BirthDate[0]);
-				$('.BirthMonth').text(parseInt(BirthDate[1]));
-				$('.BirthDate').text(parseInt(BirthDate[2]));
-				$('.Gender').text(Data.Gender);
-				$('.Phone').text(Data.Phone);
-				$('.Tel').text(Data.Tel);
+				ShowMemberInfo(SelectMemberNo, Data.Name,BirthDate[0],parseInt(BirthDate[1]), parseInt(BirthDate[2]), Data.Gender, Data.Phone, Data.Tel);
 				$('.PopUpPage').css('display','none');
 				$('.SearchNum').val('');
 				MemberPointSearch(SelectMemberNo);
@@ -123,7 +117,7 @@ $(document).ready(function() {
 			$('.PopUpPage').css('display','block');
 		});
 		
-		$('#SelectMember').click(function(){
+		$('#SelectMember').on('click',function(){
 			var SelectData = new Array();
 			$('#MemberList tr').each(function(index){
 				if($(this).attr('aria-selected') == 'true'){
@@ -134,23 +128,25 @@ $(document).ready(function() {
 			});
 			var BirthDate = SelectData[2].split('-');
 			SelectMemberNo = SelectData[0];
-			$('.Name').text(SelectData[1]);	
-			$('.BirthYear').text(BirthDate[0]);
-			$('.BirthMonth').text(parseInt(BirthDate[1]));
-			$('.BirthDate').text(parseInt(BirthDate[2]));
-			$('.Gender').text(SelectData[3]);
-			$('.Phone').text(SelectData[4]);
-			$('.Tel').text(SelectData[5]);
-			 /*  var ret = $("#MemberList").getRowData(No);
-			  alert(ret.No); */
+			ShowMemberInfo(SelectMemberNo, SelectData[1], BirthDate[0], parseInt(BirthDate[1]), parseInt(BirthDate[2]), SelectData[3], SelectData[4], SelectData[5]);
 			$('.PopUpPage').css('display','none');
 			$('.SearchNum').val('');
 			MemberPointSearch(SelectMemberNo);
 			
 		});
-		$('#SavePoint').click(function(){
-			alert($('#SavePointAmount').val());
-		})			
+		$('.PointInsertBtn').on('click',function(){
+			var SavePointAmount = $('#SavePointAmount').val();
+			var InsertMode = $(this).attr('id');
+			var No = $('.No').text();
+			if(SavePointAmount == ''){
+				alert('입력값이 비어있습니다.');
+			}else{
+				InsertPoint(No, InsertMode,SavePointAmount);
+			}
+		});			
+		$('#CancelSave').on('click',function(){
+			document.location.reload();
+		});
 		
 		$('.CancelMember').click(function(){
 			$('.PopUpPage').css('display','none');
@@ -160,7 +156,6 @@ $(document).ready(function() {
 	}
 });
 function MemberPointSearch(No){
-	alert(No);
 	$.ajax({
         url: '../../Controller/Home/Point.jsp',
         type: 'POST',
@@ -170,18 +165,95 @@ function MemberPointSearch(No){
 	   		'No':No
     },
     success:function(json) {
+    	$('#SearchNum').val('');
     	$('#SearchNum').removeAttr('id').attr('id','SavePointAmount');
-    	$('#NumBtnS').removeAttr('id').attr('id','SavePoint');
+    	$('#NumBtnS').addClass('hidden');
     	$('#SavPointAmount').val('');
-    	$('#SavePoint').text('적립');
-    	alert(json.rows[0].Point);
-    	
-        alert('입력이 완료되었습니다.');
+    	$('#SavePoint').removeClass('hidden');
+    	$('#UsePoint').removeClass('hidden');
+    	$('#CancelSave').removeClass('hidden');
+    	ShowPointInfo(10,json.rows[0].Point);
     },
     error:function(json){
     	alert('입력값이 잘못되었습니다.');
     	
     }}); 
+}
+function InsertPoint(No, Mode, Amount){
+	var PointAmount;
+	if(Mode == 'SavePoint'){
+		PointAmount = Amount;
+	}else{
+		PointAmount = -Amount;
+	}
+	$.ajax({
+        url: '../../Controller/Home/Point.jsp',
+        type: 'POST',
+        dataType: 'JSON',
+        jsonp: 'insert',
+        data: { 
+	   		'No':No
+	   		,'Point' : PointAmount
+	    },
+	    success:function(json) {
+	    	var message = confirm("현재 "+$('.Name').text() +" 고객님의 총적립량은" +json.rows[0].Point + "입니다\n적립을 끝내시겠습니까?" );
+	    	if(message){
+	    		document.location.reload();
+	    	}else{
+	    		ShowPointInfo(10,json.rows[0].Point);
+	    	}
+	    	
+	    },
+	    error:function(json){
+	    	alert('입력값이 잘못되었습니다.');
+    }});
+}
+function ShowMemberInfo(No, Name, BirthYear, BirthMonth, BirthDate, Gender, Phone, Tel ){
+	var MemberInfo = '';
+		MemberInfo += "<div class='MemberInfo clearfix' style='border:1px solid #ccc'>\n";
+		MemberInfo += "<div class='col-sm-4 col-xs-12 hidden'>번호 :\n";
+		MemberInfo += "<span class='No'>"+ No +"</span>\n";
+		MemberInfo += "</div>\n";
+		MemberInfo += "<div class='col-sm-4 col-xs-12'>이름 :\n";
+		MemberInfo += "<span class='Name'>"+ Name +"</span>\n";
+		MemberInfo += "</div>\n";
+		MemberInfo += "<div class='col-sm-8 col-xs-12'>생년월일 : \n";
+		MemberInfo += "<span class='BirthYear'>"+ BirthYear +"</span> 년\n";
+		MemberInfo += "<span class='BirthMonth'>"+ BirthMonth +"</span> 월\n";
+		MemberInfo += "<span class='BirthDate'>"+ BirthDate +"</span> 일\n";
+		MemberInfo += "</div>\n";
+		MemberInfo += "<div class='col-sm-4 col-xs-4'>성별 :\n";
+		MemberInfo += "<span class='Gender'>"+ Gender +"</span>\n";
+		MemberInfo += "</div>\n";
+		MemberInfo += "<div class='col-sm-8 col-xs-12'>휴대폰번호 :\n";
+		MemberInfo += "<span class='Phone'>"+ Phone +"</span>\n";
+		MemberInfo += "</div>\n";
+		MemberInfo += "<div class='col-sm-8 col-xs-12'>전화번호 :\n";
+		MemberInfo += "<span class='Tel'>"+ Tel +"</span>\n";
+		MemberInfo += "</div>\n";
+		MemberInfo += "</div>\n";
+		$('#MemberInfo').html(MemberInfo);
+}
+function ShowPointInfo(totalStamp, Amount){
+	var StampInfo = '';
+		StampInfo += "<div class='clearfix'>\n<div class='col-sm-1 col-xs-1'></div>\n";
+	for( var i = 0 ; i < totalStamp ; i ++){
+		if(i < parseInt(Amount)){
+			StampInfo += "<img src='../../images/StampImg/FullStamp.png' class='col-sm-2 col-xs-2 img-responsive'>\n";
+			if(i == parseInt(totalStamp)/2){
+				StampInfo += "</div>\n<br/>\n<div class='clearfix'>\n<div class='col-sm-1 col-xs-1'></div>\n";
+			}
+		}else{
+			StampInfo += "<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2 img-responsive'>\n";
+			if(i == parseInt(totalStamp)/2 -1){
+				StampInfo += "</div>\n<br/>\n<div class='clearfix'>\n<div class='col-sm-1 col-xs-1'></div>\n";
+			}
+		}
+
+	}
+		StampInfo+="</div>\n</div>\n";
+		$('.PointInfo').html(StampInfo);
+	
 }
 </script>
 <style>
@@ -191,6 +263,14 @@ function MemberPointSearch(No){
 		top:100;
 		left:0;
 	}
+	.nullMember{
+		border:1px solid #ccc; 
+		padding : 90px 0;
+		
+	}
+	.PointInfo{
+		padding : 10px 0;
+	}
 </style>
 </head>
 <body>
@@ -199,11 +279,11 @@ function MemberPointSearch(No){
 		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
 	</div>
 	<div id = 'Nav' class= 'col-md-12 clearfix'>
-		<a href= '../Home/Index.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>홈</a>
 		<a href= '../Member/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>교환상품등록</a>
 		<a href= '../Product/ProductList.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>상품목록</a>
+		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 	</div>
 	<br/>
@@ -223,40 +303,37 @@ function MemberPointSearch(No){
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtn'>0</button>
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtnB'><-</button>
 		<button class='btn btn-default col-sm-4 col-xs-4 text-center input-lg NumBtnC'>C</button>
-		<button id='NumBtnS' class='btn btn-default col-sm-12 col-xs-12 text-center input-lg'>검색</button>
+		<button id='NumBtnS' class='btn btn-default col-sm-12 col-xs-12 text-center input-lg'>고객 검색</button>
+		<button id='SavePoint' class='btn btn-default col-sm-6 col-xs-6 text-center input-lg hidden PointInsertBtn'>적립</button>
+		<button id='UsePoint' class='btn btn-default col-sm-6 col-xs-6 text-center input-lg hidden PointInsertBtn'>사용</button>
+		<button id='CancelSave' class='btn btn-default col-sm-12 col-xs-12 text-center input-lg hidden'>취소</button>
 	</div>
 	<div id='MemberInfo' class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right clearfix'>
-		<div class='MemberInfo clearfix' style='border:1px solid #ccc'>
-			<div class='col-sm-4 col-xs-12'>
-				이름 :
-				<span class='Name'>신세용</span>
-			</div>
-			 <div class='col-sm-8 col-xs-12'>
-				생년월일 : 
-				<span class='BirthYear'>1987</span> 년
-				<span class='BirthMonth'>4</span> 월
-				<span class='BirthDate'>5</span> 일
-			</div>
-			<div class='col-sm-4 col-xs-4'>
-				성별 :
-				<span class='Gender'>남자</span>
-			</div>
-			<div class='col-sm-8 col-xs-12'>
-				휴대폰번호 :
-				<span class='Phone'>010-5109-3286</span>
-			</div>
-			<div class='col-sm-8 col-xs-12'>
-				전화번호 :
-				<span class='Tel'>02-6453-3286</span>
-			</div>
-			
+		<div class='MemberInfo clearfix text-center nullMember'>
+			고객을 선택해주세요			
 		</div>
 	</div>
-	<div id='PointInfo' class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
-		<div id='PointArea'  style='border:1px solid #ccc'>
-		
+	<div id='PointInfo' class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right' >
+		<div class='PointInfo clearfix'  style = 'border:1px solid #ccc'>
+			<div class='clearfix'>
+				<div class='col-sm-1 col-xs-1'></div>		
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2 img-responsive'>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+			</div>
+			<br/>
+			<div class='clearfix'>
+				<div class='col-sm-1 col-xs-1'></div>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+				<img src='../../images/StampImg/NullStamp.png' class='col-sm-2 col-xs-2'>
+			</div>
 		</div>
-	</div>
+	</div>		
 	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
 		3
 	</div>
@@ -264,7 +341,7 @@ function MemberPointSearch(No){
 <div class='PopUpPage col-sm-push-2 col-sm-8 col-xs-12 clearfix'>
 	<table id="MemberList"></table>
 	<div id="MemberGridPager"></div>
-	<button class='SelectMember btn btn-default col-sm-5 col-xs-5'>선택</button>
+	<button id = 'SelectMember' class='SelectMember btn btn-default col-sm-5 col-xs-5'>선택</button>
 	<button class='CancelMember btn btn-default col-sm-push-2 col-xs-push-2 col-sm-5 col-xs-5'>취소</button>
 </div>
 </body>

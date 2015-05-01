@@ -58,7 +58,7 @@
 				pQuery += "VALUE ("+ iProduct_No + ", "+ pStore_No +", "+ pCategoryBig + ", "+ pCategoryMiddle + ", '"+ pName + "', "+ pPrice + ", '"+ pContents + "', CURRENT_TIMESTAMP, "+ pStore_No +");";
 			} else {
 				iProduct_No = Integer.parseInt(pNo);
-				pQuery = "UPDATE Product SET CategoryBig = '" + pCategoryBig + "',  CategoryMiddle = '" + pCategoryMiddle + "', Name = '" + pName + "', Price = '" + pPrice + "' , Contents = '" + pContents + "WHERE ProductNo = " + iProduct_No +";";		
+				pQuery = "UPDATE Product SET CategoryBig = '" + pCategoryBig + "',  CategoryMiddle = '" + pCategoryMiddle + "', Name = '" + pName + "', Price = '" + pPrice + "' , Contents = '" + pContents + "WHERE ProductNo = " + pNo +";";		
 			}			
 		} else {
 			pQuery = "SELECT CategoryBig, CategoryMiddle, Name, Price, Contents FROM Product WHERE ProductNo = " + pNo;
@@ -79,8 +79,8 @@
 		out.print("DB 접속 실패");
 		e.printStackTrace();
 	}
-	out.println(pinsert += "("); 	
-	out.println("{\"data\":{\"CategoryBig\":\""+ pCategoryBig +"\",\"CategoryMiddle\":\""+ pCategoryMiddle +"\",\"Name\":\""+ pName +"\",\"Price\":\""+ pPrice +"\",\"Contents\":\""+ pContents +"\"}}");
+	out.println(pinsert + "(");
+	out.println("{\"data\":{\"CategoryBig\":\""+ pCategoryBig +"\",\"CategoryMiddle\":\""+ pCategoryMiddle +"\",\"Name\":\""+ pName +"\",\"Price\":\""+ pPrice +"\",\"Contents\":"+ pContents +"}}");
 	out.println(")");
 %>
 

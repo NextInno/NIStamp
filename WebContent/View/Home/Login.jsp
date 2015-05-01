@@ -10,22 +10,27 @@
 $(document).ready(function() {
 	<% String Session_No = null; %> 
 	
-	$('#loginbtn').click(function(){
+	$('#test').click(function(){
+		var id = $('#id').val();
+		var pw = $('#password').val();
+		//alert(id + pw);
 	    $.ajax({
             type: 'POST',
             dataType: 'jsonp',
-            data: { 'Id': $('#id').val(), 'Pw':$('#password').val() },
+            data: { 'Id': id , 'Pw':pw },
             url: '../../Controller/Home/Login.jsp',
+            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
+            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
             jsonp: 'login',
             success:function(json) {
-				alert($('#id').val() + "님 반갑습니다.");
+				alert(id + "님 반갑습니다.");
    				window.location.href = "Index.jsp";
             },
             error:function(){
         	    alert('아이디와 비밀번호를 확인해주세요');
             }
         });	
-	});
+	})
 });
 </script>
 </head>
@@ -35,7 +40,7 @@ $(document).ready(function() {
 		<div class="loginArea">
 			<p><span> ID : </span><input type="text" id="id" value="" placeholder = "Admin" ></p>
 			<p><span> PassWord : </span><input type="password" id="password" placeholder = "Admin1!" ></p>
-			<p><button id="loginbtn">Login</button></p>
+			<p><button id = "test">link</button></p>
 		</div>
 	</div>
 	<div id='hidden'><input type='text' name='hidden_No' id='hidden_No' value = ''/></div>

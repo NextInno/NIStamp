@@ -15,103 +15,87 @@
 <link href="../../css/MenuBtn.css" rel="stylesheet" type ="text/css"/>
 
 
+
+
 <script>
 $(document).ready(function(){
-	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
-	var no = '<%= request.getParameter("no")%>';
-	
-	if(Session_No == 'null') {
-		document.location.href = "../Home/Login.jsp";
-	} else{
-		//수정할 때 
-		if(no != '' && no != 'null'){
-			$.ajax({
-				type: 'POST',
-				dataType: 'jsonp',
-				jsonp: 'insert',
-				data:{
-					 'no' : no
-				},
-				url: '../../Controller/Product/ProductInsert.jsp',
-	            success: function(json){
-	            	$("#CategoryBig").val(json.data.CategoryBig);
-	        		$("#CategoryMiddle").val(json.data.CategoryMiddle);
-	        		$("#Name").val(json.data.Name);
-	        		$("#Price").val(json.data.Price);
-	        		$("#Contents").val(json.data.Contents);
-	            },
-	            error:function(){
-	            	alert('입력 값을 확인해주세요!');
-	            }
-			});
-		} else {
-			no = null;
-		}
-		
-		$("#insert").click(function(){
-			var CategoryBig = $("#CategoryBig").val();
-			var CategoryMiddle = $("#CategoryMiddle").val();
-			var Name = $("#Name").val();
-			var Price = $("#Price").val();
-			var Contents = $("#Contents").val();
-			
-			if(CategoryBig == "") {
-				alert("카테고리를 입력하세요.");
-				return;
-			}
-			if(CategoryMiddle == "") {
-				alert("카테고리를 입력하세요.");
-				return;
-			}
-			if(Name == "") {
-				alert("상품명을 입력하세요.");
-				return;
-			}
-			if(Price == "") {
-				alert("상품가격을 입력하세요.");
-				return;
-			}
-			
-		//	alert(CategoryBig);
-		//	alert(CategoryMiddle);
-		//	alert(Name);
-		//	alert(Price);
-		//	alert(Contents);
-			
-			$.ajax({
-				type: 'POST',
-				dataType: 'jsonp',
-				jsonp: 'insert',
-				url: '../../Controller/Product/ProductInsert.jsp',
-				data: {
-					  'CategoryBig' : CategoryBig
-					, 'CategoryMiddle' : CategoryMiddle
-					, 'Name' : Name
-					, 'Price' : Price
-					, 'Contents' : Contents
-					, 'no' : no
-				},
-	            success: function(json) {
-	            	var message = confirm("상품 리스트로 돌아가시겠습니까?");
-	            	
-	            	if(message == true) {
-	            		//window.location.href="";
-	            		alert("success");
-	            	}
-	            	else {
-	            		alert("error");
-	            	}
-	            },
-	            error:function() {
-	            	alert('등록시 입력 값을 확인해주세요!');
-	            }
-			})
-		});
-		$("#cancel").click(function() {
-			window.location.href="../Product/ProductList.jsp";
-		});
+	var no = '<%=request.getParameter("no")%>';
+//	var insert = "insert";
+	//수정할 때 
+	if(no != '' && no != 'null'){
+		$.ajax({
+			type: 'POST',
+			dataType: 'jsonp',
+			jsonp: 'insert',
+			data:{
+				 'no' : no
+			},
+			url: '../../Controller/Product/ProductInsert.jsp', 
+            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
+            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
+            success:function(jsonp){
+            	$("#CategoryBig").val(json.data.CategoryBig);
+        		$("#CategoryMiddle").val(json.data.CategoryMiddle);
+        		$("#Name").val(json.data.Name);
+        		$("#Price").val(json.data.Price);
+        		$("#Contents").val(json.data.Contents);
+            },
+            error:function(){
+            	alert('입력 값을 확인해주세요!');
+            }
+		})
+
+	}else{
+		no = null;
 	}
+	
+	$("#insert").click(function(){
+		var CategoryBig = $("#CategoryBig").val();
+		var CategoryMiddle = $("#CategoryMiddle").val();
+		var Name = $("#Name").val();
+		var Price = $("#Price").val();
+		var Contents = $("#Contents").val();
+		
+	//	alert(CategoryBig);
+	//	alert(CategoryMiddle);
+	//	alert(Name);
+	//	alert(Price);
+	//	alert(Contents);
+		
+		$.ajax({
+			type: 'POST',
+			dataType: 'jsonp',
+			jsonp: 'insert',
+			url: '../../Controller/Product/ProductInsert.jsp',
+			data:{
+				  'CategoryBig' : CategoryBig
+				, 'CategoryMiddle' : CategoryMiddle
+				, 'Name' : Name
+				, 'Price' : Price
+				, 'Contents' : Contents
+				, 'no' : no
+			},
+            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
+            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
+            success:function(json){
+            	var message = confirm("상품 리스트로 돌아가시겠습니까?");
+            	if(message == true){
+            		//window.location.href="";
+            		alert("success");
+            	}
+            	else{
+            		alert("error");
+            	}
+            },
+            error:function(){
+            	alert('등록시 입력 값을 확인해주세요!');
+            }
+		})
+	});
+
+	
 });
+	
 </script>
 
 </head>
@@ -121,11 +105,11 @@ $(document).ready(function(){
 		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
 	</div>
 	<div id = 'Nav' class= 'col-md-12 clearfix'>
-		<a href= '../Home/Index.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>홈</a>
 		<a href= '../Home/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>교환상품등록</a>
-		<a href= '../Product/ProductList.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>상품목록</a>
+		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
+		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 	</div>
 	<br/>
@@ -154,9 +138,9 @@ $(document).ready(function(){
 		</td>
 	</tr>
 	<tr>
-		<td align="center" colspan="6" class ='col-sm-12 col-xs-1'>
-			<button id='insert' class='btn btn-default col-sm-push-5 col-xs-push-2 col-sm-1 col-xs-5'>입력</button>
-			<button id='cancel' class='btn btn-default col-sm-push-5 col-xs-push-2 col-sm-1 col-xs-5 '>취소</button>
+		<td align="center" colspan="6">
+			<button id='insert' class='insert'>저장</button>
+			<button id='cancel' class='cancel'>취소</button>
 		</td>
 	</tr>
 </table>
