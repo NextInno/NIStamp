@@ -80,7 +80,7 @@
 		e.printStackTrace();
 	}
 	out.println(pinsert + "(");
-	out.println("{\"data\":{\"CategoryBig\":\""+ pCategoryBig +"\",\"CategoryMiddle\":\""+ pCategoryMiddle +"\",\"Name\":\""+ pName +"\",\"Price\":\""+ pPrice +"\",\"Contents\":"+ pContents +"}}");
+	out.println("{\"data\":{\"CategoryBig\":\""+ pCategoryBig +"\",\"CategoryMiddle\":\""+ pCategoryMiddle +"\",\"Name\":\""+ pName +"\",\"Price\":\""+ pPrice +"\",\"Contents\":\""+ pContents +"\"}}");
 	out.println(")");
 %>
 
