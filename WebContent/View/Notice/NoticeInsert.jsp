@@ -16,6 +16,68 @@
 <script src="../../js/jqGrid/js/i18n/grid.locale-kr.js" type="text/javascript"></script>
 <script src="../../js/datePicker/jquery-ui.js" type="text/javascript"></script>
 <script src="../../js/datePicker/jquery.ui.datepicker-ko.js" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+	var no = '<%= request.getParameter("no")%>';
+	if(no != '' && no != 'null'){
+		$.ajax({
+            type: 'POST',
+            dataType: 'jsonp',
+            jsonp: 'insert',
+            data: { 
+        	    'no': no
+		    },
+		    url: '../../Controller/Notice/NoticeInsert.jsp',
+            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
+            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
+            success:function(json) {
+            	var StringTemp =json.data.Content.replace(/<br\/>/g, '\n');
+        	    $('#TitleInput').val(json.data.Title);
+        	    $('#ContentInput').val(StringTemp);
+        	    $('#InsertNotice').val('수정');
+        	    
+            },
+            error:function(){
+        	    alert('입력값이 잘못되었습니다.');
+            }
+        });
+	}else{
+		no = '';
+	}
+	$('#InsertNotice').click(function(){
+		var Title = $('#TitleInput').val();
+		var Content = $('#ContentInput').val();
+		alert(Content);
+		$.ajax({
+            type: 'POST',
+            dataType: 'jsonp',
+            jsonp: 'insert',
+		    url: '../../Controller/Notice/NoticeInsert.jsp',
+            data: { 
+        	      'Title': Title
+        	    , 'Content': Content
+				, 'no' : no
+		    },
+            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
+            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
+            success:function(json) {		        	 
+        	    var message = confirm("메인화면으로 돌아가시겠습니까?");
+        	    if(message == true){
+        	    	window.location.href ="Notice.jsp";
+        	    }else{
+        	    	window.location.reload(true);
+        	    }
+            },
+            error:function(){
+        	    alert('입력값이 잘못되었습니다.1');
+            }
+        });
+	});
+	$('#cancel').click(function(){
+		window.location.assign('Notice.jsp');
+	});
+});
+</script>
 </head>
 <body>
 <div id='header'>
@@ -37,8 +99,8 @@
 		<input type='text' id='TitleInput' name='TitleInput' class='col-sm-8 col-xs-10 ' placeholder='제목을 입력해주세요'>
 	</div>
 	<div id='TextContentArea' class='col-sm-push-2 col-sm-8 col-xs-12 clearfix' style='border: 1px solid #ccc'>
-		<label for='Content' class='hidden'>Content</label>
-		<textarea id = 'Content' name='Content' class='col-sm-12 col-xs-12' rows='20' resize='inherit' style='resize:inherit'></textarea>
+		<label for='ContentIput' class='hidden'>Content</label>
+		<textarea id = 'ContentInput' name='ContentInput' class='col-sm-12 col-xs-12' rows='20' resize='inherit' style='resize:inherit'></textarea>
 	</div>
 	<div id='ButtonArea' class='col-sm-push-2 col-sm-8 col-xs-12 clearfix' style='border:1px solid #ccc'>
 		<input type='button' id='InsertNotice' class='btn btn-default col-sm-push-2 col-sm-2 col-xs-push-1 col-xs-3' role='button' value='저장'>

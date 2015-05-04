@@ -16,6 +16,99 @@
 <script src="../../js/jqGrid/js/i18n/grid.locale-kr.js" type="text/javascript"></script>
 <script src="../../js/datePicker/jquery-ui.js" type="text/javascript"></script>
 <script src="../../js/datePicker/jquery.ui.datepicker-ko.js" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
+	if(Session_No == 'null') {
+		document.location.href = "Login.jsp";
+	}
+	else{
+		$('#MemberGrid').jqGrid({
+			caption: '회원 목록'
+			, url: '../../Controller/Notice/NoticeList.jsp'
+			, mtype: 'POST'
+			, datatype: 'JSON'
+			, colNames: [ 'No', '제목', '작성일' ]
+	        , colModel: [
+	                { name: 'No', index: 'No', width: 60, hidden: true },
+	                { name: 'Title', index: 'Name', width: 150 },
+	                { name: 'CreateDate', index: 'CreateDate', width: 50, align: 'center' }
+        		]
+		    , gridview: true
+            , rownumbers: true
+			, rowNum: 25
+			, rowList: [25, 50, 100]
+			, pager: '#MemberGridPager'
+			, height: 400
+			, width: 'auto'
+			, viewrecords: true
+			, multiselect: true
+			, loadonce: true
+			, ondblClickRow: function (rowid, rowIndex, cellIndex, event) {
+	            var rowdata = $('#MemberGrid').getRowData(rowid);
+	            location.href = '../Notice/NoticeInsert.jsp?no=' + rowdata.No;
+	        }
+			, jsonReader: {
+				page: 'page', 
+				total: 'total', 
+				root: 'rows', 
+				records: function(obj){ return obj.length; },
+				repeatitems: false
+			}
+		}).navGrid('#MemberGridPager',
+			{ 
+				'edit': false
+				, 'add': false
+				, 'del': false
+				, 'search': false
+				, 'refresh': true
+				, 'view': false
+				, 'position': 'left'
+				, 'cloneToTop': false
+			}
+		);	
+		//$('#MemberGrid').trigger('reloadGrid');
+		$('#Modifybtn').click(function(){
+			var ModifyMemberData = $('#MemberGrid').getGridParam("Phone");
+			alert(ModifyMemberData);
+		});
+		$('#Deletebtn').click(function(){
+			var rowObject = $('#MemberGrid').getGridParam('selarrrow');
+	        var data = "";
+	        for (var i = 0; i < rowObject.length; i++) {
+	            var rowdata = $('#MemberGrid').getRowData(rowObject[i]);
+	            if ((i + 1) == rowObject.length) {
+	                data += rowdata.No;
+	            } else {
+	                data += rowdata.No + ',';
+	            }
+	        }
+
+	        if (rowObject.length == 0) {
+	            alert('선택된 자료가 없습니다.');
+	            return false;
+	        } else {
+	            if (!confirm(rowObject.length + '건을 삭제하시겠습니까?')) return;
+				 
+	            $.ajax({
+	            	type: 'POST'
+	                , dataType: 'jsonp'
+	                , data: { 'No': data }
+	                , url: '../../Controller/Member/MemberDelete.jsp'
+	                , jsonp: 'delete'
+	                , success: function(json) {
+	    				alert('삭제 성공!');
+	                }
+	                , error: function(){
+	            	    alert('삭제 실패ㅜ');
+	                }
+	            });
+	        }
+	        $('#searchbtn').click();
+		});
+	}
+});
+</script>
 </head>
 <body>
 <div id='header'>
@@ -32,7 +125,14 @@
 	</div>
 </div>
 <div id='container'>
-	
+	<div class='col-sm-12 col-xs-12'>
+		<table id="MemberGrid" ></table>
+		<div id="MemberGridPager"></div>
+	</div>
+	<div class='row col-sm-12 col-xs-12'>
+		<input id="Modifybtn" type = 'button' value = "고객 수정">
+		<input id="Deletebtn" type = 'button' value = "고객 삭제">
+	</div>
 	
 </div>
 

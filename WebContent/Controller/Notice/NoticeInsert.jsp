@@ -14,9 +14,13 @@
 	String sContent = request.getParameter("Content");
 	String sStore_No = (String)session.getAttribute("Store_No");
 	String sinsert = request.getParameter("insert");
-
-	if( sTitle != null && sContent != null){
-		
+	
+	if(sno == ""){
+		sno = null;
+	}
+	
+	if( sContent != null){
+		sContent = sContent.replaceAll("\n","<br/>");
 	}
 	
 	
@@ -32,27 +36,23 @@
 		ResultSet rs = null;
 		String sQuery = null;
 		if(sTitle != null && sContent != null){
-			Integer iNotice_No=null;
 			if(sno ==null){
-				String smemNoQuery = "SELECT MAX(NotieNo) AS 'NotieNo' FROM Notice WHERE Store_No = " + sStore_No + " GROUP BY Store_No";
-				rs = stat.executeQuery(smemNoQuery);
-				rs.last();
-				iNotice_No = rs.getInt("MemberNo") + 1;
-				sQuery = "INSERT INTO Notice (NoticeNo, Store_No, Title, Content , CreateDate, CreateBy) ";
-				sQuery += "VALUES (" + iNotice_No + ", "+ Integer.parseInt(sStore_No) +", '"+ sTitle+", '"+ sContent +", CURRENT_TIMESTAMP, "+ Integer.parseInt(sStore_No) +")";
+
+				sQuery = "INSERT INTO Notice ( Store_No, Title, Content , CreateDate, CreateBy) ";
+				sQuery += "VALUES ( "+ Integer.parseInt(sStore_No) +", '"+ sTitle+"', '"+ sContent +"', CURRENT_TIMESTAMP, "+ Integer.parseInt(sStore_No) +")";
 			}else{
 	
-				sQuery = "UPDATE Member SET NoticeNo = '"+iNotice_No +"' , Title = '"+ sTitle +"' , Content = '" + sContent + " , UpdateDate = CURRENT_TIMESTAMP , UpdateBy = " + sStore_No + "   WHERE NoticeNo = " + sno + ";";
+				sQuery = "UPDATE Notice SET  Title = '"+ sTitle +"' , Content = '" + sContent + "' , UpdateDate = CURRENT_TIMESTAMP , UpdateBy = " + sStore_No + "   WHERE No = " + sno + ";";
 			}
 			
 			
 			
 		}else{
-			sQuery = "SELECT Title, Content FROM Member WHERE NoticeNo = " + sno;
+			sQuery = "SELECT Title, Content FROM Notice WHERE No = " + sno;
 			
 		}
 		rs = stat.executeQuery(sQuery);
-		if( sTitle != null && sContent != null ){
+		if( sTitle == null && sContent == null ){
 			while(rs.next()){
 				sTitle = rs.getString("Title");
 				sContent = rs.getString("Content");
@@ -65,7 +65,7 @@
 	}
 	
 		out.println(sinsert + "(");
-		out.println("{\"data\":{\"Title\":\""+ sTitle +"\",\"Content\":\""+ sContent  +"}}");
+		out.println("{\"data\":{\"Title\":\""+ sTitle +"\",\"Content\":\""+ sContent  +"\"}}");
 		out.println(")");
 	
 %>
