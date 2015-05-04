@@ -21,7 +21,6 @@
 $(document).ready(function() {
 	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
 	
-	
 	if(Session_No == 'null') {
 		document.location.href = "../Home/Login.jsp";
 	} else {
@@ -67,7 +66,53 @@ $(document).ready(function() {
 				, 'position': 'left'
 				, 'cloneToTop': false
 			}
-		);	
+		);
+		$('#refresh_ProductGrid').click(function() {
+			search();
+		});
+		$('#Deletebtn').click(function(){
+			var rowObject = $('#ProductGrid').getGridParam('selarrrow');
+	        var data = "";
+	        for (var i = 0; i < rowObject.length; i++) {
+	            var rowdata = $('#ProductGrid').getRowData(rowObject[i]);
+	            if ((i + 1) == rowObject.length) {
+	                data += rowdata.No;
+	            } else {
+	                data += rowdata.No + ',';
+	            }
+	        }
+
+	        if (rowObject.length == 0) {
+	            alert('선택된 상품이 없습니다.');
+	            return false;
+	        } else {
+	            if (!confirm(rowObject.length + '건을 삭제하시겠습니까?')) return;
+				 
+	            $.ajax({
+	            	type: 'POST'
+	                , dataType: 'jsonp'
+	                , data: { 'No': data }
+	                , url: '../../Controller/Product/ProductDelete.jsp'
+	                , jsonp: 'delete'
+	                , success: function(json) {
+	    				alert('삭제 성공!');
+	    				search();
+	                }
+	                , error: function(){
+	            	    alert('삭제 실패ㅜ');
+	                }
+	            });
+	        }
+		});
+		function search() {
+			$('#ProductGrid').setGridParam({
+	            url: '../../Controller/Product/ProductList.jsp'
+	            , datatype: 'JSON'
+	            , mtype: 'POST'
+	            , page: 1
+	            , postData: { }
+	        }).trigger('reloadGrid');			
+		}
 	}
 });
 </script>
@@ -78,11 +123,11 @@ $(document).ready(function() {
 		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
 	</div>
 	<div id = 'Nav' class= 'col-md-12 clearfix'>
+		<a href= '../Home/Index.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>홈</a>
 		<a href= '../Home/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>교환상품등록</a>
 		<a href= '../Product/ProductList.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>상품목록</a>
-		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 	</div>
 	<br/>
@@ -91,6 +136,10 @@ $(document).ready(function() {
 <div>
 	<table id="ProductGrid"></table>
 	<div id="ProductGridPager"></div>
+</div>
+<br>
+<div class='row col-sm-12 col-xs-12'>
+	<input id="Deletebtn" type = 'button' value = "상품 삭제">
 </div>
 </body>
 </html>

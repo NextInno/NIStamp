@@ -10,7 +10,7 @@
 $(document).ready(function() {
 	<% String Session_No = null; %> 
 	
-	$('#test').click(function(){
+	$('#loginbtn').click(function(){
 		var id = $('#id').val();
 		var pw = $('#password').val();
 		//alert(id + pw);
@@ -40,7 +40,7 @@ $(document).ready(function() {
 		<div class="loginArea">
 			<p><span> ID : </span><input type="text" id="id" value="" placeholder = "Admin" ></p>
 			<p><span> PassWord : </span><input type="password" id="password" placeholder = "Admin1!" ></p>
-			<p><button id = "test">link</button></p>
+			<p><button id = "loginbtn">link</button></p>
 		</div>
 	</div>
 	<div id='hidden'><input type='text' name='hidden_No' id='hidden_No' value = ''/></div>

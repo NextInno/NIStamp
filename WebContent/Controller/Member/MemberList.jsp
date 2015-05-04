@@ -19,8 +19,6 @@ String DB_id = NiModuleConfig.getInstance().getDB_ID();
 String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 
 String sQuery = "";
-String sFromDate = request.getParameter("FromDate");
-String sToDate = request.getParameter("ToDate");
 String sName = request.getParameter("Name");
 String sPhone = request.getParameter("Phone");
 String sBirth = request.getParameter("Birth");
@@ -35,12 +33,6 @@ try {
 	
 	sQuery = "SELECT No, Name, Birth, CASE Gender WHEN 0 THEN '남자' ELSE '여자' END AS 'Gender', Phone, Tel FROM Member WHERE IsDelete = 0 AND Store_No = " + sStore_No;
 	
-	if(sFromDate != null && sFromDate != "") {
-		sQuery += " AND CreateDate >= '" + sFromDate + " 00:00:00'";
-	}
-	if(sToDate != null && sToDate != "") {
-		sQuery += " AND CreateDate <= '" + sToDate + " 23:59:59'";
-	}
 	if(sName != null && sName != "") {
 		sQuery += " AND Name LIKE '%" + sName + "%'";
 	}

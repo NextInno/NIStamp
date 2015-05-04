@@ -70,8 +70,7 @@ $(document).ready(function() {
 				, 'position': 'left'
 				, 'cloneToTop': false
 			}
-		);	
-		//$('#MemberGrid').trigger('reloadGrid');
+		);
 		$('#searchbtn').click(function() {
 			$('#MemberGrid').setGridParam({
 	            url: '../../Controller/Member/MemberList.jsp'
@@ -79,8 +78,6 @@ $(document).ready(function() {
 	            , mtype: 'POST'
 	            , page: 1
 	            , postData: {
-	                FromDate: $('#fromdate').val(),
-	                ToDate: $('#todate').val(),
 	                Name: $('#name').val(),
 	                Phone: $('#phone').val(),
 	                Birth: $('#birth').val()
@@ -104,7 +101,7 @@ $(document).ready(function() {
 	        }
 
 	        if (rowObject.length == 0) {
-	            alert('선택된 자료가 없습니다.');
+	            alert('선택된 고객이 없습니다.');
 	            return false;
 	        } else {
 	            if (!confirm(rowObject.length + '건을 삭제하시겠습니까?')) return;
@@ -143,12 +140,15 @@ $(document).ready(function() {
             $('#phone').val('');
             $('#birth').val('');
             $('#searchbtn').click();
-		})
+		});
 		$('.datepicker').datepicker({
 	        changeMonth: true,
 	        changeYear: true,
 	        yearRange: "1930:2015"
 	    });
+		$('#refresh_MemberGrid').click(function() {
+			$('#searchbtn').click();
+		});
 	}
 });
 </script>
@@ -174,17 +174,6 @@ $(document).ready(function() {
 	<br/>
 	<div id = 'searchArea' class='clearfix'>
 		<form class="form-horizontal col-md-12">
-			<div class="form-inline">
-			    <div class="form-group col-sm-4 col-xs-12">
-			        <label for="fromdate" class = ''>검색시작일</label>
-			        <input type="text" class="form-control datepicker" id="fromdate" placeholder="시작 날짜">
-			    </div>
-			  
-			    <div class="form-group col-sm-4 col-xs-12">
-			        <label for="todate" class = ''>검색종료일</label>
-			        <input type="text" class="form-control datepicker" id="todate" placeholder="종료 날짜">
-			    </div>
-			</div>
 		    <div class= 'clearfix col-xs-12 col-sm-12'></div>
 		    <div class="form-group col-xs-12 col-sm-4 clearfixs" >
 		        <label for="name">이름</label>
@@ -210,12 +199,12 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-</div>
+</div><br>
 <div class='col-sm-12 col-xs-12'>
 	<table id="MemberGrid" ></table>
 	<div id="MemberGridPager"></div>
 </div>
-
+<br><br>
 <div class='row col-sm-12 col-xs-12'>
 	<input id="Modifybtn" type = 'button' value = "고객 수정">
 	<input id="Deletebtn" type = 'button' value = "고객 삭제">
