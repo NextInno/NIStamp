@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>상품 목록 </title>
+<title>카테고리 목록 </title>
 
 <link href="../../js/jqGrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
 <link href="../../js/jqGrid/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css"/>
@@ -112,7 +112,10 @@ $(document).ready(function() {
 	            , page: 1
 	            , postData: { }
 	        }).trigger('reloadGrid');			
-		}
+	 	}
+        $("#insertpage").click(function(){
+            window.location.href="../Product/ProductInsert.jsp";
+        });
 	}
 });
 </script>
@@ -138,8 +141,9 @@ $(document).ready(function() {
 	<div id="ProductGridPager"></div>
 </div>
 <br>
-<div class='row col-sm-12 col-xs-12'>
-	<input id="Deletebtn" type = 'button' value = "상품 삭제">
+<div class='row col-sm-12 col-xs-1'>
+   <input id="insertpage" type = 'button' value = "상품 등록">
+   <input id="Deletebtn" type = 'button' value = "상품 삭제">
 </div>
 </body>
 </html>
