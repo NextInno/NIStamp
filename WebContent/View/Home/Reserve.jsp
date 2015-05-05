@@ -5,7 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title> Welcome To &amp; Stamp </title>
 
-
 <link href="../../js/jqGrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
 <link href="../../js/jqGrid/jquery-ui/jquery-ui.css" rel="stylesheet" type="text/css"/>
 <link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
@@ -115,6 +114,114 @@ $(document).ready(function() {
 	            }
 	        }).trigger('reloadGrid');
 			$('.PopUpPage').css('display','block');
+		});
+		$.ajax({
+			url: '../../Controller/Product/CategoryLoad.jsp',
+	        type: 'POST',
+	        dataType: 'JSON',
+	        jsonp: 'insert',
+	        data: { 
+		   		'BigCategoryNo' : ''
+	   		 },
+	   		success:function(json) {
+	   			var temp ='';
+	   			var BigCategoryList = new Array();
+	 	    	for(i = 0 ; i < json.rows.length; i++){
+	 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
+	 	    		alert(temp);
+	 	    		$('#BigCategory').append(temp);
+	 	    		BigCategoryList.push(json.rows[i].CategoryName +',' + json.rows[i].No);
+	 	    		 
+	 	    	}
+	 	    	alert(BigCategoryList);
+	 	    	
+	 	    },
+	 	    error:function(json){
+	 	    	alert('통신에러입니다..');
+	     	
+	     	}
+	 	  });
+		$('#BigCategory').on('change',function(){
+			if($(this).val() == 0){
+				$('#MiddleCategory').html("<option>2차 카테고리</option>");
+				$('#MenuList').html("<option>메뉴</option>");
+			}
+			else{
+				$('#MiddleCategory').html("");
+				$.ajax({
+					url: '../../Controller/Product/CategoryLoad.jsp',
+			        type: 'POST',
+			        dataType: 'JSON',
+			        jsonp: 'insert',
+			        data: { 
+				   		'BigCategoryNo' : $(this).val()
+			   		 },
+			   		success:function(json) {
+			   			var temp ='';
+			 	    	for(i = 0 ; i < json.rows.length; i++){
+			 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
+			 	    		$('#MiddleCategory').append(temp);
+			 	    	}
+			 	    	$.ajax({
+							url: '../../Controller/Product/ProductList.jsp',
+					        type: 'POST',
+					        dataType: 'JSON',
+					        jsonp: 'insert',
+					        data: { 
+						   		'Location' : 'Reserve'
+						   		,'no' : $('#MiddleCategory').first('option').val()
+					   		 },
+					   		success:function(json) {
+					   			var temp ='';
+					   			$('#MenuList').html('');
+					 	    	for(i = 0 ; i < json.rows.length; i++){
+					 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name + "</option>";
+					 	    		$('#MenuList').append(temp);
+					 	    	}
+					 	    	
+					 	    },
+					 	    error:function(json){
+					 	    	alert('통신에러입니다..');
+					     	
+					     	}
+					 	 });
+			 	    	
+			 	    },
+			 	    error:function(json){
+			 	    	alert('통신에러입니다..');
+			     	
+			     	}
+			 	 });
+			}
+			
+		});
+		
+		$('#MiddleCategory').on('change', function(){
+			var MiddleCategory = $(this).val();
+			$.ajax({
+				url: '../../Controller/Product/ProductList.jsp',
+		        type: 'POST',
+		        dataType: 'JSON',
+		        jsonp: 'insert',
+		        data: { 
+			   		'Location' : 'Reserve'
+			   		,'no' : MiddleCategory
+		   		 },
+		   		success:function(json) {
+		   			var temp ='';
+		   			$('#MenuList').html('');
+		 	    	for(i = 0 ; i < json.rows.length; i++){
+		 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name + "</option>";
+		 	    		$('#MenuList').append(temp);
+		 	    	}
+		 	    	
+		 	    },
+		 	    error:function(json){
+		 	    	alert('통신에러입니다..');
+		     	
+		     	}
+		 	 });
+			
 		});
 		
 		$('#SelectMember').on('click',function(){
@@ -335,7 +442,15 @@ function ShowPointInfo(totalStamp, Amount){
 		</div>
 	</div>		
 	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
-		3
+		<select id='BigCategory' class='col-sm-4 col-xs-12'>
+			<option value='0'>1차 카테고리</option>
+		</select>
+		<select id='MiddleCategory' class='col-sm-4 col-xs-12'>
+			<option>2차 카테고리</option>
+		</select>
+		<select id='MenuList' class='col-sm-4 col-xs-12'>
+			<option>메뉴</option>
+		</select>
 	</div>
 </div>
 <div class='PopUpPage col-sm-push-2 col-sm-8 col-xs-12 clearfix'>

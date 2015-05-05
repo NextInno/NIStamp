@@ -18,8 +18,8 @@
 	NiModuleConfig.setLogger();
 
 	String pStore_No = (String)session.getAttribute("Store_No");
-	String sBigCategoryNo = (String)session.getAttribute("BigCategoryNo");
-	if(sBigCategoryNo == null){
+	String sBigCategoryNo = request.getParameter("BigCategoryNo");
+	if(sBigCategoryNo == ""){
 		sBigCategoryNo = "0";
 	}
 	String driverName = "org.mariadb.jdbc.Driver";
