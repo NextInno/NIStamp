@@ -9,7 +9,9 @@
 <script>
 $(document).ready(function() {
 	<% String Session_No = null; %> 
-	
+	if(<%= (String)session.getAttribute("Store_No") %>){
+		location.href='Index.jsp';
+	}
 	$('#loginbtn').click(function(){
 		var id = $('#id').val();
 		var pw = $('#password').val();
