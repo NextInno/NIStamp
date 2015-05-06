@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,9 +29,6 @@ $(document).ready(function() {
 			, url: '../../Controller/Product/ProductList.jsp'
 			, mtype: 'POST'
 			, datatype: 'JSON'
-			, postData: {
-               Location: "Product"
-			}
 			, colNames: [ 'No', '1차 카테고리', '2차 카테고리', '상품명', '상품가격', '상품설명', '적립가능여부', '교환가능여부' ]
 	        , colModel: [
 					{ name: 'No', index: 'No', width: 60, hidden: true },
