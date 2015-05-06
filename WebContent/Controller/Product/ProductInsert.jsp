@@ -27,6 +27,10 @@
 	String pPrice = request.getParameter("Price");
 	String pContents = request.getParameter("Contents");
 	String pStore_No = (String)session.getAttribute("Store_No");
+	String pSaving = request.getParameter("Saving");
+	String pSavingInput = request.getParameter("SavingInput");
+	String pExchange = request.getParameter("Exchange");
+	String pExchangeInput = request.getParameter("ExchangeInput");
 	String pinsert = request.getParameter("insert");
 	
 	String driverName = "org.mariadb.jdbc.Driver";
@@ -54,8 +58,8 @@
 				} else {
 					iProduct_No = rs.getInt("ProductNo") + 1;
 				}
-				pQuery = "INSERT INTO Product (ProductNo, Store_No, CategoryBig, CategoryMiddle, Name, Price, Contents, CreateDate, CreateBy) ";
-				pQuery += "VALUE ("+ iProduct_No + ", "+ pStore_No +", "+ pCategoryBig + ", "+ pCategoryMiddle + ", '"+ pName + "', "+ pPrice + ", '"+ pContents + "', CURRENT_TIMESTAMP, "+ pStore_No +");";
+				pQuery = "INSERT INTO Product (ProductNo, Store_No, CategoryBig, CategoryMiddle, Name, Price, Contents, Saving, SavingInput, Exchange, ExchangeInput, CreateDate, CreateBy) ";
+				pQuery += "VALUE ("+ iProduct_No + ", "+ pStore_No +", "+ pCategoryBig + ", "+ pCategoryMiddle + ", "+ pName + ", "+ pPrice + ", "+ pContents + ", " + pSaving + ", "+ pSavingInput +", "+ pExchange + ", "+ pExchangeInput +", CURRENT_TIMESTAMP , "+ pStore_No +");";
 			} else {
 				iProduct_No = Integer.parseInt(pNo);
 				pQuery = "UPDATE Product SET CategoryBig = '" + pCategoryBig + "',  CategoryMiddle = '" + pCategoryMiddle + "', Name = '" + pName + "', Price = '" + pPrice + "' , Contents = '" + pContents + "WHERE ProductNo = " + pNo +";";		
@@ -72,6 +76,10 @@
 				pName = rs.getString("Name");
 				pPrice = rs.getString("Price");
 				pContents = rs.getString("Contents");
+				pSaving = rs.getString("Saving");
+				pSavingInput = rs.getString("SavingInput");
+				pExchange = rs.getString("Exchange");
+				pExchangeInput = rs.getString("ExchangeInput");
 			}
 		}
 		con.close();
@@ -80,7 +88,7 @@
 		e.printStackTrace();
 	}
 	out.println(pinsert + "(");
-	out.println("{\"data\":{\"CategoryBig\":\""+ pCategoryBig +"\",\"CategoryMiddle\":\""+ pCategoryMiddle +"\",\"Name\":\""+ pName +"\",\"Price\":\""+ pPrice +"\",\"Contents\":\""+ pContents +"\"}}");
+	out.println("{\"data\":{\"CategoryBig\":\""+ pCategoryBig +"\",\"CategoryMiddle\":\""+ pCategoryMiddle +"\",\"Name\":\""+ pName +"\",\"Price\":\""+ pPrice +"\",\"Contents\":\""+ pContents +"\",\"Saving\":\""+ pSaving +"\",\"SavingInput\":\""+ pSavingInput +"\",\"Exchange\":\""+ pExchange +"\",\"ExchangeInput\":\""+ pExchangeInput +"\"}}");
 	out.println(")");
 %>
 
