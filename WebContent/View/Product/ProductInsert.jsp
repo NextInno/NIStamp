@@ -53,6 +53,11 @@ $(document).ready(function(){
 			var Name = $("#Name").val();
 			var Price = $("#Price").val();
 			var Contents = $("#Contents").val();
+			var Saving = $('input[name="saving"]:checked').val();
+			var SavingInput = $("#savingInput").val();
+			var Exchange = $('input[name="exchange"]:checked').val();
+			var ExchangeInput = $("#exchangeInput").val();			
+			
 			
 			if(CategoryBig == "") {
 				alert("카테고리를 입력하세요.");
@@ -71,12 +76,6 @@ $(document).ready(function(){
 				return;
 			}
 			
-		//	alert(CategoryBig);
-		//	alert(CategoryMiddle);
-		//	alert(Name);
-		//	alert(Price);
-		//	alert(Contents);
-			
 			$.ajax({
 				type: 'POST',
 				dataType: 'jsonp',
@@ -88,6 +87,10 @@ $(document).ready(function(){
 					, 'Name' : Name
 					, 'Price' : Price
 					, 'Contents' : Contents
+					, 'Saving' : Saving
+					, 'SavingInput' : SavingInput
+					, 'Exchange' : Exchange
+					, 'ExchangeInput' : ExchangeInput
 					, 'no' : no
 				},
 	            success: function(json) {
@@ -109,6 +112,27 @@ $(document).ready(function(){
 		$("#cancel").click(function() {
 			window.location.href="../Product/ProductList.jsp";
 		});
+
+		if($('input[name="saving"]:checked').val() == "0"){
+			$("#savingInput").show();
+		}
+		$("#savingUse").click(function(){
+			$("#savingInput").show();
+		});
+		$("#savingUnuse").click(function(){
+			$("#savingInput").hide();
+		});
+		
+		if($('input[name="exchange"]:checked').val() == "0"){
+			$("#exchangeInput").show();
+		}		
+		$("#exchangeUse").click(function(){
+			$("#exchangeInput").show();
+		});
+		$("#exchangeUnuse").click(function(){
+			$("#exchangeInput").hide();
+		});
+		
 	}
 });
 </script>
@@ -131,16 +155,20 @@ $(document).ready(function(){
 </div>
 <table width="100%" border="1px" cellspacing="0" cellpadding="0">
 	<tr>
+		<td align="center">1차카테고리 </td>
 		<td align="center">
 			<select id='CategoryBig' class='CategoryBig'>
 				<option>1</option>
 			</select> 
 		</td>
+		<td align="center">2차카테고리 </td>
 		<td align="center">
 			<select id='CategoryMiddle' class='CategoryMiddle'>
 				<option>2</option>
 			</select> 
 		</td>
+	</tr>
+	<tr>
 		<td align="center">상품명 </td>
 		<td align="center"><input type='text' id='Name' class='Name'></td>
 		<td align="center">상품 가격</td>
@@ -150,6 +178,32 @@ $(document).ready(function(){
 		<td align="center">상품 설명</td>
 		<td align="center" colspan="5">
 			<textarea id="Contents" class="Contents"></textarea>	
+		</td>
+	</tr>
+	<tr>	
+		<td align="center">적립가능여부</td>
+		<td align="center">
+			<label for='savingUse'>
+				사용
+			</label>
+			<input type='radio' id ='savingUse' class='savingUse' name = 'saving' value = '0' checked>
+			<label for='savingUnuse' >
+				미사용
+			</label>
+			<input type='radio' id ='savingUnuse' class='savingUnuse' name = 'saving' value = '1'>
+			<input type='text' id ='savingInput' class='savingInput' name = 'savingInput'>
+		</td>
+		<td align="center">교환사용가능여부</td>
+		<td align="center">
+			<label for='exchangeUse'>
+				사용
+			</label>
+			<input type='radio' id ='exchangeUse' class='exchangeUse' name = 'exchange' value = '0' checked>
+			<label for='exchangeUnuse' >
+				미사용
+			</label>
+			<input type='radio' id ='exchangeUnuse' class='exchangeUnuse' name = 'exchange' value = '1'>
+			<input type='text' id ='exchangeInput' class='exchangeInput' name = 'exchangeInput'>
 		</td>
 	</tr>
 	<tr>
