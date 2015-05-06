@@ -31,6 +31,8 @@ $(document).ready(function() {
         	    alert('에러.\n' + json.data.Result);
             }
         });
+	});	
+});	
 </script>
 </head>
 <body>
