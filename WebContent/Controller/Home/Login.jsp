@@ -3,7 +3,7 @@
 <%@ page import="java.sql.Statement" %>
 <%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="ni.module.config.*"%>
+<%@ page import="ni.module.config.NiModuleConfig"%>
 <%@ page import="org.apache.log4j.Logger"%>
 
 <% System.out.println("NIStamp Start!"); %>
@@ -25,27 +25,36 @@
 	String DB_url = NiModuleConfig.getInstance().getDB_SERVER_IP();
 	String DB_id = NiModuleConfig.getInstance().getDB_ID();
 	String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
+	String query = "";
+	String Result = "";
 	
-	System.out.println("DB_url : " + DB_url + ", DB_id = " + DB_id + ", DB_password : " + DB_password );
+	//out.println("DB_url : " + DB_url + ", DB_id = " + DB_id + ", DB_password : " + DB_password );
 	logger.info( "DB_url : " + DB_url + ", DB_id = " + DB_id + ", DB_password : " + DB_password );
 	
 	try {
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 		Statement stat = con.createStatement();
+
+		query = "SELECT * FROM Store WHERE Account = '" + sId + "' AND Password = '" + sPw + "';";
 		
-		ResultSet rs = stat.executeQuery("SELECT * FROM Store WHERE Account = '" + sId + "' AND Password = '" + sPw + "';");
+		ResultSet rs = stat.executeQuery(query);
+
+		logger.debug(query);
+
 		rs.last();
 		int i_CountRow = rs.getRow();
 		Store_No = String.valueOf(rs.getInt("No"));
 		session.setAttribute("Store_No", Store_No);
 		session.setAttribute("ID", sId);
 		con.close();
+		Result = "Success";
 	} catch(Exception e) {
-		out.print("DB연결 에러");
+		//out.print("DB연결 에러");
+		Result = e.getMessage();
 		e.printStackTrace();
 	}
 	out.println(login + "(");
-	out.println("{\"data\":{\"Id\":\""+ sId +"\",\"Pw\":\""+ sPw +"\",\"No\":"+ Store_No +"}}");
+	out.println("{\"data\":{\"Id\":\"" + sId + "\",\"Pw\":\"" + sPw + "\",\"No\":\"" + Store_No + "\",\"Result\":\"" + Result + "\"}}");
 	out.println(")");
 %>

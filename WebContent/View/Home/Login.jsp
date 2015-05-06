@@ -9,9 +9,7 @@
 <script>
 $(document).ready(function() {
 	<% String Session_No = null; %> 
-	if(<%= (String)session.getAttribute("Store_No") %>){
-		location.href='Index.jsp';
-	}
+	
 	$('#loginbtn').click(function(){
 		var id = $('#id').val();
 		var pw = $('#password').val();
@@ -21,15 +19,16 @@ $(document).ready(function() {
             dataType: 'jsonp',
             data: { 'Id': id , 'Pw':pw },
             url: '../../Controller/Home/Login.jsp',
-            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
-            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
             jsonp: 'login',
             success:function(json) {
-				alert(id + "님 반갑습니다.");
-   				window.location.href = "Index.jsp";
+				alert(json.data.Id + "님 반갑습니다.");
+				
+				if (json.data.Result == "Success") {
+					window.location.href = "Index.jsp";
+				}
             },
-            error:function(){
-        	    alert('아이디와 비밀번호를 확인해주세요');
+            error:function(json){
+        	    alert('에러.\n' + json.data.Result);
             }
         });	
 	})
@@ -45,6 +44,5 @@ $(document).ready(function() {
 			<p><button id = "loginbtn">link</button></p>
 		</div>
 	</div>
-	<div id='hidden'><input type='text' name='hidden_No' id='hidden_No' value = ''/></div>
 </body>
 </html>

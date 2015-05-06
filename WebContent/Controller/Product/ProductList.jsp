@@ -37,14 +37,16 @@
 	try {
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
-		if(sLocation == "Product"){
+		
+		if(sLocation != "Reserve") {
 			pQuery = "SELECT No, ProductNo, CategoryBig, CategoryMiddle, Name, Price, Contents FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No;	
-		}
-		else{
+		} else {
 			pQuery = "SELECT No, Name, Price FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No + " AND CategoryMiddle = " + sNo;
 		}
-		
 		pQuery += ";";
+		
+		logger.debug(pQuery);
+		
 		PreparedStatement stmt = con.prepareStatement(pQuery);
 		ResultSet rs = stmt.executeQuery();
 	    JSONArray cellarray = new JSONArray();
@@ -56,8 +58,8 @@
 	    
 	    rs.beforeFirst();
 	    JSONObject cellobj = new JSONObject();
-	    if( sLocation == "Product" ){
-	    	 while(rs.next()){
+	    if(sLocation != "Reserve") {
+	    	 while(rs.next()) {
 	 	    	cellobj.put("No", rs.getString("No"));
 	  	        cellobj.put("CategoryBig", rs.getString("CategoryBig"));
 	 			cellobj.put("CategoryMiddle", rs.getString("CategoryMiddle"));
@@ -66,16 +68,14 @@
 	 			cellobj.put("Contents", rs.getString("Contents"));
 	 	    	cellarray.add(cellobj);
 	 	    }
-	    }
-	    else{
-	    	while(rs.next()){
+	    } else {
+	    	while(rs.next()) {
 	 	    	cellobj.put("No", rs.getString("No"));
 	 			cellobj.put("Name", rs.getString("Name"));
 	 			cellobj.put("Price", rs.getString("Price"));
 	 	    	cellarray.add(cellobj);
 	 	    }
 	    }
-	   
 	    responcedata.put("rows", cellarray);
 		stmt.close();
 		con.close();
