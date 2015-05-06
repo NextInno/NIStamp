@@ -49,7 +49,8 @@ public class NiModuleConfig {
 	// [file]	
 	// ni.conf 는 nixxx.conf로 하고, xxx는 프로젝트명으로 한다.
 	//C:\java\workspace\NI_Module_Jsp_Servlet_log4j_config\logs
-	private String configFileName = "C:\\Users\\신세용\\git\\NIStamp\\conf\\ni.conf";
+	//private String configFileName = "D:\\workspace\\NIStamp\\conf\\ni.conf";
+	private String configFileName = "/usr/local/apache-tomcat-8.0.21/webapps/ROOT/WEB-INF/conf/ni.conf";
 
 	// bwps.conf 
 	private static Properties propConf = null;
