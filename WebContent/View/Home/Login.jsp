@@ -25,6 +25,8 @@ $(document).ready(function() {
 				
 				if (json.data.Result == "Success") {
 					window.location.href = "Index.jsp";
+				} else {
+					alert('에러.\n' + json.data.Result);	
 				}
             },
             error:function(json){

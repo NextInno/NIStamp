@@ -58,7 +58,6 @@ $(document).ready(function(){
 			var Exchange = $('input[name="exchange"]:checked').val();
 			var ExchangeInput = $("#exchangeInput").val();			
 			
-			
 			if(CategoryBig == "") {
 				alert("카테고리를 입력하세요.");
 				return;
@@ -94,18 +93,22 @@ $(document).ready(function(){
 					, 'no' : no
 				},
 	            success: function(json) {
-	            	var message = confirm("상품 리스트로 돌아가시겠습니까?");
-	            	
-	            	if(message == true) {
-	            		alert("success");
-	            		window.location.href="../Product/ProductList.jsp";
-	            	}
-	            	else {
-	            		alert("error");
+	            	if(json.data.Result == "Success") {
+		            	var message = confirm("상품 리스트로 돌아가시겠습니까?");
+		            	
+		            	if(message == true) {
+		            		alert("success");
+		            		window.location.href="../Product/ProductList.jsp";
+		            	} else {
+		            		alert('에러.\n' + json.data.Result);
+		            	}
+	            	} else {
+	            		alert('에러.\n' + json.data.Result);
 	            	}
 	            },
-	            error:function() {
+	            error:function(json) {
 	            	alert('등록시 입력 값을 확인해주세요!');
+	            	alert('에러.\n' + json.data.Result);
 	            }
 			})
 		});
