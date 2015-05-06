@@ -32,14 +32,16 @@ $(document).ready(function() {
 			, postData: {
                Location: "Product"
 			}
-			, colNames: [ 'No', '1차 카테고리', '2차 카테고리', '상품명', '상품가격', '상품설명' ]
+			, colNames: [ 'No', '1차 카테고리', '2차 카테고리', '상품명', '상품가격', '상품설명', '적립가능여부', '교환가능여부' ]
 	        , colModel: [
 					{ name: 'No', index: 'No', width: 60, hidden: true },
 					{ name: 'CategoryBig', index: 'CategoryBig', width: 120 },
 					{ name: 'CategoryMiddle', index: 'CategoryMiddle', width: 120 },
 					{ name: 'Name', index: 'Name', width: 160 },
 					{ name: 'Price', index: 'Price', width: 100, formatter: 'integer', align: 'right' },
-					{ name: 'Contents', index: 'Contents', width: 200 } 
+					{ name: 'Contents', index: 'Contents', width: 200 },
+					{ name: 'Saving', index: 'Saving', width: 150 },
+					{ name: 'Exchange', index: 'Exchange', width: 150 } 
         		]
 		    , gridview: true
             , rownumbers: true

@@ -97,8 +97,8 @@ $(document).ready(function(){
 	            	var message = confirm("상품 리스트로 돌아가시겠습니까?");
 	            	
 	            	if(message == true) {
-	            		//window.location.href="";
 	            		alert("success");
+	            		window.location.href="../Product/ProductList.jsp";
 	            	}
 	            	else {
 	            		alert("error");
@@ -114,23 +114,23 @@ $(document).ready(function(){
 		});
 
 		if($('input[name="saving"]:checked').val() == "0"){
-			$("#savingInput").show();
+			$("#savingArea").show();
 		}
 		$("#savingUse").click(function(){
-			$("#savingInput").show();
+			$("#savingArea").show();
 		});
 		$("#savingUnuse").click(function(){
-			$("#savingInput").hide();
+			$("#savingArea").hide();
 		});
 		
 		if($('input[name="exchange"]:checked').val() == "0"){
-			$("#exchangeInput").show();
+			$("#exchangeArea").show();
 		}		
 		$("#exchangeUse").click(function(){
-			$("#exchangeInput").show();
+			$("#exchangeArea").show();
 		});
 		$("#exchangeUnuse").click(function(){
-			$("#exchangeInput").hide();
+			$("#exchangeArea").hide();
 		});
 		
 	}
@@ -153,65 +153,82 @@ $(document).ready(function(){
 	</div>
 	<br/>
 </div>
-<table width="100%" border="1px" cellspacing="0" cellpadding="0">
-	<tr>
-		<td align="center">1차카테고리 </td>
-		<td align="center">
-			<select id='CategoryBig' class='CategoryBig'>
-				<option>1</option>
-			</select> 
-		</td>
-		<td align="center">2차카테고리 </td>
-		<td align="center">
-			<select id='CategoryMiddle' class='CategoryMiddle'>
-				<option>2</option>
-			</select> 
-		</td>
-	</tr>
-	<tr>
-		<td align="center">상품명 </td>
-		<td align="center"><input type='text' id='Name' class='Name'></td>
-		<td align="center">상품 가격</td>
-		<td align="center"><input type='text' id='Price' class='Price'></td>
-	</tr>
-	<tr>	
-		<td align="center">상품 설명</td>
-		<td align="center" colspan="5">
-			<textarea id="Contents" class="Contents"></textarea>	
-		</td>
-	</tr>
-	<tr>	
-		<td align="center">적립가능여부</td>
-		<td align="center">
-			<label for='savingUse'>
-				사용
-			</label>
-			<input type='radio' id ='savingUse' class='savingUse' name = 'saving' value = '0' checked>
-			<label for='savingUnuse' >
-				미사용
-			</label>
-			<input type='radio' id ='savingUnuse' class='savingUnuse' name = 'saving' value = '1'>
-			<input type='text' id ='savingInput' class='savingInput' name = 'savingInput'>
-		</td>
-		<td align="center">교환사용가능여부</td>
-		<td align="center">
-			<label for='exchangeUse'>
-				사용
-			</label>
-			<input type='radio' id ='exchangeUse' class='exchangeUse' name = 'exchange' value = '0' checked>
-			<label for='exchangeUnuse' >
-				미사용
-			</label>
-			<input type='radio' id ='exchangeUnuse' class='exchangeUnuse' name = 'exchange' value = '1'>
-			<input type='text' id ='exchangeInput' class='exchangeInput' name = 'exchangeInput'>
-		</td>
-	</tr>
-	<tr>
-		<td align="center" colspan="6" class ='col-sm-12 col-xs-1'>
-			<button id='insert' class='btn btn-default col-sm-push-5 col-xs-push-2 col-sm-1 col-xs-5'>입력</button>
-			<button id='cancel' class='btn btn-default col-sm-push-5 col-xs-push-2 col-sm-1 col-xs-5 '>취소</button>
-		</td>
-	</tr>
-</table>
+<div class='col-sm-12 col-xs-12'>
+	<label for='CategoryBigName' class = 'text-justify'>
+	1차카테고리 :
+	</label>
+	<select id='CategoryBig' class='CategoryBig'>
+		<option>1</option>
+	</select>
+</div>
+<div class='col-sm-12 col-xs-12'>
+	<label for='CategoryMiddleName' class = 'text-justify'>
+	2차카테고리 :
+	</label>
+	<select id='CategoryMiddle' class='CategoryMiddle'>
+		<option>2</option>
+	</select> 
+</div>
+<div class='col-sm-12 col-xs-12'>
+	<label for='ProductName' class = 'text-justify'>
+	상품이름 :
+	</label>
+	<input type='text' id='Name' class='Name'>
+</div>
+<div class='col-sm-12 col-xs-12'>
+	<label for='ProductPrice' class = 'text-justify'>
+	상품가격 :
+	</label>
+	<input type='text' id='Price' class='Price'> 
+</div>
+<div class='col-sm-12 col-xs-12'>
+	<label for='ProductContents' class = 'text-justify'>
+	상품설명 :
+	</label>
+	<textarea id="Contents" class="Contents"></textarea>
+</div>
+<div class='col-sm-12 col-xs-12'>
+	<label for='ProductContents' class = 'text-justify'>
+	적립가능여부 :
+	</label>
+	<label for='savingUse'>
+	사용
+	</label>
+	<input type='radio' id ='savingUse' class='savingUse' name = 'saving' value = '0' checked>
+	<label for='savingUnuse'>
+	미사용
+	</label>
+	<input type='radio' id ='savingUnuse' class='savingUnuse' name = 'saving' value = '1'>
+</div>	
+<div class='col-sm-12 col-xs-12' id="savingArea">
+	<label for='savingInput' class = 'text-justify'>
+	적립금액 :
+	</label>
+	<input type='text' id ='savingInput' class='savingInput' name = 'savingInput'>
+</div>
+<div class='col-sm-12 col-xs-12'>
+	<label for='exchange' class = 'text-justify'>
+	교환가능여부 :
+	</label>
+	<label for='exchangeUse'>
+	사용
+	</label>
+	<input type='radio' id ='exchangeUse' class='exchangeUse' name = 'exchange' value = '0' checked>
+	<label for='exchangeUnuse' >
+	미사용
+	</label>
+	<input type='radio' id ='exchangeUnuse' class='exchangeUnuse' name = 'exchange' value = '1'>
+</div>
+<div class='col-sm-12 col-xs-12' id="exchangeArea">
+	<label for='exchangeInput' class = 'text-justify'>
+	교환금액 :
+	</label>
+	<input type='text' id ='exchangeInput' class='exchangeInput' name = 'exchangeInput'>
+</div>
+<div class ='col-sm-4 col-xs-6'>
+	<button id='insert' class='btn btn-default col-sm-4 col-xs-6'>입력</button>
+	<button id='cancel' class='btn btn-default col-sm-4 col-xs-6'>취소</button>
+</div>
+
 </body>
 </html>
