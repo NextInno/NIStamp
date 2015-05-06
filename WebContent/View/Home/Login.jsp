@@ -22,10 +22,8 @@ $(document).ready(function() {
             jsonp: 'login',
             success:function(json) {
 				alert(json.data.Id + "님 반갑습니다.");
-				
-				if (json.data.Result == "Success") {
-					window.location.href = "Index.jsp";
-				}
+				alert(json.data.Result);
+				window.location.href = "Index.jsp";
             },
             error:function(json){
         	    alert('에러.\n' + json.data.Result);
