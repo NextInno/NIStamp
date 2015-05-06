@@ -39,7 +39,7 @@
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 		
 		if(sLocation != "Reserve") {
-			pQuery = "SELECT No, ProductNo, CategoryBig, CategoryMiddle, Name, Price, Contents FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No;	
+			pQuery = "SELECT No, ProductNo, CategoryBig, CategoryMiddle, Name, Price, Contents, CASE Saving WHEN 0 THEN '사용' ELSE '미사용' END AS 'Saving', CASE Exchange WHEN 0 THEN '사용' ELSE '미사용' END AS 'Exchange' FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No;	
 		} else {
 			pQuery = "SELECT No, Name, Price FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No + " AND CategoryMiddle = " + sNo;
 		}
@@ -66,6 +66,8 @@
 	 			cellobj.put("Name", rs.getString("Name"));
 	 			cellobj.put("Price", rs.getString("Price"));
 	 			cellobj.put("Contents", rs.getString("Contents"));
+	 			cellobj.put("Saving", rs.getString("Saving"));
+	 			cellobj.put("Exchange", rs.getString("Exchange"));
 	 	    	cellarray.add(cellobj);
 	 	    }
 	    } else {
