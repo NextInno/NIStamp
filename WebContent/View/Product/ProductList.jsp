@@ -29,6 +29,9 @@ $(document).ready(function() {
 			, url: '../../Controller/Product/ProductList.jsp'
 			, mtype: 'POST'
 			, datatype: 'JSON'
+			, postData: {
+               Location: "Product"
+			}
 			, colNames: [ 'No', '1차 카테고리', '2차 카테고리', '상품명', '상품가격', '상품설명' ]
 	        , colModel: [
 					{ name: 'No', index: 'No', width: 60, hidden: true },
@@ -136,7 +139,7 @@ $(document).ready(function() {
 	<br/>
 </div>
 <br>
-<div>
+<div class='col-sm-12 col-xs-12'>
 	<table id="ProductGrid"></table>
 	<div id="ProductGridPager"></div>
 </div>
