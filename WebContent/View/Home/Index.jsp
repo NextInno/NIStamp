@@ -44,7 +44,8 @@ $(document).ready(function() {
 			, rowList: [25, 50, 100]
 			, pager: '#MemberGridPager'
 			, height: 400
-			, width: 'auto'
+			//, width: 'auto'
+			, width: $(this).width() * .84
 			, viewrecords: true
 			, multiselect: true
 			, loadonce: true
@@ -71,6 +72,9 @@ $(document).ready(function() {
 				, 'cloneToTop': false
 			}
 		);
+		$(window).resize(function () {
+	        $('#MemberGrid').setGridWidth($(this).width() * .85);
+	    });
 		$('#searchbtn').click(function() {
 			$('#MemberGrid').setGridParam({
 	            url: '../../Controller/Member/MemberList.jsp'
