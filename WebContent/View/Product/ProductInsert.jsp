@@ -188,7 +188,7 @@ $(document).ready(function(){
 	<label for='ProductImg' class = 'text-justify'>
 	상품이미지 :
 	</label>
-	<textarea id="Contents" class="Contents"></textarea>
+	<input type="file" id="Contents" class="Contents"></textarea>
 </div>
 
 <div class='col-sm-12 col-xs-12'>
