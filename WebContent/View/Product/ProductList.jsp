@@ -31,14 +31,14 @@ $(document).ready(function() {
 			, datatype: 'JSON'
 			, colNames: [ 'No', '1차 카테고리', '2차 카테고리', '상품명', '상품가격', '상품설명', '적립가능여부', '교환가능여부' ]
 	        , colModel: [
-					{ name: 'No', index: 'No', width: 60, hidden: true },
-					{ name: 'CategoryBig', index: 'CategoryBig', width: 120 },
-					{ name: 'CategoryMiddle', index: 'CategoryMiddle', width: 120 },
-					{ name: 'Name', index: 'Name', width: 160 },
-					{ name: 'Price', index: 'Price', width: 100, formatter: 'integer', align: 'right' },
-					{ name: 'Contents', index: 'Contents', width: 200 },
-					{ name: 'Saving', index: 'Saving', width: 150 },
-					{ name: 'Exchange', index: 'Exchange', width: 150 } 
+					{ name: 'No', index: 'No', width: 60, hidden: true , align: 'center'},
+					{ name: 'CategoryBig', index: 'CategoryBig', width: 120 , align: 'center'},
+					{ name: 'CategoryMiddle', index: 'CategoryMiddle', width: 120 , align: 'center'},
+					{ name: 'Name', index: 'Name', width: 160 , align: 'center'},
+					{ name: 'Price', index: 'Price', width: 100, formatter: 'integer', align: 'center' },
+					{ name: 'Contents', index: 'Contents', width: 200 , align: 'center'},
+					{ name: 'Saving', index: 'Saving', width: 100 , align: 'center'},
+					{ name: 'Exchange', index: 'Exchange', width: 100 , align: 'center'} 
         		]
 		    , gridview: true
             , rownumbers: true
@@ -137,7 +137,29 @@ $(document).ready(function() {
 	</div>
 	<br/>
 </div>
-<br>
+	<br/>
+	<div class='col-md-12 col-sm-2'>
+		<button type="button" id = 'searchStart' class="btn btn-default col-md-1">검색하기</button>
+	</div>
+	<br/>
+	<div id = 'searchArea' class='clearfix'>
+		<form class="form-horizontal col-md-12">
+		    <div class= 'clearfix col-xs-12 col-sm-12'></div>
+		    <div class="form-group col-xs-12 col-sm-4 clearfixs" >
+		        <label for="name">상품이름</label>
+		        <input type="text" class="form-control" id="name" placeholder="이름을 입력해주세요.">
+		    </div>
+		    <div class= 'clearfix col-xs-12 col-sm-12'></div>
+		</form>
+		<div class= 'clearfix col-xs-12 col-sm-12'>
+			<div class = ''>
+				<button type="button" id = 'searchbtn' class="btn btn-default ">검색</button>
+				<button type="button" id = 'searchCancel' class="btn btn-default ">취소</button>
+				<button type="button" id = 'searchReset' class="btn btn-default ">초기화</button>
+			</div>
+		</div>
+	</div>
+<br/>
 <div class='col-sm-12 col-xs-12'>
 	<table id="ProductGrid"></table>
 	<div id="ProductGridPager"></div>

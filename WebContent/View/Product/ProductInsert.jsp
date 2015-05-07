@@ -185,6 +185,13 @@ $(document).ready(function(){
 	<input type='text' id='Price' class='Price'> 
 </div>
 <div class='col-sm-12 col-xs-12'>
+	<label for='ProductImg' class = 'text-justify'>
+	상품이미지 :
+	</label>
+	<textarea id="Contents" class="Contents"></textarea>
+</div>
+
+<div class='col-sm-12 col-xs-12'>
 	<label for='ProductContents' class = 'text-justify'>
 	상품설명 :
 	</label>
@@ -228,9 +235,9 @@ $(document).ready(function(){
 	</label>
 	<input type='text' id ='exchangeInput' class='exchangeInput' name = 'exchangeInput'>
 </div>
-<div class ='col-sm-4 col-xs-6'>
-	<button id='insert' class='btn btn-default col-sm-4 col-xs-6'>입력</button>
-	<button id='cancel' class='btn btn-default col-sm-4 col-xs-6'>취소</button>
+<div class ='col-sm-4 col-xs-12'>
+	<button id='insert' class='btn btn-default col-sm-4 col-xs-5'>입력</button>
+	<button id='cancel' class='btn btn-default col-sm-4 col-xs-5'>취소</button>
 </div>
 
 </body>
