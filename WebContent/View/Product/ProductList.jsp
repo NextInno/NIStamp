@@ -135,9 +135,9 @@ $(document).ready(function() {
 		<a href= '../Product/ProductList.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>상품목록</a>
 		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 	</div>
-	<br/>
+	<br>
 </div>
-	<br/>
+	<br>
 	<div class='col-md-12 col-sm-2'>
 		<button type="button" id = 'searchStart' class="btn btn-default col-md-1">검색하기</button>
 	</div>
@@ -159,7 +159,7 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
-<br/>
+<br>
 <div class='col-sm-12 col-xs-12'>
 	<table id="ProductGrid"></table>
 	<div id="ProductGridPager"></div>
