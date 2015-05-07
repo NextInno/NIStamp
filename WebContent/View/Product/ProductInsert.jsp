@@ -188,9 +188,8 @@ $(document).ready(function(){
 	<label for='ProductImg' class = 'text-justify'>
 	상품이미지 :
 	</label>
-	<input type="file" id="Contents" class="Contents"></textarea>
+	<input type="file" id="Image" class="Image">
 </div>
-
 <div class='col-sm-12 col-xs-12'>
 	<label for='ProductContents' class = 'text-justify'>
 	상품설명 :
@@ -198,7 +197,7 @@ $(document).ready(function(){
 	<textarea id="Contents" class="Contents"></textarea>
 </div>
 <div class='col-sm-12 col-xs-12'>
-	<label for='ProductContents' class = 'text-justify'>
+	<label for='saving' class = 'text-justify'>
 	적립가능여부 :
 	</label>
 	<label for='savingUse'>

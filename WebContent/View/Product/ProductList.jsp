@@ -69,6 +69,9 @@ $(document).ready(function() {
 				, 'cloneToTop': false
 			}
 		);
+		$(window).resize(function () {
+	        $('#ProductGrid').setGridWidth($(this).width() * .85);
+	    });
 		$('#refresh_ProductGrid').click(function() {
 			search();
 		});
@@ -119,6 +122,15 @@ $(document).ready(function() {
             window.location.href="../Product/ProductInsert.jsp";
         });
 	}
+	
+	$('#searchStart').click(function(){
+		$('#searchArea').slideToggle();
+		$(this).css('visibility','hidden');
+	})
+	$('#searchCancel').click(function(){
+		$('#searchArea').slideToggle();
+		$('#searchStart').css('visibility','visible');
+	})
 });
 </script>
 </head>
@@ -137,19 +149,49 @@ $(document).ready(function() {
 	</div>
 	<br>
 </div>
-	<br>
+<br>
 	<div class='col-md-12 col-sm-2'>
 		<button type="button" id = 'searchStart' class="btn btn-default col-md-1">검색하기</button>
 	</div>
-	<br/>
+<br>
 	<div id = 'searchArea' class='clearfix'>
 		<form class="form-horizontal col-md-12">
+			<div class= 'clearfix col-xs-12 col-sm-12'></div>
+		    <div class="form-group col-xs-12 col-sm-4 clearfixs" >
+		        <label for="Category">카테고리</label>
+		      	<select id="CategoryBig" class="CategoryBig">
+		      		<option value="0">---1차카테고리---</option>
+		      	</select>
+		      	<select id="CategoryMiddle" class="CategoryMiddle">
+		      		<option value="0">---2차카테고리---</option>
+		      	</select>
+		    </div>
 		    <div class= 'clearfix col-xs-12 col-sm-12'></div>
 		    <div class="form-group col-xs-12 col-sm-4 clearfixs" >
 		        <label for="name">상품이름</label>
 		        <input type="text" class="form-control" id="name" placeholder="이름을 입력해주세요.">
 		    </div>
 		    <div class= 'clearfix col-xs-12 col-sm-12'></div>
+		    <div class="form-group col-xs-12 col-sm-4 clearfixs" >
+		        <label for="Price">상품가격</label>
+		        <input type="text" class="form-control" id="Price" placeholder="가격을 입력해주세요.">
+		    </div>
+		    <div class= 'clearfix col-xs-12 col-sm-12'></div>
+		    <div class="form-group col-xs-12 col-sm-4 clearfixs" >
+		        <label for="saving">적립가능여부</label>
+		      	<select id="saving" class="saving">
+		      		<option value="0">사용</option>
+		      		<option value="1">미사용</option>
+		      	</select>
+		   	</div>
+		    <div class= 'clearfix col-xs-12 col-sm-12'></div>
+		    <div class="form-group col-xs-12 col-sm-4 clearfixs" >
+		        <label for="exchange">교환가능여부</label>
+		      	<select id="exchange" class="exchange">
+		      		<option value="0">사용</option>
+		      		<option value="1">미사용</option>
+		      	</select>
+		    </div>
 		</form>
 		<div class= 'clearfix col-xs-12 col-sm-12'>
 			<div class = ''>
