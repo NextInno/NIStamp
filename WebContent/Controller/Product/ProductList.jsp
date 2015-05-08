@@ -18,7 +18,8 @@
 	NiModuleConfig.setLogger();
 
 	String pStore_No = (String)session.getAttribute("Store_No");
-	String sLocation = request.getParameter("Location");
+	String sLocation = (String)request.getParameter("Location");
+	String sBigCategory = request.getParameter("BigCategory");
 	String sNo = request.getParameter("no");
 	if(sNo == ""){
 		sNo = "0";
@@ -38,10 +39,11 @@
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 		
-		if(sLocation != "Reserve") {
-			pQuery = "SELECT No, ProductNo, CategoryBig, CategoryMiddle, Name, Price, Contents, CASE Saving WHEN 0 THEN '사용' ELSE '미사용' END AS 'Saving', CASE Exchange WHEN 0 THEN '사용' ELSE '미사용' END AS 'Exchange' FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No;	
+		if(sLocation == "Reserve") {
+			pQuery = "SELECT No, Name, Price FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No + " AND CategoryMiddle = " + sNo + "AND CategoryBig = " + sBigCategory;
+				
 		} else {
-			pQuery = "SELECT No, Name, Price FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No + " AND CategoryMiddle = " + sNo;
+			pQuery = "SELECT No, ProductNo, CategoryBig, CategoryMiddle, Name, Price, Contents, CASE Saving WHEN 0 THEN '사용' ELSE '미사용' END AS 'Saving', CASE Exchange WHEN 0 THEN '사용' ELSE '미사용' END AS 'Exchange' FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No;
 		}
 		pQuery += ";";
 		

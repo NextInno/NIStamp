@@ -3,6 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title> Welcome To &amp; Stamp </title>
 
 <link href="../../js/jqGrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
@@ -121,20 +122,17 @@ $(document).ready(function() {
 	        dataType: 'JSON',
 	        jsonp: 'insert',
 	        data: { 
-		   		'BigCategoryNo' : ''
+		   		'BigCategory' : '0'
 	   		 },
 	   		success:function(json) {
 	   			var temp ='';
-	   			var BigCategoryList = new Array();
+	   			
 	 	    	for(i = 0 ; i < json.rows.length; i++){
 	 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
-	 	    		alert(temp);
 	 	    		$('#BigCategory').append(temp);
-	 	    		BigCategoryList.push(json.rows[i].CategoryName +',' + json.rows[i].No);
+	 	    		
 	 	    		 
 	 	    	}
-	 	    	alert(BigCategoryList);
-	 	    	
 	 	    },
 	 	    error:function(json){
 	 	    	alert('통신에러입니다..');
@@ -148,36 +146,51 @@ $(document).ready(function() {
 			}
 			else{
 				$('#MiddleCategory').html("");
+				alert($(this).val());
 				$.ajax({
 					url: '../../Controller/Product/CategoryLoad.jsp',
 			        type: 'POST',
 			        dataType: 'JSON',
 			        jsonp: 'insert',
 			        data: { 
-				   		'BigCategoryNo' : $(this).val()
+			        	'BigCategory' :$('#BigCategory').val()
 			   		 },
 			   		success:function(json) {
 			   			var temp ='';
-			 	    	for(i = 0 ; i < json.rows.length; i++){
-			 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
-			 	    		$('#MiddleCategory').append(temp);
-			 	    	}
+			   			var TempMenuNo = -1;
+
+			   			if( json.rows.length !=0 ){
+			   				for(i = 0 ; i < json.rows.length; i++){
+				 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
+				 	    		$('#MiddleCategory').append(temp);
+				 	    	}
+			   				TempMenuNo = json.rows[0].No;
+			   			}else{
+			   				$('#MiddleCategory').append("<option value ='-1'>등록된 메뉴가 없습니다.</option");
+			   			}
+			 	    	
 			 	    	$.ajax({
-							url: '../../Controller/Product/ProductList.jsp',
+							url: '../../Controller/Product/CategoryMiddleLoad.jsp',
 					        type: 'POST',
 					        dataType: 'JSON',
 					        jsonp: 'insert',
 					        data: { 
-						   		'Location' : 'Reserve'
-						   		,'no' : $('#MiddleCategory').first('option').val()
+						   		'BigCategory' : $('#BigCategory').val()
+						   		,'MiddleCategory' : $('#MiddleCategory').first('option').val()
 					   		 },
 					   		success:function(json) {
 					   			var temp ='';
 					   			$('#MenuList').html('');
-					 	    	for(i = 0 ; i < json.rows.length; i++){
-					 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name + "</option>";
-					 	    		$('#MenuList').append(temp);
-					 	    	}
+					   			var CheckUndefiend = json.rows;
+					   			alert(CheckUndefiend);
+					   			if( CheckUndefiend != '' ){
+					   				for(i = 0 ; i < json.rows.length; i++){
+						 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name + "</option>";
+						 	    		$('#MenuList').append(temp);
+						 	    	}
+					   			}else{
+					   				$('#MenuList').append("<option value ='0'>등록된 메뉴가 없습니다.</option")
+					   			}
 					 	    	
 					 	    },
 					 	    error:function(json){
@@ -185,7 +198,6 @@ $(document).ready(function() {
 					     	
 					     	}
 					 	 });
-			 	    	
 			 	    },
 			 	    error:function(json){
 			 	    	alert('통신에러입니다..');
@@ -199,21 +211,25 @@ $(document).ready(function() {
 		$('#MiddleCategory').on('change', function(){
 			var MiddleCategory = $(this).val();
 			$.ajax({
-				url: '../../Controller/Product/ProductList.jsp',
+				url: '../../Controller/Product/CategoryMiddleLoad.jsp',
 		        type: 'POST',
 		        dataType: 'JSON',
 		        jsonp: 'insert',
-		        data: { 
-			   		'Location' : 'Reserve'
-			   		,'no' : MiddleCategory
+		        data: {
+		        	'BigCategory' : $('#BigCategory').val()
+			   		,'MiddleCategory' : MiddleCategory
 		   		 },
 		   		success:function(json) {
 		   			var temp ='';
 		   			$('#MenuList').html('');
-		 	    	for(i = 0 ; i < json.rows.length; i++){
-		 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name + "</option>";
-		 	    		$('#MenuList').append(temp);
-		 	    	}
+		   			if( json.rows.length != 0 ){
+		   				for(i = 0 ; i < json.rows.length; i++){
+			 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name + "</option>";
+			 	    		$('#MenuList').append(temp);
+			 	    	}
+		   			}else{
+		   				$('#MenuList').append("<option value ='0'>등록된 메뉴가 없습니다.</option")
+		   			}
 		 	    	
 		 	    },
 		 	    error:function(json){

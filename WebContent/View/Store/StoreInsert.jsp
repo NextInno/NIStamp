@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>매장입력</title>
 <link rel="stylesheet" href="../js/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
 <link href="../../css/Bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />

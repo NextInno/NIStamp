@@ -3,6 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title> Welcome To &amp; Stamp </title>
 
 <link href="../../js/jqGrid/css/ui.jqgrid.css" rel="stylesheet" type="text/css"/>
@@ -153,6 +154,11 @@ $(document).ready(function() {
 		$('#refresh_MemberGrid').click(function() {
 			$('#searchbtn').click();
 		});
+		$('#LogOut').on('click',function(){
+			if(Session_No != 'null'){
+				
+			}			
+		})
 	}
 });
 </script>
@@ -160,6 +166,7 @@ $(document).ready(function() {
 
 <body>
 <div id = 'header' class='clearfix'>
+	<button id = 'LogOut' class='col-md-4 col-xs-4 btn btn-default'>로그아웃</button>
 	<div id = 'NavButton' class = 'col-md-12'>
 		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
 	</div>
