@@ -38,7 +38,7 @@
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 		
-		pQuery = "SELECT No, Name, Price FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No + " AND CategoryMiddle  = " + sMiddleCategory + " AND CategoryBig = " + sBigCategory;
+		pQuery = "SELECT No, Name, Price, SavingInput FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No + " AND Saving = 0 AND CategoryMiddle  = " + sMiddleCategory + " AND CategoryBig = " + sBigCategory;
 				
 		pQuery += ";";
 		
@@ -59,6 +59,7 @@
     	while(rs.next()) {
  	    	cellobj.put("No", rs.getString("No"));
  			cellobj.put("Name", rs.getString("Name"));
+ 			cellobj.put("SavingInput",rs.getString("SavingInput"));
  			cellobj.put("Price", rs.getString("Price"));
  	    	cellarray.add(cellobj);
  	    }

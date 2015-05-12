@@ -37,7 +37,7 @@
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 	
-		pQuery = "SELECT No, CategoryName, ParentNo FROM Category WHERE IsDelete = 0 AND Store_No = " + pStore_No;
+		pQuery = "SELECT No, Name, ParentNo FROM Category WHERE IsDelete = 0 AND Store_No = " + pStore_No;
 		if(sBigCategory != null){
 			pQuery += " AND ParentNo = " + sBigCategory; 
 		}
@@ -57,7 +57,7 @@
 	    
 	    while(rs.next()){
 	    	cellobj.put("No", rs.getString("No"));
- 	        cellobj.put("CategoryName", rs.getString("CategoryName"));
+ 	        cellobj.put("CategoryName", rs.getString("Name"));
 			cellobj.put("ParentNo", rs.getString("ParentNo"));
 	    	cellarray.add(cellobj);
 	    }

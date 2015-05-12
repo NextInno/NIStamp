@@ -79,6 +79,9 @@ $(document).ready(function() {
 				$('.PopUpPage').css('display','none');
 				$('.SearchNum').val('');
 				MemberPointSearch(SelectMemberNo);
+				$('#BigCategory').val(0);
+				$('#MiddleCategory').html("<option value='-1'>2차카테고리를 선택해주세요 </option>");
+				$('#MenuList').html("<option value='-1'>메뉴를 선택해주세요 </option>")
 			}
 			, jsonReader: {
 				page: 'page', 
@@ -180,12 +183,12 @@ $(document).ready(function() {
 					   		 },
 					   		success:function(json) {
 					   			var temp ='';
-					   			$('#MenuList').html('');
+					   			$('#MenuList').html("<option>메뉴를 선택해주세요</option>");
 					   			var CheckUndefiend = json.rows;
 					   			alert(CheckUndefiend);
 					   			if( CheckUndefiend != '' ){
 					   				for(i = 0 ; i < json.rows.length; i++){
-						 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name + "</option>";
+					   					var temp = "<option value='" + json.rows[i].SavingInput + "'>" + json.rows[i].Name +"[ "+ json.rows[i].Price +"원 ]</option>";
 						 	    		$('#MenuList').append(temp);
 						 	    	}
 					   			}else{
@@ -221,10 +224,10 @@ $(document).ready(function() {
 		   		 },
 		   		success:function(json) {
 		   			var temp ='';
-		   			$('#MenuList').html('');
+		   			$('#MenuList').html("<option>메뉴를 선택해주세요</option>");
 		   			if( json.rows.length != 0 ){
 		   				for(i = 0 ; i < json.rows.length; i++){
-			 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name + "</option>";
+		   					var temp = "<option value='" + json.rows[i].SavingInput + "'>" + json.rows[i].Name +"[ "+ json.rows[i].Price +"원 ] </option>";
 			 	    		$('#MenuList').append(temp);
 			 	    	}
 		   			}else{
@@ -255,6 +258,9 @@ $(document).ready(function() {
 			$('.PopUpPage').css('display','none');
 			$('.SearchNum').val('');
 			MemberPointSearch(SelectMemberNo);
+			$('#BigCategory').val(0);
+			$('#MiddleCategory').html("<option value='-1'>2차카테고리를 선택해주세요 </option>");
+			$('#MenuList').html("<option value='-1'>메뉴를 선택해주세요 </option>")
 			
 		});
 		$('.PointInsertBtn').on('click',function(){
@@ -269,6 +275,11 @@ $(document).ready(function() {
 		});			
 		$('#CancelSave').on('click',function(){
 			document.location.reload();
+		});
+		$('#MenuList').on('change',function(){
+			var temp = "<div class = 'col-sm-12 col-xs-12 clearfix'>" + $(this).val()+"</div>";
+			$('.OrderInfo').append(temp);
+			
 		});
 		
 		$('.CancelMember').click(function(){
@@ -458,16 +469,21 @@ function ShowPointInfo(totalStamp, Amount){
 		</div>
 	</div>		
 	<div class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right'>
-		<select id='BigCategory' class='col-sm-4 col-xs-12'>
+		<select id='BigCategory' class='col-sm-3 col-xs-12'>
 			<option value='0'>1차 카테고리</option>
 		</select>
-		<select id='MiddleCategory' class='col-sm-4 col-xs-12'>
+		<select id='MiddleCategory' class='col-sm-3 col-xs-12'>
 			<option>2차 카테고리</option>
 		</select>
-		<select id='MenuList' class='col-sm-4 col-xs-12'>
+		<select id='MenuList' class='col-sm-6 col-xs-12'>
 			<option>메뉴</option>
 		</select>
 	</div>
+	<div id='OrderInfo' class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right' >
+		<div class='OrderInfo clearfix'  style = 'border:1px solid #ccc'>
+			
+		</div>
+	</div>	
 </div>
 <div class='PopUpPage col-sm-push-2 col-sm-8 col-xs-12 clearfix'>
 	<table id="MemberList"></table>

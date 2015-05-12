@@ -132,7 +132,7 @@ function drawChartWeekAges(value) {
                    2]);
 
   var options = {
-    title: "당월 연령별 매출현황",
+    title: "주간 매출현황",
     bar: {groupWidth: "95%"},
     legend: { position: "none" },
     'height':300
