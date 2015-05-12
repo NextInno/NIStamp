@@ -24,22 +24,27 @@ $(document).ready(function() {
 	
 	if(Session_No == 'null') {
 		document.location.href = "../Home/Login.jsp";
-	} else {
-		var html = "";
-		html = '<ul>';
-		html += '<li id="Root_node_1">Root node 1';
-		html += '<ul>';
-		html += '<li id="child_node_1">Child node 1</li><li id="child_node_2">Child node 2</li>';
-		html += '</ul>';
-		html += '</li>';
-		html += '<li id="Root_node_2">Root node 2';
-		html += '<ul>';
-		html += '<li id="child_node_3">Child node 3</li><li id="child_node_4">Child node 4</li>';
-		html += '</li>';
-		html += '</ul>';
-		
-		$('#jstree').html(html);
-		$('#jstree').jstree();
+	} else {		
+		$('#jstree').jstree({
+			'core' : {
+				'data' : {
+				    'url' : '../../Controller/Category/Index.jsp'
+				    , 'data' : function (node) {
+				    	alert(node.id + ', ' + node.parent + ', ' + node.text)
+				        return { 
+				        	'id' : node.id
+				        	, 'parent' : node.parent
+				        	, 'text' : node.text
+				        };
+				    }
+				}
+			    , 'themes': {
+			        'variant': 'midium',
+			        'theme': 'default'
+			    }
+			},
+			'plugins' : [ 'wholerow' ]
+		});
 		
 		$('#jstree').on("changed.jstree", function (e, data) {
 			var id = data.selected;
@@ -69,4 +74,4 @@ $(document).ready(function() {
 	<div id="jstree"></div>
 </div>
 </body>
-</html>
+</html> 
