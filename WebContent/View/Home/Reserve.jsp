@@ -82,6 +82,10 @@ $(document).ready(function() {
 				$('#BigCategory').val(0);
 				$('#MiddleCategory').html("<option value='-1'>2차카테고리를 선택해주세요 </option>");
 				$('#MenuList').html("<option value='-1'>메뉴를 선택해주세요 </option>")
+				$('.OrderList').html('');
+				$('.totalSavingInput').text(0);
+				$('.totalExchangeInput').text(0);
+				$('.SumMenu').text(0);
 			}
 			, jsonReader: {
 				page: 'page', 
@@ -149,7 +153,6 @@ $(document).ready(function() {
 			}
 			else{
 				$('#MiddleCategory').html("");
-				alert($(this).val());
 				$.ajax({
 					url: '../../Controller/Product/CategoryLoad.jsp',
 			        type: 'POST',
@@ -161,7 +164,6 @@ $(document).ready(function() {
 			   		success:function(json) {
 			   			var temp ='';
 			   			var TempMenuNo = -1;
-
 			   			if( json.rows.length !=0 ){
 			   				for(i = 0 ; i < json.rows.length; i++){
 				 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
@@ -185,11 +187,12 @@ $(document).ready(function() {
 					   			var temp ='';
 					   			$('#MenuList').html("<option>메뉴를 선택해주세요</option>");
 					   			var CheckUndefiend = json.rows;
-					   			alert(CheckUndefiend);
+					   			$('#HiddenMenuList').html('');
 					   			if( CheckUndefiend != '' ){
 					   				for(i = 0 ; i < json.rows.length; i++){
-					   					var temp = "<option value='" + json.rows[i].SavingInput + "'>" + json.rows[i].Name +"[ "+ json.rows[i].Price +"원 ]</option>";
-						 	    		$('#MenuList').append(temp);
+					   					var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name +"[ "+ json.rows[i].Price +"원 ]</option>";
+					   					HiddenMenuListInput(json.rows[i].No, json.rows[i].Name,json.rows[i].Price, json.rows[i].SavingInput, json.rows[i].Exchange);
+					   					$('#MenuList').append(temp);
 						 	    	}
 					   			}else{
 					   				$('#MenuList').append("<option value ='0'>등록된 메뉴가 없습니다.</option")
@@ -225,9 +228,11 @@ $(document).ready(function() {
 		   		success:function(json) {
 		   			var temp ='';
 		   			$('#MenuList').html("<option>메뉴를 선택해주세요</option>");
+		   			$('#HiddenMenuList').html('');
 		   			if( json.rows.length != 0 ){
 		   				for(i = 0 ; i < json.rows.length; i++){
-		   					var temp = "<option value='" + json.rows[i].SavingInput + "'>" + json.rows[i].Name +"[ "+ json.rows[i].Price +"원 ] </option>";
+		   					var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name +"[ "+ json.rows[i].Price +"원 ] </option>";
+		   					HiddenMenuListInput(json.rows[i].No, json.rows[i].Name,json.rows[i].Price, json.rows[i].SavingInput, json.rows[i].Exchange);
 			 	    		$('#MenuList').append(temp);
 			 	    	}
 		   			}else{
@@ -261,6 +266,10 @@ $(document).ready(function() {
 			$('#BigCategory').val(0);
 			$('#MiddleCategory').html("<option value='-1'>2차카테고리를 선택해주세요 </option>");
 			$('#MenuList').html("<option value='-1'>메뉴를 선택해주세요 </option>")
+			$('.OrderList').html('');
+			$('.totalSavingInput').text(0);
+			$('.totalExchangeInput').text(0);
+			$('.SumMenu').text(0);
 			
 		});
 		$('.PointInsertBtn').on('click',function(){
@@ -277,11 +286,57 @@ $(document).ready(function() {
 			document.location.reload();
 		});
 		$('#MenuList').on('change',function(){
-			var temp = "<div class = 'col-sm-12 col-xs-12 clearfix'>" + $(this).val()+"</div>";
-			$('.OrderInfo').append(temp);
+			var ExchangeIs;
+			var temp;
+			if($('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuExchangeInput').text() == 'undefined'){
+				ExchangeIs ='X';
+			}else{
+				ExchangeIs = $('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuExchangeInput').text();
+			}
 			
+				temp = "<div class = 'Order Order"+ $(this).val()+" col-sm-12 col-xs-12 clearfix' style='border-bottom:1px solid #ccc'>";
+				temp+= "<span class='OrderMenu col-sm-4 col-xs-4' style='margin-top:5px'>" +$('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuName').text() +"</span>";
+				temp+= "<span class='OrderSavingInput col-sm-2 col-xs-2 text-center' style='margin-top:5px'>" +$('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuSavingInput').text() +"</span>";
+				temp+= "<span class='OrderExchangeInput col-sm-2 col-xs-2 text-center' style='margin-top:5px'>" +ExchangeIs +"</span>";
+				temp+= "<button class='up" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∧</button><input type='text' class='col-sm-1 col-xs-1 text-center' style='margin-top:5px' value ='1'/><button class='down" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∨</button>"
+				temp+="</div>";
+			$('.OrderList').append(temp);
+			TotalOrder()
+			$('.up'+ $(this).val()).on('click',function(){
+				var tempAmount = parseInt($(this).siblings('input').val());
+				tempAmount = tempAmount+1;
+				$(this).siblings('input').val(tempAmount);
+				TotalOrder()
+			});
+			$('.down'+ $(this).val()).on('click',function(){
+				var tempAmount = parseInt($(this).siblings('input').val());
+				if(tempAmount == 0){
+					
+					
+				}else if(tempAmount == 1){
+					alert(temp);
+					var Delete = $('.OrderList').html().replaceAll(temp,'');
+					alert(Delete);
+					$('.OrderList').html(Delete)
+				}else{
+					tempAmount = tempAmount-1;
+					$(this).siblings('input').val(tempAmount);
+					TotalOrder()
+				}
+				
+			});
 		});
-		
+		$('#SavePoint').on('click',function(){
+			var InputHistory = '';
+			var tempSavingInput=0;
+			$('.Order').each(function(){
+				tempSavingInput += parseInt($(this).children('.OrderSavingInput').text())*parseInt($(this).children('input').val());
+				InputHistory += $(this).children('.OrderMenu').text() + ' : ' + tempSavingInput + ' 개  / ' ;
+				tempSavingInput=0;
+			});
+			InputHistory = InputHistory.substring(0,InputHistory.length - 2);
+			alert(InputHistory);
+		})
 		$('.CancelMember').click(function(){
 			$('.PopUpPage').css('display','none');
 			$('.SearchNum').val('');
@@ -317,6 +372,7 @@ function InsertPoint(No, Mode, Amount){
 	var PointAmount;
 	if(Mode == 'SavePoint'){
 		PointAmount = Amount;
+		
 	}else{
 		PointAmount = -Amount;
 	}
@@ -388,6 +444,31 @@ function ShowPointInfo(totalStamp, Amount){
 		StampInfo+="</div>\n</div>\n";
 		$('.PointInfo').html(StampInfo);
 	
+}
+function HiddenMenuListInput( MenuNo, MenuName, MenuPrice, MenuSavingInput, MenuExchangeInput){
+	var temp = "<li id='Menu_" + MenuNo + "'><span class='hMenuName'>"+ MenuName + "</span>";
+		temp += "<span class='hMenuPrice'>" + MenuPrice + "</span>";
+		temp += "<span class='hMenuSavingInput'>" +MenuSavingInput + "</span>";
+		temp += "<span class='hMenuExchangeInput'>" +MenuExchangeInput + "</span>";
+		temp +="</li>";
+		$('#HiddenMenuList').append(temp);
+}
+function TotalOrder(){
+	var tempSavingInput = 0;
+	var tempExchangeInput = 0;
+	var tempSum = 0;
+	
+	$('.Order').each(function(){
+		tempSavingInput += parseInt($(this).children('.OrderSavingInput').text())*parseInt($(this).children('input').val());
+		if($(this).children('.OrderExchangeInput').text() !='X'){
+			tempExchangeInput += parseInt($(this).children('.OrderExchangeInput').text())*parseInt($(this).children('input').val());	
+		}
+		
+		tempSum += parseInt($(this).children('input').val());
+	})
+	$('.totalSavingInput').text(tempSavingInput);
+	$('.totalExchangeInput').text(tempExchangeInput);
+	$('.SumMenu').text(tempSum);
 }
 </script>
 <style>
@@ -480,8 +561,10 @@ function ShowPointInfo(totalStamp, Amount){
 		</select>
 	</div>
 	<div id='OrderInfo' class='col-sm-pull-3 col-sm-9 col-xs-12 pull-right' >
-		<div class='OrderInfo clearfix'  style = 'border:1px solid #ccc'>
-			
+		<div class='OrderInfo clearfix'  style = 'border:1px solid #ccc; border-bottom:0px solid #ccc'>
+			<div class='clearfix' style='border-bottom:1px solid #ccc'><span class='col-sm-4 col-xs-4 text-center'>메뉴</span><span class='col-sm-2 col-xs-2 text-center'>적립</span><span class='col-sm-2 col-xs-2 text-center'>교환</span><span class='col-sm-3 col-xs-3 text-center'>수량</span></div>
+			<div class='OrderList clearfix'></div>
+			<div class='clearfix' style='border-bottom:1px solid #ccc; font-weight:bold;'><span class='col-sm-4 col-xs-4 text-center'>합산</span><span class='totalSavingInput col-sm-2 col-xs-2 text-center'>0</span><span class='totalExchangeInput col-sm-2 col-xs-2 text-center'>0</span><span class='SumMenu col-sm-3 col-xs-3 text-center'>0</span></div>			
 		</div>
 	</div>	
 </div>
@@ -490,6 +573,11 @@ function ShowPointInfo(totalStamp, Amount){
 	<div id="MemberGridPager"></div>
 	<button id = 'SelectMember' class='SelectMember btn btn-default col-sm-5 col-xs-5'>선택</button>
 	<button class='CancelMember btn btn-default col-sm-push-2 col-xs-push-2 col-sm-5 col-xs-5'>취소</button>
+</div>
+<div id='HiddenMenu' class='hidden col-xs-12 co-sm-12'>
+	<ul id='HiddenMenuList'>
+		
+	</ul>
 </div>
 </body>
 </html>
