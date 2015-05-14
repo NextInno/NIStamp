@@ -15,44 +15,56 @@
 <link href="../../css/MenuBtn.css" rel="stylesheet" type ="text/css"/>
 <script>
 $(document).ready(function() {
-	$('#insert').click(function(){
-		var StoreOwnerName = $('#StoreOwnerName').val();
-		var StoreName = $('#StoreName').val();
-		var StoreAccount = $('#StoreAccount').val();
-		var StorePassword = $('#StorePassword').val();
-		var StoreAddress = $('#StoreAddress').val();
-		var StoreTel = $('#StoreTel').val();
-		var StorePhone = $('#StorePhone').val();
-		var StoreFax = $('#StoreFax').val();
-		var StoreCompanyNo = $('#StoreCompanyNo').val();
-			
-		$.ajax({
-	        url: '../Controller/Store/StoreInsert.jsp',
-	        type: 'POST',
-	        dataType: 'jsonp',
-	        jsonp: 'insert',
-	        data: { 
-		    'StoreOwnerName': StoreOwnerName ,
-		    'StoreName': StoreName  ,
-		    'StoreAccount' : StoreAccount,
-		    'StorePassword' : StorePassword ,
-		    'StoreTel' : StoreTel,
-		    'StoreAddress' : StoreAddress,
-		    'StorePhone':StorePhone,
-		    'StoreFax':StoreFax,
-		    'StoreCompanyNo':StoreCompanyNo
-	    },
-	    success:function(json) {		        	 
-	        alert('입력이 완료되었습니다.');
-	    },
-	    error:function(json){
-	    	alert('입력값이 잘못되었습니다.');
-	    	
-	    }}); 
-	});
-	$('#cancel').click(function(){
-		window.location.href = '../Home/Index.jsp';
-	});
+	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
+	if(Session_No == 'null') {
+		document.location.href = "../Home/Login.jsp";
+	}else{
+		$('#insert').click(function(){
+			var StoreOwnerName = $('#StoreOwnerName').val();
+			var StoreName = $('#StoreName').val();
+			var StoreAccount = $('#StoreAccount').val();
+			var StorePassword = $('#StorePassword').val();
+			var StoreAddress = $('#StoreAddress').val();
+			var StoreTel = $('#StoreTel').val();
+			var StorePhone = $('#StorePhone').val();
+			var StoreFax = $('#StoreFax').val();
+			var StoreCompanyNo = $('#StoreCompanyNo').val();
+				
+			$.ajax({
+		        url: '../Controller/Store/StoreInsert.jsp',
+		        type: 'POST',
+		        dataType: 'jsonp',
+		        jsonp: 'insert',
+		        data: { 
+			    'StoreOwnerName': StoreOwnerName ,
+			    'StoreName': StoreName  ,
+			    'StoreAccount' : StoreAccount,
+			    'StorePassword' : StorePassword ,
+			    'StoreTel' : StoreTel,
+			    'StoreAddress' : StoreAddress,
+			    'StorePhone':StorePhone,
+			    'StoreFax':StoreFax,
+			    'StoreCompanyNo':StoreCompanyNo
+		    },
+		    success:function(json) {		        	 
+		        alert('입력이 완료되었습니다.');
+		    },
+		    error:function(json){
+		    	alert('입력값이 잘못되었습니다.');
+		    	
+		    }}); 
+		});
+		$('#cancel').click(function(){
+			window.location.href = '../Home/Index.jsp';
+		});
+		$('#LogOut').on('click',function(){
+			var LogOutMessage = confirm("정말 로그아웃하시겠습니까?");
+			if(LogOutMessage){
+				location.href= '../../Controller/Home/LogOut.jsp'
+			}
+		})
+	}
+	
 });
 </script>
 </head>

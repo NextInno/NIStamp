@@ -349,7 +349,8 @@ $(document).ready(function() {
 					   		,'Content' : InputHistory
 				   		 },
 				   		success:function(json) {
-				   			alert(json.Point + "를 적립하셨습니다.");
+				   			alert(json.rows[0].Point + "를 적립하셨습니다.");
+				   			ShowPointInfo(10,json.rows[0].Point);
 				 	    
 				 	    },
 				 	    error:function(json){
@@ -364,12 +365,17 @@ $(document).ready(function() {
 			}else{
 				alert('고객을 선택해주세요');
 			}
-			
-			
 		})
 		$('.CancelMember').click(function(){
 			$('.PopUpPage').css('display','none');
 			$('.SearchNum').val('');
+		})
+		$('#LogOut').on('click',function(){
+			var LogOutMessage = confirm("정말 로그아웃하시겠습니까?");
+			if(LogOutMessage){
+				location.href= '../../Controller/Home/LogOut.jsp'
+			}
+					
 		})
 		
 	}
@@ -400,20 +406,24 @@ function MemberPointSearch(No){
 }
 function InsertPoint(No, Mode, Amount){
 	var PointAmount;
+	var ModeText;
 	if(Mode == 'SavePoint'){
 		PointAmount = Amount;
+		ModeText = '적립';
 		
 	}else{
 		PointAmount = -Amount;
+		ModeText = '사용';
 	}
 	$.ajax({
-        url: '../../Controller/Home/Point.jsp',
+        url: '../../Controller/Home/PointHistory.jsp',
         type: 'POST',
         dataType: 'JSON',
         jsonp: 'insert',
         data: { 
 	   		'No':No
 	   		,'Point' : PointAmount
+	   		, 'Content' : ModeText
 	    },
 	    success:function(json) {
 	    	var message = confirm("현재 "+$('.Name').text() +" 고객님의 총적립량은" +json.rows[0].Point + "입니다\n적립을 끝내시겠습니까?" );
@@ -456,11 +466,12 @@ function ShowMemberInfo(No, Name, BirthYear, BirthMonth, BirthDate, Gender, Phon
 }
 function ShowPointInfo(totalStamp, Amount){
 	var StampInfo = '';
+	var PrintAmount = Amount%10;
 		StampInfo += "<div class='clearfix'>\n<div class='col-sm-1 col-xs-1'></div>\n";
 	for( var i = 0 ; i < totalStamp ; i ++){
-		if(i < parseInt(Amount)){
+		if(i < parseInt(PrintAmount)){
 			StampInfo += "<img src='../../images/StampImg/FullStamp.png' class='col-sm-2 col-xs-2 img-responsive'>\n";
-			if(i == parseInt(totalStamp)/2){
+			if(i == (parseInt(totalStamp)/2) -1 ){
 				StampInfo += "</div>\n<br/>\n<div class='clearfix'>\n<div class='col-sm-1 col-xs-1'></div>\n";
 			}
 		}else{
@@ -601,8 +612,8 @@ function TotalOrder(){
 			<div class='clearfix' style='border-bottom:1px solid #ccc; font-weight:bold;'><span class='col-sm-4 col-xs-4 text-center'>합산</span><span class='totalSavingInput col-sm-2 col-xs-2 text-center'>0</span><span class='totalExchangeInput col-sm-2 col-xs-2 text-center'>0</span><span class='SumMenu col-sm-3 col-xs-3 text-center'>0</span></div>			
 		</div>
 		<div id='SaveExchangeArea'>
-			<button id='Saving' class='col-sm-6 col-xs-6'>적립하기</button>
-			<button id='Exchanging' class='col-sm-6 col-xs-6'>사용하기</button>
+			<button id='Saving' class='col-sm-6 col-xs-6 btn btn-default'>적립하기</button>
+			<button id='Exchanging' class='col-sm-6 col-xs-6 btn btn-default'>사용하기</button>
 		</div>
 	</div>	
 </div>

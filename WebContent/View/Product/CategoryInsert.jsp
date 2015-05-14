@@ -19,8 +19,7 @@
 $(document).ready(function(){
 	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
 	var no = '<%= request.getParameter("no")%>';
-	alert(Session_No);
-
+	if(Session_No != '' && Session_No != 'null'){
 		//수정할 때 
 		$.ajax({
 			url: '../../Controller/Product/CategoryLoad.jsp',
@@ -48,6 +47,14 @@ $(document).ready(function(){
 	     	
 	     	}
 	 	  });
+		$('#LogOut').on('click',function(){
+			var LogOutMessage = confirm("정말 로그아웃하시겠습니까?");
+			if(LogOutMessage){
+				location.href= '../../Controller/Home/LogOut.jsp'
+			}
+		})
+	}
+
 		
 	
 });

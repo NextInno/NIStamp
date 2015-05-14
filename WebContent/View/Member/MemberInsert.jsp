@@ -38,47 +38,56 @@ $(document).ready(function() {
         	    alert('입력값이 잘못되었습니다.');
             }
         });
-	}
-	$('#insert').click(function(){
-		var Name = $('#memberName').val();
-		var PhoneNum = $('#memberPhoneNumber').val();
-		var BirthDay = $('#memberBirthDay').val();
-		var Gender = $('input[name="gender"]:checked').val();
-		var TelNum = $('#memberTelNumber').val();
+		$('#insert').click(function(){
+			var Name = $('#memberName').val();
+			var PhoneNum = $('#memberPhoneNumber').val();
+			var BirthDay = $('#memberBirthDay').val();
+			var Gender = $('input[name="gender"]:checked').val();
+			var TelNum = $('#memberTelNumber').val();
+			
+			$.ajax({
+	            type: 'POST',
+	            dataType: 'jsonp',
+	            jsonp: 'insert',
+	            url: '../../Controller/Member/MemberInsert.jsp',
+	            data: { 
+	        	      'Name': Name
+	        	    , 'PhoneNum': PhoneNum
+	        	    , 'Gender' : Gender
+	        	    , 'BirthDay' : BirthDay
+					, 'TelNum' : TelNum
+					, 'no' : no
+			    },
+	            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
+	            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
+	            success:function(json) {		        	 
+	        	    var message = confirm("메인화면으로 돌아가시겠습니까?");
+	        	    if(message == true){
+	        	    	window.location.href ="../Home/Index.jsp";
+	        	    }else{
+	        	    	window.location.reload(true);
+	        	    }
+	            },
+	            error:function(){
+	            	
+	        	    alert('입력값이 잘못되었습니다.1');
+	            }
+	        });
+		});
+		$('.datepicker').datepicker();
+		$('#cancel').click(function(){
+			window.location.assign('../Home/Index.jsp');
+		});
 		
-		$.ajax({
-            type: 'POST',
-            dataType: 'jsonp',
-            jsonp: 'insert',
-            url: '../../Controller/Member/MemberInsert.jsp',
-            data: { 
-        	      'Name': Name
-        	    , 'PhoneNum': PhoneNum
-        	    , 'Gender' : Gender
-        	    , 'BirthDay' : BirthDay
-				, 'TelNum' : TelNum
-				, 'no' : no
-		    },
-            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
-            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
-            success:function(json) {		        	 
-        	    var message = confirm("메인화면으로 돌아가시겠습니까?");
-        	    if(message == true){
-        	    	window.location.href ="../Home/Index.jsp";
-        	    }else{
-        	    	window.location.reload(true);
-        	    }
-            },
-            error:function(){
-            	
-        	    alert('입력값이 잘못되었습니다.1');
-            }
-        });
-	});
-	$('.datepicker').datepicker();
-	$('#cancel').click(function(){
-		window.location.assign('../Home/Index.jsp');
-	});
+		$('#LogOut').on('click',function(){
+			var LogOutMessage = confirm("정말 로그아웃하시겠습니까?");
+			if(LogOutMessage){
+				location.href= '../../Controller/Home/LogOut.jsp'
+			}
+					
+		})
+	}
+	
 });
 </script>
 </head>

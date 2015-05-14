@@ -47,6 +47,7 @@
 		Store_No = String.valueOf(rs.getInt("No"));
 		session.setAttribute("Store_No", Store_No);
 		session.setAttribute("ID", sId);
+		session.setAttribute("SaveType", String.valueOf(rs.getInt("SaveType")));
 		con.close();
 		Result = "Success";
 	} catch(Exception e) {

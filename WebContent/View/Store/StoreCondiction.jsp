@@ -209,8 +209,14 @@ $(document).ready(function() {
 		google.setOnLoadCallback(drawChartDateAges(test));
 		google.setOnLoadCallback(drawChartMonthAges(test2));
 		google.setOnLoadCallback(drawChartWeekAges(test2));
-		google.setOnLoadCallback(drawMountAmountChart)
+		google.setOnLoadCallback(drawMountAmountChart);
 		
+		$('#LogOut').on('click',function(){
+			var LogOutMessage = confirm("정말 로그아웃하시겠습니까?");
+			if(LogOutMessage){
+				location.href= '../../Controller/Home/LogOut.jsp'
+			}
+		})
 		
 	}
 });

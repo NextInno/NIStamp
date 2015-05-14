@@ -21,6 +21,7 @@ String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 String sQuery = "";
 String sNo = request.getParameter("No");
 String sPoint =request.getParameter("Point");
+String sType = (String)session.getAttribute("SaveType");
 logger.info( "MemberPoint!");
 
 JSONObject responcedata = new JSONObject();
@@ -32,7 +33,7 @@ try {
 	PreparedStatement stmt = null;
 	if(sPoint != null){
 			sQuery = "INSERT INTO Point (Type, Point, Member_No, ExpireDate, CreateDate, CreateBy, UpdateDate, UpdateBy) ";
-			sQuery += "VALUE ("+ 0 + ", "+ sPoint +"," + sNo + ", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, "+ sStore_No + ", CURRENT_TIMESTAMP, "+ sStore_No +");";
+			sQuery += "VALUE ("+ sType + ", "+ sPoint +"," + sNo + ", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, "+ sStore_No + ", CURRENT_TIMESTAMP, "+ sStore_No +");";
 			stmt = con.prepareStatement(sQuery);
 			rs = stmt.executeQuery();
 			/* sQuery = "INSERT INTO Point (Type, Point, Member_No, ExpireDate, CreateDate, CreateBy, UpdateDate, UpdateBy) ";

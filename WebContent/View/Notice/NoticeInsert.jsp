@@ -42,41 +42,49 @@ $(document).ready(function() {
         	    alert('입력값이 잘못되었습니다.');
             }
         });
+		$('#InsertNotice').click(function(){
+			var Title = $('#TitleInput').val();
+			var Content = $('#ContentInput').val();
+			alert(Content);
+			$.ajax({
+	            type: 'POST',
+	            dataType: 'jsonp',
+	            jsonp: 'insert',
+			    url: '../../Controller/Notice/NoticeInsert.jsp',
+	            data: { 
+	        	      'Title': Title
+	        	    , 'Content': Content
+					, 'no' : no
+			    },
+	            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
+	            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
+	            success:function(json) {		        	 
+	        	    var message = confirm("메인화면으로 돌아가시겠습니까?");
+	        	    if(message == true){
+	        	    	window.location.href ="Notice.jsp";
+	        	    }else{
+	        	    	window.location.reload(true);
+	        	    }
+	            },
+	            error:function(){
+	        	    alert('입력값이 잘못되었습니다.1');
+	            }
+	        });
+		});
+		$('#cancel').click(function(){
+			window.location.assign('Notice.jsp');
+		});
+		
+		$('#LogOut').on('click',function(){
+			var LogOutMessage = confirm("정말 로그아웃하시겠습니까?");
+			if(LogOutMessage){
+				location.href= '../../Controller/Home/LogOut.jsp'
+			}
+		})
 	}else{
 		no = '';
 	}
-	$('#InsertNotice').click(function(){
-		var Title = $('#TitleInput').val();
-		var Content = $('#ContentInput').val();
-		alert(Content);
-		$.ajax({
-            type: 'POST',
-            dataType: 'jsonp',
-            jsonp: 'insert',
-		    url: '../../Controller/Notice/NoticeInsert.jsp',
-            data: { 
-        	      'Title': Title
-        	    , 'Content': Content
-				, 'no' : no
-		    },
-            // jsonp 값을 전달할 때 사용되는 파라미터 변수명
-            // 이 속성을 생략하면 callback 파라미터 변수명으로 전달된다.
-            success:function(json) {		        	 
-        	    var message = confirm("메인화면으로 돌아가시겠습니까?");
-        	    if(message == true){
-        	    	window.location.href ="Notice.jsp";
-        	    }else{
-        	    	window.location.reload(true);
-        	    }
-            },
-            error:function(){
-        	    alert('입력값이 잘못되었습니다.1');
-            }
-        });
-	});
-	$('#cancel').click(function(){
-		window.location.assign('Notice.jsp');
-	});
+	
 });
 </script>
 </head>

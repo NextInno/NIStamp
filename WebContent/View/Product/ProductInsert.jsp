@@ -136,6 +136,12 @@ $(document).ready(function(){
 		$("#exchangeUnuse").click(function(){
 			$("#exchangeArea").hide();
 		});
+		$('#LogOut').on('click',function(){
+			var LogOutMessage = confirm("정말 로그아웃하시겠습니까?");
+			if(LogOutMessage){
+				location.href= '../../Controller/Home/LogOut.jsp'
+			}
+		})
 		
 	}
 });

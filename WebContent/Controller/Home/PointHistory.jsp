@@ -25,8 +25,9 @@ String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 String sQuery = "";
 String sMemberNo = request.getParameter("MemberNo");
 String sPoint =request.getParameter("Point");
+String sType = (String)session.getAttribute("SaveType");
 String sContent =request.getParameter("Content");
-logger.info( "MemberPoint!");
+logger.info( "PointHistory!");
 
 JSONObject responcedata = new JSONObject();
 
@@ -35,8 +36,12 @@ try {
 	Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 	ResultSet rs= null;
 	PreparedStatement stmt = null;
-	sQuery = "INSERT INTO PointHistory ( MemberNo , Point, Content, CreateBy, CreateDate) ";
-	sQuery += "VALUE ("+ sMemberNo + ", "+ sPoint +"," + sContent + ", CURRENT_TIMESTAMP, "+ sStore_No +");";
+	sQuery = "INSERT INTO PointUseHistory ( Member_No , Point, Content, CreateDate, CreateBy) ";
+	sQuery += "VALUE ("+ sMemberNo + ", "+ sPoint +",'" + sContent + "', CURRENT_TIMESTAMP, "+ sStore_No +");";
+	stmt = con.prepareStatement(sQuery);
+	rs = stmt.executeQuery();
+	sQuery = "INSERT INTO Point (Type, Point, Member_No, ExpireDate, CreateDate, CreateBy, UpdateDate, UpdateBy) ";
+	sQuery += "VALUE ("+ sType + ", "+ sPoint +"," + sMemberNo + ", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, "+ sStore_No + ", CURRENT_TIMESTAMP, "+ sStore_No +");";
 	stmt = con.prepareStatement(sQuery);
 	rs = stmt.executeQuery();
 	
