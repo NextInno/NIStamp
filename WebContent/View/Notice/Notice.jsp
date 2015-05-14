@@ -112,18 +112,23 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-<div id='header'>
-	<div id = 'NavButton' class = 'col-md-12'>
+<div id = 'header' class='clearfix'>
+	<div id='IdArea' class='col-sm-12 col-xs-12 text-right clearfix'>
+		<strong><%=session.getAttribute("ID")%></strong>님이 <strong>로그인</strong>하셨습니다.&nbsp;&nbsp;&nbsp;
+		<button id = 'LogOut' class='btn btn-default'>로그아웃</button>
+	</div>
+	<div id = 'NavButton' class = 'col-sm-12 col-xs-12'>
 		<input type = 'button' id = 'NavBtn' class = 'btn btn-default col-xs-12' value = '메뉴'/>
 	</div>
-	<div id = 'Nav' class= 'col-md-12 clearfix'>
+	<div id = 'Nav' class= 'col-sm-12 col-xs-12 clearfix'>
 		<a href= '../Home/Index.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>홈</a>
 		<a href= '../Home/Reserve.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>적립하기</a>
 		<a href= '../Member/MemberInsert.jsp' class='btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
 		<a href= '../Product/ProductInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>교환상품등록</a>
 		<a href= '../Product/ProductList.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>상품목록</a>
-		<a href= '../Member/MemberInsert.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>회원등록</a>
+		<a href= '../Store/StoreCondiction.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>매장현황</a>
 	</div>
+	<br/>
 </div>
 <div id='container'>
 	<div class='col-sm-12 col-xs-12'>

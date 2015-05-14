@@ -184,12 +184,12 @@ $(document).ready(function() {
 		<a href= '../Store/StoreCondiction.jsp' class=' btn btn-default col-xs-12 col-sm-2' role = 'button'>매장현황</a>
 	</div>
 	<br/>
-	<div class='col-md-12 col-sm-2'>
+	<div class='col-sm-12 col-xs-12'>
 		<button type="button" id = 'searchStart' class="btn btn-default col-md-1">검색하기</button>
 	</div>
 	<br/>
 	<div id = 'searchArea' class='clearfix'>
-		<form class="form-horizontal col-md-12">
+		<form class="form-horizontal col-m\sm-12">
 		    <div class= 'clearfix col-xs-12 col-sm-12'></div>
 		    <div class="form-group col-xs-12 col-sm-4 clearfixs" >
 		        <label for="name">이름</label>
