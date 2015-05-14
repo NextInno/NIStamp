@@ -298,7 +298,7 @@ $(document).ready(function() {
 				temp+= "<span class='OrderMenu col-sm-4 col-xs-4' style='margin-top:5px'>" +$('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuName').text() +"</span>";
 				temp+= "<span class='OrderSavingInput col-sm-2 col-xs-2 text-center' style='margin-top:5px'>" +$('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuSavingInput').text() +"</span>";
 				temp+= "<span class='OrderExchangeInput col-sm-2 col-xs-2 text-center' style='margin-top:5px'>" +ExchangeIs +"</span>";
-				temp+= "<button class='up" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∧</button><input type='text' class='col-sm-1 col-xs-1 text-center' style='margin-top:5px' value ='1'/><button class='down" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∨</button>"
+				temp+= "<button class='up" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∧</button><input type='text' class='col-sm-1 col-xs-1 text-center' style='margin-top:5px;padding:0 0 0 0;' value ='1'/><button class='down" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∨</button>"
 				temp+="</div>";
 			$('.OrderList').append(temp);
 			TotalOrder()
@@ -326,16 +326,46 @@ $(document).ready(function() {
 				
 			});
 		});
-		$('#SavePoint').on('click',function(){
+		$('#Saving').on('click',function(){
 			var InputHistory = '';
 			var tempSavingInput=0;
-			$('.Order').each(function(){
-				tempSavingInput += parseInt($(this).children('.OrderSavingInput').text())*parseInt($(this).children('input').val());
-				InputHistory += $(this).children('.OrderMenu').text() + ' : ' + tempSavingInput + ' 개  / ' ;
-				tempSavingInput=0;
-			});
-			InputHistory = InputHistory.substring(0,InputHistory.length - 2);
-			alert(InputHistory);
+			var SelectMemberNo = $('.MemberInfo .No').text();
+			if(SelectMemberNo != ''){
+				$('.Order').each(function(){
+					tempSavingInput += parseInt($(this).children('.OrderSavingInput').text())*parseInt($(this).children('input').val());
+					InputHistory += $(this).children('.OrderMenu').text() + ' : ' + tempSavingInput + ' 개  / ' ;
+					tempSavingInput=0;
+				});
+				InputHistory = InputHistory.substring(0,InputHistory.length - 2);
+				if(InputHistory != ''){
+					$.ajax({
+						url: '../../Controller/Home/PointHistory.jsp',
+				        type: 'POST',
+				        dataType: 'JSON',
+				        jsonp: 'insert',
+				        data: { 
+					   		'MemberNo' : SelectMemberNo
+					   		,'Point' :  $('.totalSavingInput').text()
+					   		,'Content' : InputHistory
+				   		 },
+				   		success:function(json) {
+				   			alert(json.Point + "를 적립하셨습니다.");
+				 	    
+				 	    },
+				 	    error:function(json){
+				 	    	alert('통신에러입니다..');
+				     	
+				     	}
+				 	  });
+				}else{
+					
+				}
+				
+			}else{
+				alert('고객을 선택해주세요');
+			}
+			
+			
 		})
 		$('.CancelMember').click(function(){
 			$('.PopUpPage').css('display','none');
@@ -569,6 +599,10 @@ function TotalOrder(){
 			<div class='clearfix' style='border-bottom:1px solid #ccc'><span class='col-sm-4 col-xs-4 text-center'>메뉴</span><span class='col-sm-2 col-xs-2 text-center'>적립</span><span class='col-sm-2 col-xs-2 text-center'>교환</span><span class='col-sm-3 col-xs-3 text-center'>수량</span></div>
 			<div class='OrderList clearfix'></div>
 			<div class='clearfix' style='border-bottom:1px solid #ccc; font-weight:bold;'><span class='col-sm-4 col-xs-4 text-center'>합산</span><span class='totalSavingInput col-sm-2 col-xs-2 text-center'>0</span><span class='totalExchangeInput col-sm-2 col-xs-2 text-center'>0</span><span class='SumMenu col-sm-3 col-xs-3 text-center'>0</span></div>			
+		</div>
+		<div id='SaveExchangeArea'>
+			<button id='Saving' class='col-sm-6 col-xs-6'>적립하기</button>
+			<button id='Exchanging' class='col-sm-6 col-xs-6'>사용하기</button>
 		</div>
 	</div>	
 </div>
