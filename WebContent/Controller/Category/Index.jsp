@@ -19,11 +19,9 @@ String DB_id = NiModuleConfig.getInstance().getDB_ID();
 String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 
 String sQuery = "";
-String Test = "";
 
 logger.info( "Category Load!");
 
-JSONObject responcedata = new JSONObject();
 JSONArray cellarray = new JSONArray();
 
 try {			
@@ -38,10 +36,8 @@ try {
 
     while(rs.next()) {
         cellobj.put("id", rs.getString("No"));
-        
-        Test = rs.getString("ParentNo").toString();
-        
-        if(rs.getString("ParentNo").toString() == "0" || rs.getString("ParentNo").toString() == "null") {
+               
+        if(rs.getInt("ParentNo") == 0) {
         	cellobj.put("parent", "#");
         } else {
         	cellobj.put("parent", rs.getString("ParentNo"));
@@ -49,12 +45,10 @@ try {
 		cellobj.put("text", rs.getString("Name"));
 		cellarray.add(cellobj);
     }
-    //responcedata.put("data", cellarray);
 	stmt.close();
 	con.close();
 } catch (Exception ex) {
-	System.out.println("Error - " + ex.getMessage());
+	out.println("Error - " + ex.getMessage());
 }
-//out.print(responcedata.toString());
 out.print(cellarray.toString());
 %>
