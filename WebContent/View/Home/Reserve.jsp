@@ -276,6 +276,7 @@ $(document).ready(function() {
 			var SavePointAmount = $('#SavePointAmount').val();
 			var InsertMode = $(this).attr('id');
 			var No = $('.No').text();
+			alert(No);
 			if(SavePointAmount == ''){
 				alert('입력값이 비어있습니다.');
 			}else{
@@ -421,7 +422,7 @@ function InsertPoint(No, Mode, Amount){
         dataType: 'JSON',
         jsonp: 'insert',
         data: { 
-	   		'No':No
+	   		'MemberNo':No
 	   		,'Point' : PointAmount
 	   		, 'Content' : ModeText
 	    },
