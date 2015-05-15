@@ -6,6 +6,11 @@
 <%@ page import="net.sf.json.*" %>
 <%@ page import="ni.module.config.*" %>
 <%@ page import="org.apache.log4j.Logger"%>
+<%@ page import="java.io.IOException"%>
+<%@ page import="java.io.File"%>
+<%@ page import="java.util.Enumeration"%>
+<%@ page import="com.oreilly.servlet.MultipartRequest"%>
+<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 
 <%
 //  {ResultSet : 쿼리문 날린거 결과값 받는거}
@@ -13,9 +18,9 @@
 // 	{DriverManager : 마리아 디비 연결 되도록 해주는거}
 //	{Connection : 드라이버매니저 가지고 디비에 연결해주는거}
 %>
-<%! static Logger logger = Logger.getLogger("ProductInsert.jsp"); %>
+<%! static Logger logger = Logger.getLogger("ProductRead.jsp"); %>
 <%
-// { 'Name' : 상품이름, 'CategoryBig' : 1차카테고리, 'CategoryMiddle' : 2차카테고리, 'Price' : 상품가격, 'Contents' : 상품설명 } 
+// { 'Name' : 상품이름, 'CategoryBig' : 1차카테고리, 'CategoryMiddle' : 2차카테고리, 'Price' : 상품가격, 'Contents' : 상품설명 , 'Saving' : 적립여부, 'Exchange' : 교환여부, 'Image' : 상품이미지} 
 
 	String pNo = request.getParameter("no");
 	
@@ -32,13 +37,72 @@
 	String pSavingInput = request.getParameter("SavingInput");
 	String pExchange = request.getParameter("Exchange");
 	String pExchangeInput = request.getParameter("ExchangeInput");
+	String pImageURL = "";
+	String pImageName = ""; //request.getParameter("ImageName");
 	String pinsert = request.getParameter("insert");
+    String pTest = null;
 	
 	String driverName = "org.mariadb.jdbc.Driver";
 	String DB_url = NiModuleConfig.getInstance().getDB_SERVER_IP();
 	String DB_id = NiModuleConfig.getInstance().getDB_ID();
 	String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 	String Result = "";
+
+	request.setCharacterEncoding("EUC-KR");
+
+	String saveFolder = "http://27.102.197.30:8080/NIStamp/storeage";
+	String encType = "euc-kr";
+
+	int maxSize = 5 * 1024 * 1024;
+
+	try { 
+		MultipartRequest multi = null;
+
+		multi = new MultipartRequest(request, saveFolder, maxSize, encType, new DefaultFileRenamePolicy());
+		Enumeration params = multi.getParameterNames();
+
+		while(params.hasMoreElements()) {
+			String name = (String) params.nextElement();
+			String value = multi.getParameter(name);
+			//out.println(name+"="+value+"<br>");//while문에 의해 반복수행되면서
+            //name, value 변수에 담긴 값을 브라우저에 출력해준다.
+		}
+
+		Enumeration files = multi.getFileNames();
+
+		
+		while(files.hasMoreElements()) {
+			String name = (String) files.nextElement();
+			String filename = multi.getFilesystemName(name);
+			String original = multi.getOriginalFileName(name);
+			String type = multi.getContentType(name);
+
+			File f = multi.getFile(name);
+			
+			pImageURL = saveFolder + original;
+			
+			if(f!=null) {
+				//int pImageByte = f.length();
+			}
+	//		out.println("피라미터 이름 : "+name+"<br>");
+	//		out.println("실제 파일 이름 : "+original+"<br>");
+	//		out.println("저장된 파일 이름 : "+filename+"<br>");
+	//		out.println("파일 타입 : "+type+"<br>");
+
+	
+	//	if(f!=null) {
+	//	    	out.println("크기 : "+f.length()+"바이트");
+    // 			out.println("<br>");
+    //		}
+   		}
+		
+	} catch(IOException ioe) {
+		System.out.println(ioe);
+	} catch(Exception e) {
+		System.out.println(e);
+	}
+%>
+<%
 	
 	try {
 		Class.forName(driverName);
@@ -47,29 +111,12 @@
 		ResultSet rs = null;
 		String pQuery = "";
 		
+		Integer iProduct_No = 0;
 		
- 		if(pCategoryBig != null && pCategoryMiddle != null && pName != null && pPrice != null ) {
- 			Integer iProduct_No = 0;
-			
-			if(pNo == null) {
-				String productNoQuery = "SELECT MAX(ProductNo) AS 'ProductNo' FROM Product WHERE Store_No = " + pStore_No + " GROUP BY Store_No"; 
-				rs = stat.executeQuery(productNoQuery);
-				rs.last();
-				
-				if(rs.getRow() == 0) {
-					iProduct_No = 1;
-				} else {
-					iProduct_No = rs.getInt("ProductNo") + 1;
-				}
-				pQuery = "INSERT INTO Product (ProductNo, Store_No, CategoryBig, CategoryMiddle, Name, Price, Contents, Saving, SavingInput, Exchange, ExchangeInput, CreateDate, CreateBy) ";
-				pQuery += "VALUE ("+ iProduct_No + ", "+ pStore_No +", "+ pCategoryBig + ", "+ pCategoryMiddle + ", '"+ pName + "', "+ pPrice + ", '"+ pContents + "', " + pSaving + ", "+ pSavingInput +", "+ pExchange + ", "+ pExchangeInput +", CURRENT_TIMESTAMP , "+ pStore_No +");";
-			} else {
-				iProduct_No = Integer.parseInt(pNo);
-				pQuery = "UPDATE Product SET CategoryBig = '" + pCategoryBig + "',  CategoryMiddle = '" + pCategoryMiddle + "', Name = '" + pName + "', Price = '" + pPrice + "' , Contents = '" + pContents + "' , Saving = '" + pSaving +  "' , SavingInput = '" + pSavingInput + "' , Exchange = '" + pExchange + "' , ExchangeInput = '" + pExchangeInput + "WHERE ProductNo = " + pNo +";";		
-			}			
-		} else {
+		if(pNo == null) {
+			pQuery="";
+		}else {
 			pQuery = "SELECT CategoryBig, CategoryMiddle, Name, Price, Contents, Saving, SavingInput, Exchange, ExchangeInput FROM Product WHERE ProductNo = " + pNo;
-		
 		}
 		rs = stat.executeQuery(pQuery);
 		
@@ -89,7 +136,6 @@
 		con.close();
 		Result = "Success";
 	} catch(Exception e) {
-		//out.print("DB 접속 실패");
 		Result = e.getMessage();
 		e.printStackTrace();
 	}
