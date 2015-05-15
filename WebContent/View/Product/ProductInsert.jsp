@@ -68,6 +68,110 @@ $(document).ready(function(){
 			no = null;
 		}
 		
+		//카테고리 로드 
+		$.ajax({
+			url: '../../Controller/Product/CategoryLoad.jsp',
+	        type: 'POST',
+	        dataType: 'JSON',
+	        jsonp: 'insert',
+	        data: { 
+		   		'BigCategory' : '0'
+	   		 },
+	   		success:function(json) {
+	   			var temp ='';
+	   			
+	 	    	for(i = 0 ; i < json.rows.length; i++){
+	 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
+	 	    		$('#CategoryBig').append(temp);
+	 	    		
+	 	    		 
+	 	    	}
+	 	    },
+	 	    error:function(json){
+	 	    	alert('통신에러입니다..');
+	     	
+	     	}
+	 	  });
+		
+		//카테고리 선택 
+		$('#CategoryBig').on('change',function(){
+			if($(this).val() == 0){
+				$('#CategoryMiddle').html("<option>2차 카테고리</option>");
+			}
+			else{
+				$('#CategoryMiddle').html("");
+				$.ajax({
+					url: '../../Controller/Product/CategoryLoad.jsp',
+			        type: 'POST',
+			        dataType: 'JSON',
+			        jsonp: 'insert',
+			        data: { 
+			        	'BigCategory' :$('#CategoryBig').val()
+			   		 },
+			   		success:function(json) {
+			   			var temp ='';
+			   			var TempMenuNo = -1;
+			   			if( json.rows.length !=0 ){
+			   				for(i = 0 ; i < json.rows.length; i++){
+				 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
+				 	    		$('#CategoryMiddle').append(temp);
+				 	    	}
+			   				TempMenuNo = json.rows[0].No;
+			   			}else{
+			   				$('#CategoryMiddle').append("<option value ='-1'>등록된 메뉴가 없습니다.</option>");
+			   			}
+			 	    	
+			 	    	$.ajax({
+							url: '../../Controller/Product/CategoryMiddleLoad.jsp',
+					        type: 'POST',
+					        dataType: 'JSON',
+					        jsonp: 'insert',
+					        data: { 
+						   		'BigCategory' : $('#CategoryBig').val()
+						   		,'MiddleCategory' : $('#CategoryMiddle').first('option').val()
+					   		 },
+					   		success:function(json) {
+								//alert("")
+					 	    	
+					 	    },
+					 	    error:function(json){
+					 	    	alert('통신에러입니다..');
+					     	
+					     	}
+					 	 });
+			 	    },
+			 	    error:function(json){
+			 	    	alert('통신에러입니다..');
+			     	
+			     	}
+			 	 });
+			}
+			
+		});
+		
+		if($('input[name="Saving"]:checked').val() == "0"){
+			$("#SavingArea").show();
+		}
+		$("#SavingUse").click(function(){
+			$("#SavingArea").show();
+		});
+		$("#SavingUnuse").click(function(){
+			$("#SavingArea").hide();
+			$("#SavingInput").val(0);
+		});
+		
+		if($('input[name="Exchange"]:checked').val() == "0"){
+			$("#ExchangeArea").show();
+		}		
+		$("#ExchangeUse").click(function(){
+			$("#ExchangeArea").show();
+		});
+		$("#ExchangeUnuse").click(function(){
+			$("#ExchangeArea").hide();
+			$("#ExchangeInput").val(0);
+		});
+		
+		//저장 할 때
 		$("#insert").click(function(){
 			var CategoryBig = $("#CategoryBig").val();
 			var CategoryMiddle = $("#CategoryMiddle").val();
@@ -80,6 +184,7 @@ $(document).ready(function(){
 			var ExchangeInput = $("#ExchangeInput").val();
 			var Image = $('#Image').val().split('\\');
 			var ImageName = Image[Image.length-1];
+
 			
 			if(CategoryBig == "") {
 				alert("카테고리를 입력하세요.");
@@ -139,26 +244,6 @@ $(document).ready(function(){
 		$("#cancel").click(function() {
 			window.location.href="../Product/ProductList.jsp";
 		});
-
-		if($('input[name="Saving"]:checked').val() == "0"){
-			$("#SavingArea").show();
-		}
-		$("#SavingUse").click(function(){
-			$("#SavingArea").show();
-		});
-		$("#SavingUnuse").click(function(){
-			$("#SavingArea").hide();
-		});
-		
-		if($('input[name="Exchange"]:checked').val() == "0"){
-			$("#ExchangeArea").show();
-		}		
-		$("#ExchangeUse").click(function(){
-			$("#ExchangeArea").show();
-		});
-		$("#ExchangeUnuse").click(function(){
-			$("#ExchangeArea").hide();
-		});
 		
 	}
 });
@@ -185,7 +270,7 @@ $(document).ready(function(){
 	1차카테고리 :
 	</label>
 	<select id='CategoryBig' class='CategoryBig'>
-		<option>1</option>
+		<option value='0'>1차 카테고리</option>
 	</select>
 </div>
 <div class='col-sm-12 col-xs-12'>
@@ -193,7 +278,7 @@ $(document).ready(function(){
 	2차카테고리 :
 	</label>
 	<select id='CategoryMiddle' class='CategoryMiddle'>
-		<option>2</option>
+		<option>2차 카테고리</option>
 	</select> 
 </div>
 <div class='col-sm-12 col-xs-12'>

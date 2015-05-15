@@ -171,7 +171,7 @@ $(document).ready(function() {
 				 	    	}
 			   				TempMenuNo = json.rows[0].No;
 			   			}else{
-			   				$('#MiddleCategory').append("<option value ='-1'>등록된 메뉴가 없습니다.</option");
+			   				$('#MiddleCategory').append("<option value ='-1'>등록된 메뉴가 없습니다.</option>");
 			   			}
 			 	    	
 			 	    	$.ajax({
