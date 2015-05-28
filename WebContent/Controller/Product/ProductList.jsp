@@ -43,7 +43,20 @@
 			pQuery = "SELECT No, Name, Price FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No + " AND CategoryMiddle = " + sNo + "AND CategoryBig = " + sBigCategory;
 				
 		} else {
-			pQuery = "SELECT No, ProductNo, CategoryBig, CategoryMiddle, Name, Price, Contents, CASE Saving WHEN 0 THEN '사용' ELSE '미사용' END AS 'Saving', CASE Exchange WHEN 0 THEN '사용' ELSE '미사용' END AS 'Exchange' FROM Product WHERE IsDelete = 0 AND Store_No = " + pStore_No;
+			pQuery = "SELECT pro.No AS 'No'";
+			pQuery += ", pro.ProductNo AS 'ProductNo'";
+			pQuery += ", cate1.Name AS 'CategoryBig'";
+			pQuery += ", cate2.Name AS 'CategoryMiddle'";
+			pQuery += ", pro.Name AS 'Name'";
+			pQuery += ", pro.Price AS 'Price'";
+			pQuery += ", pro.Contents AS 'Contents'";
+			pQuery += ", CASE pro.Saving WHEN 0 THEN '사용' ELSE '미사용' END AS 'Saving'";
+			pQuery += ", CASE pro.Exchange WHEN 0 THEN '사용' ELSE '미사용' END AS 'Exchange' ";
+			pQuery += " FROM Product pro";
+			pQuery += " INNER JOIN Category cate1 ON pro.CategoryBig = cate1.No";
+			pQuery += " INNER JOIN Category cate2 ON pro.CategoryMiddle = cate2.No";
+			pQuery += " WHERE pro.IsDelete = 0 ";
+			pQuery += " AND pro.Store_No = " + pStore_No;
 		}
 		pQuery += ";";
 		
