@@ -191,7 +191,7 @@ $(document).ready(function() {
 					   			if( CheckUndefiend != '' ){
 					   				for(i = 0 ; i < json.rows.length; i++){
 					   					var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].Name +"[ "+ json.rows[i].Price +"원 ]</option>";
-					   					HiddenMenuListInput(json.rows[i].No, json.rows[i].Name,json.rows[i].Price, json.rows[i].SavingInput, json.rows[i].Exchange);
+					   					HiddenMenuListInput(json.rows[i].No, json.rows[i].Name,json.rows[i].Price, json.rows[i].SavingInput, json.rows[i].ExchangeInput);
 					   					$('#MenuList').append(temp);
 						 	    	}
 					   			}else{
@@ -287,45 +287,51 @@ $(document).ready(function() {
 			document.location.reload();
 		});
 		$('#MenuList').on('change',function(){
-			var ExchangeIs;
-			var temp;
-			if($('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuExchangeInput').text() == 'undefined'){
-				ExchangeIs ='X';
-			}else{
-				ExchangeIs = $('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuExchangeInput').text();
-			}
 			
-				temp = "<div class = 'Order Order"+ $(this).val()+" col-sm-12 col-xs-12 clearfix' style='border-bottom:1px solid #ccc'>";
-				temp+= "<span class='OrderMenu col-sm-4 col-xs-4' style='margin-top:5px'>" +$('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuName').text() +"</span>";
-				temp+= "<span class='OrderSavingInput col-sm-2 col-xs-2 text-center' style='margin-top:5px'>" +$('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuSavingInput').text() +"</span>";
-				temp+= "<span class='OrderExchangeInput col-sm-2 col-xs-2 text-center' style='margin-top:5px'>" +ExchangeIs +"</span>";
-				temp+= "<button class='up" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∧</button><input type='text' class='col-sm-1 col-xs-1 text-center' style='margin-top:5px;padding:0 0 0 0;' value ='1'/><button class='down" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∨</button>"
-				temp+="</div>";
-			$('.OrderList').append(temp);
-			TotalOrder()
-			$('.up'+ $(this).val()).on('click',function(){
-				var tempAmount = parseInt($(this).siblings('input').val());
-				tempAmount = tempAmount+1;
-				$(this).siblings('input').val(tempAmount);
-				TotalOrder()
-			});
-			$('.down'+ $(this).val()).on('click',function(){
-				var tempAmount = parseInt($(this).siblings('input').val());
-				if(tempAmount == 0){
-					
-					
-				}else if(tempAmount == 1){
-					alert(temp);
-					var Delete = $('.OrderList').html().replaceAll(temp,'');
-					alert(Delete);
-					$('.OrderList').html(Delete)
+			if($(this).val() != 0 && isNaN($(this).val()) != true){
+				var ExchangeIs;
+				var temp;
+				if($('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuExchangeInput').text() == 'undefined'){
+					alert('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuExchangeInput');
+					alert($('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuExchangeInput').text());
+					ExchangeIs ='X';
 				}else{
-					tempAmount = tempAmount-1;
-					$(this).siblings('input').val(tempAmount);
-					TotalOrder()
+					ExchangeIs = $('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuExchangeInput').text();
 				}
 				
-			});
+					temp = "<div class = 'Order Order"+ $(this).val()+" col-sm-12 col-xs-12 clearfix' style='border-bottom:1px solid #ccc'>";
+					temp+= "<span class='OrderMenu col-sm-4 col-xs-4' style='margin-top:5px'>" +$('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuName').text() +"</span>";
+					temp+= "<span class='OrderSavingInput col-sm-2 col-xs-2 text-center' style='margin-top:5px'>" +$('#HiddenMenuList #Menu_' + $(this).val() + ' .hMenuSavingInput').text() +"</span>";
+					temp+= "<span class='OrderExchangeInput col-sm-2 col-xs-2 text-center' style='margin-top:5px'>" +ExchangeIs +"</span>";
+					temp+= "<button class='up" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∧</button><input type='text' class='col-sm-1 col-xs-1 text-center' style='margin-top:5px;padding:0 0 0 0;' value ='1'/><button class='down" + $(this).val() + " btn btn-default col-sm-1 col-xs-1'>∨</button>"
+					temp+="</div>";
+				$('.OrderList').append(temp);
+				TotalOrder()
+				$('.up'+ $(this).val()).on('click',function(){
+					var tempAmount = parseInt($(this).siblings('input').val());
+					tempAmount = tempAmount+1;
+					$(this).siblings('input').val(tempAmount);
+					TotalOrder()
+				});
+				$('.down'+ $(this).val()).on('click',function(){
+					var tempAmount = parseInt($(this).siblings('input').val());
+					if(tempAmount == 0){
+						
+						
+					}else if(tempAmount == 1){
+						alert(temp);
+						var Delete = $('.OrderList').html().replaceAll(temp,'');
+						alert(Delete);
+						$('.OrderList').html(Delete)
+					}else{
+						tempAmount = tempAmount-1;
+						$(this).siblings('input').val(tempAmount);
+						TotalOrder()
+					}
+					
+				});
+			}
+			
 		});
 		$('#Saving').on('click',function(){
 			var InputHistory = '';
@@ -352,6 +358,12 @@ $(document).ready(function() {
 				   		success:function(json) {
 				   			alert(json.rows[0].Point + "를 적립하셨습니다.");
 				   			ShowPointInfo(10,json.rows[0].Point);
+				   			var message = confirm('적립을 끝내시겠습니까?');
+				   			if(message){
+				   				document.location.reload();
+				   			}else{
+				   				
+				   			}
 				 	    
 				 	    },
 				 	    error:function(json){
@@ -367,6 +379,62 @@ $(document).ready(function() {
 				alert('고객을 선택해주세요');
 			}
 		})
+		$('#Exchanging').on('click',function(){
+			var InputHistory = '';
+			var tempSavingInput=0;
+			var SelectMemberNo = $('.MemberInfo .No').text();
+			var AmountPoint = parseInt($('#AmountPoint').text());
+			var totalExchangeInput = parseInt($('.totalExchangeInput').text());
+			var ComparePoint = AmountPoint - totalExchangeInput;
+			if(SelectMemberNo != ''){
+				$('.Order').each(function(){
+					tempSavingInput += parseInt($(this).children('.OrderSavingInput').text())*parseInt($(this).children('input').val());
+					InputHistory += $(this).children('.OrderMenu').text() + ' : ' + tempSavingInput + ' 개  / ' ;
+					tempSavingInput=0;
+				});
+				if(ComparePoint >= 0 ){
+					InputHistory = InputHistory.substring(0,InputHistory.length - 2);
+					if(InputHistory != ''){
+						$.ajax({
+							url: '../../Controller/Home/PointHistory.jsp',
+					        type: 'POST',
+					        dataType: 'JSON',
+					        jsonp: 'insert',
+					        data: { 
+						   		'MemberNo' : SelectMemberNo
+						   		,'Point' :  '-' + totalExchangeInput
+						   		,'Content' : InputHistory
+					   		 },
+					   		success:function(json) {
+					   			alert(json.rows[0].Point + "를 적립하셨습니다.");
+					   			ShowPointInfo(10,json.rows[0].Point);
+					   			$('#AmountPoint').text(josn.rows[0].Point);
+					   			var message = confirm('적립을 끝내시겠습니까?');
+					   			if(message){
+					   				document.location.reload();
+					   			}else{
+					   				
+					   			}
+					 	    
+					 	    },
+					 	    error:function(json){
+					 	    	alert('통신에러입니다..');
+					     	
+					     	}
+					 	  });
+					}else{
+						
+					}
+				}else{
+					alert("적립한 포인트가 부족합니다.");
+				}
+				
+				
+				
+			}else{
+				alert('고객을 선택해주세요');
+			}
+		});
 		$('.CancelMember').click(function(){
 			$('.PopUpPage').css('display','none');
 			$('.SearchNum').val('');
@@ -398,6 +466,8 @@ function MemberPointSearch(No){
     	$('#SavePoint').removeClass('hidden');
     	$('#UsePoint').removeClass('hidden');
     	$('#CancelSave').removeClass('hidden');
+    	var MemberPointText = "<div class='col-sm-4 col-xs-12'>총 적립한 갯수 : <span id='AmountPoint'>" + json.rows[0].Point + "</span></div>";
+    	$('.MemberInfo').append(MemberPointText);
     	ShowPointInfo(10,json.rows[0].Point);
     },
     error:function(json){
@@ -453,7 +523,7 @@ function ShowMemberInfo(No, Name, BirthYear, BirthMonth, BirthDate, Gender, Phon
 		MemberInfo += "<span class='BirthMonth'>"+ BirthMonth +"</span> 월\n";
 		MemberInfo += "<span class='BirthDate'>"+ BirthDate +"</span> 일\n";
 		MemberInfo += "</div>\n";
-		MemberInfo += "<div class='col-sm-4 col-xs-4'>성별 :\n";
+		MemberInfo += "<div class='col-sm-4 col-xs-12'>성별 :\n";
 		MemberInfo += "<span class='Gender'>"+ Gender +"</span>\n";
 		MemberInfo += "</div>\n";
 		MemberInfo += "<div class='col-sm-8 col-xs-12'>휴대폰번호 :\n";
