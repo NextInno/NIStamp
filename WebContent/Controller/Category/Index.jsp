@@ -19,9 +19,11 @@ String DB_id = NiModuleConfig.getInstance().getDB_ID();
 String DB_password= NiModuleConfig.getInstance().getDB_PASSWORD();
 
 String sQuery = "";
+String ParentNo = "";
 
-logger.info( "Category Load!");
+logger.info("Category Load!");
 
+JSONObject responcedata = new JSONObject();
 JSONArray cellarray = new JSONArray();
 
 try {			
@@ -33,22 +35,31 @@ try {
 	ResultSet rs = stmt.executeQuery();
     
     JSONObject cellobj = new JSONObject();
+    
+    logger.info(sQuery);
 
     while(rs.next()) {
         cellobj.put("id", rs.getString("No"));
-               
-        if(rs.getInt("ParentNo") == 0) {
+        
+        ParentNo = rs.getString("ParentNo").toString();
+        //out.print(ParentNo);
+        if(ParentNo == "0" || ParentNo == "null") {
+        	out.print(ParentNo);
         	cellobj.put("parent", "#");
+            logger.info("#");
         } else {
-        	cellobj.put("parent", rs.getString("ParentNo"));
+        	cellobj.put("parent", ParentNo);
+            logger.info(rs.getString("ParentNo"));
         }
 		cellobj.put("text", rs.getString("Name"));
 		cellarray.add(cellobj);
     }
+    //responcedata.put("data", cellarray);
 	stmt.close();
 	con.close();
 } catch (Exception ex) {
-	out.println("Error - " + ex.getMessage());
+	System.out.println("Error - " + ex.getMessage());
 }
+//out.print(responcedata.toString());
 out.print(cellarray.toString());
 %>
