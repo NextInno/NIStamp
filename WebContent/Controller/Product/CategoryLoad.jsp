@@ -19,8 +19,8 @@
 
 	String pStore_No = (String)session.getAttribute("Store_No");
 	String sBigCategory = request.getParameter("BigCategory");
-	if(sBigCategory == ""){
-		sBigCategory = "0";
+	if(sBigCategory == "" || sBigCategory == null || sBigCategory == "0"){
+		sBigCategory = "#";
 	}
 	String driverName = "org.mariadb.jdbc.Driver";
 	String DB_url = NiModuleConfig.getInstance().getDB_SERVER_IP();
@@ -37,9 +37,9 @@
 		Class.forName(driverName);
 		Connection con = DriverManager.getConnection(DB_url, DB_id, DB_password);
 	
-		pQuery = "SELECT No, Name, ParentNo FROM Category WHERE IsDelete = 0 AND Store_No = " + pStore_No;
+		pQuery = "SELECT No, Name FROM Category WHERE IsDelete = 0 AND Store_No = " + pStore_No;
 		if(sBigCategory != null){
-			pQuery += " AND ParentNo = " + sBigCategory; 
+			pQuery += " AND ParentNo = '" + sBigCategory + "'"; 
 		}
 		
 		pQuery += ";";

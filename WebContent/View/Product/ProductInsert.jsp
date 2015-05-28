@@ -16,8 +16,6 @@
 
 <script>
 $(document).ready(function(){
-	
-	
 	var Session_No = '<%= (String)session.getAttribute("Store_No") %>';
 	var no = '<%= request.getParameter("no")%>';
 	
@@ -35,17 +33,19 @@ $(document).ready(function(){
 				},
 				url: '../../Controller/Product/ProductInsert.jsp',
 	            success: function(json){
-	            	$("#CategoryBig").val(json.data.CategoryBig);
-	        		$("#CategoryMiddle").val(json.data.CategoryMiddle);
+	            	//$("#CategoryBig > option:selected").text(json.data.CategoryBig);
+	        		//$("#CategoryMiddle > option:selected").text(json.data.CategoryMiddle);
+	        		$('#cate1').val(json.data.CategoryBig);
+	        		alert($('#cate1').val() + ', ' + json.data.CategoryBig);
 	        		$("#Name").val(json.data.Name);
 	        		$("#Price").val(json.data.Price);
 	        		$("#Contents").val(json.data.Contents);
 	        	    $('input[name="Saving"][value = '+json.data.Saving+']').attr('checked',true);
 	        	    
-	        		if(json.data.Saving == "0"){
+	        		if(json.data.Saving == "0" ) {
 	        			$("#SavingArea").show();
 	        			$("#SavingInput").val(json.data.SavingInput);
-	        		}else{
+	        		} else {
 	        			$("#SavingArea").hide();
 	        		}
 	        		
@@ -75,23 +75,33 @@ $(document).ready(function(){
 	        dataType: 'JSON',
 	        jsonp: 'insert',
 	        data: { 
-		   		'BigCategory' : '0'
+		   		'BigCategory' : '#'
 	   		 },
 	   		success:function(json) {
-	   			var temp ='';
-	   			
-	 	    	for(i = 0 ; i < json.rows.length; i++){
-	 	    		var temp = "<option value='" + json.rows[i].No + "'>" + json.rows[i].CategoryName + "</option>";
-	 	    		$('#CategoryBig').append(temp);
-	 	    		
-	 	    		 
-	 	    	}
+	   			//alert('123');
+                $.each(json, function(idx, val) {
+                	alert(idx + ', ' + val);
+                });
+	   			alert(json);
+                
+	 	    	var $CategoryBig = $('#CategoryBig');
+                $CategoryBig.append($('<option value="">선택해주세요</option>'));
+                for (var i = 0; i < json.rows.length; i++) {
+                	alert('3');
+                	/*
+                	if($('#cate1').val() == json.rows[i].No) {
+                        $CategoryBig.append($('<option value="' + json.rows[i].No + '" selected="selected">' + json.rows[i].CategoryName + '</option>'));
+                    } else {
+                        $CategoryBig.append($('<option value="' + json.rows[i].No + '">' + json.rows[i].CategoryName + '</option>'));
+                    }
+                	*/
+                }
+                alert('4');
 	 	    },
 	 	    error:function(json){
 	 	    	alert('통신에러입니다..');
-	     	
 	     	}
-	 	  });
+	 	});
 		
 		//카테고리 선택 
 		$('#CategoryBig').on('change',function(){
@@ -270,8 +280,8 @@ $(document).ready(function(){
 	1차카테고리 :
 	</label>
 	<select id='CategoryBig' class='CategoryBig'>
-		<option value='0'>1차 카테고리</option>
 	</select>
+	<input type="hidden" id="cate1" value="" />
 </div>
 <div class='col-sm-12 col-xs-12'>
 	<label for='CategoryMiddleName' class = 'text-justify'>

@@ -56,8 +56,9 @@ $(document).ready(function() {
 				root: 'rows', 
 				records: function(obj){ return obj.length; },
 				repeatitems: true
-			}
-			, onSelectRow : function (rowid, status, event){
+			},
+				//, onSelectRow : function (rowid, status, event){
+				ondblClickRow: function (rowid, rowIndex, cellIndex, event) {
 				var rowdata = $('#ProductGrid').getRowData(rowid);
 				location.href="../Product/ProductRead.jsp?no=" + rowdata.No
 			}
